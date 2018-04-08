@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.write.ModuleDao">
+	<!-- 根据主键更新菜单 -->
+	<update id="updateById" parameterType="Module">
+		update sys_module
+		<set>
+			<if test="moduleName != null and moduleName != ''">
+				module_name =#{moduleName},
+			</if>
+			<if test="icon != null and icon != ''">
+				icon =#{icon},
+			</if>
+			<if test="moduleUrl != null and moduleUrl !=''">
+				module_url =#{moduleUrl},
+			</if>
+			<if test="moduleStyle != null and moduleStyle != ''">
+				module_style =#{moduleStyle},
+			</if>
+			<if test="moduleDescribe != null and moduleDescribe != ''">
+				module_describe =#{moduleDescribe},
+			</if>
+			<if test="moduleSequence != null">
+				module_sequence =#{moduleSequence},
+			</if>
+			<if test="moduleView != null">
+				module_view =#{moduleView},
+			</if>
+			<if test="moduleParentId != null">
+				module_parent_id =#{moduleParentId},
+			</if>
+		</set>
+		where id =#{id}
+	</update>
+	<!-- 根据主键删除对象 -->
+	<update id="deleteById">
+		update sys_module set is_deleted =2 where id
+		<foreach collection="array" index="index" item="item" open="in (" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<insert id="insert" parameterType="Module">
+		insert sys_module
+		(module_name,module_url,module_style,module_describe,module_sequence,module_parent_id,icon,module_view)
+		values
+		(#{moduleName},#{moduleUrl},#{moduleStyle},#{moduleDescribe},#{moduleSequence},#{moduleParentId},#{icon},#{moduleView})
+	</insert>
+</mapper>

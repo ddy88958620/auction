@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+	<meta name="description" content="">
+	<title>开心拍卖群</title>
+	<link rel="stylesheet" type="text/css" href="../css/share/indexnew.css"/>
+	<style type="text/css">
+		a{color: #037FE2;}
+		#times{width: 70px;height: 24px;line-height: 24px;font-size: 12px;background-color: #cecece;border-radius: 5px;text-align: center;color: #fff;margin: 10px auto;margin-top: 0;}
+		.group{width: 90%;height: auto;margin: 0 auto;display: block;margin-bottom: 10px;}
+		.input-wrapper{background-image: url('../images/bitmap.png');background-size: 100% 100%;}
+		.J_inputWrapper{height: 288px;}
+		.input-wrapper>.J_noticeInput{text-align: center;color: #999;font-size: 1rem;display: none;}
+	</style>
+</head>
+<body>
+<div class="chat">
+	<input type="hidden" id="activityId" th:value="${activityId}">
+	<input type="hidden" id="sid" th:value="${sid}">
+	<div class="box_bd scroll-wrapper">
+		<canvas id="emoji" class="emoji-canvas" width="720" height="1500"></canvas>
+		<div class="scroll-content J_scrollContent">
+			<div class="chatContent" id="chatContent">
+				<div id="times"></div>
+				<img src="../images/group.png" class="group">
+			</div>
+		</div>
+		<div class="train J_train">
+			<img data-origin="http://c1.mifile.cn/f/i/hd/2016051101/train.gif" alt="火车">
+		</div>
+	</div>
+	<div class="box_ft close">
+		<div class="input-wrapper">
+			<div class="J_noticeInput">
+				<div class="choice-wrapper J_choiceWrapper">
+					<ul class="main-choice J_choice J_mainChoice" data-choice="0">
+						<li class="J_liNext li-3" data-target-dialog="1" data-target-choice="1_1" style="width: 100%;height: 288px;line-height: 3.125rem;">
+							<a href="javascript:void(0);" onclick="_hmt.push(['_trackEvent','mimaxH5','这么6？怎么买到的？求个链接！']);">这么6？怎么买到的？求个链接！</a>
+							<div class="finger">
+								<img src="../images/finger.png" style="width: 2.125rem;height: auto;display: block;position: absolute;top: 0.7rem;right: 22%;">
+							</div>
+							<div class="keyboard" style="width: 100%;position: absolute;top: 0;left: 0;">
+								<img src="../images/keyboard.png" style="width: 100%;height: 288px;display: block;">
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="full-pics" id="J_fullPics">
+	<div class="pic"></div>
+</div>
+<audio id="message-push-music" preload="preload">
+	<source src="http://c1.mifile.cn/f/i/hd/2016051101/message-push.mp3" type="audio/mp3">
+</audio>
+<audio id="train-run-music" preload="none">
+	<source src="http://c1.mifile.cn/f/i/hd/2016051101/train-run.mp3" type="audio/mp3">
+</audio>
+<script type="text/javascript">
+    var me = {
+        id: 'me', // 写死的，不用改
+        name: '' || '我', // 用户昵称
+        avatar: '' || '../images/passerby4.png', // 用户头像图片 url
+        userId: '', // 用户id
+        registered: false // 用户是否
+    };
+</script>
+<script src="../js/jweixin-1.0.0.js"></script>
+<script src="../js/milib.js"></script>
+<script src="../js/slide.js"></script>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/jquery-1.9.1.min.js'"></script>
+<script src="../js/mimax.js"></script>
+</body>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "http://hm.baidu.com/hm.js?71558e7b4aa822e282e758f8dc0b88b0";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+    // var sxtime = '';
+    var d = new Date();
+    var sxHours = d.getHours();
+    var sxMinutes = d.getMinutes();
+    if (d.getHours() <= 12) {
+        sxHours = '上午'
+    } else if(d.getHours() > 12){
+        sxHours = '下午'
+    }
+    if (d.getMinutes() < 10) {
+        sxMinutes = '0' + d.getMinutes()
+    } else if(d.getHours() >= 10){
+        sxMinutes = d.getMinutes()
+    }
+    document.getElementById("times").innerHTML=(sxHours + d.getHours() + ':' + sxMinutes)
+    $(document).ready(function(){
+        $(".J_noticeInput").click(function () {
+            $(this).css("display","none");
+        });
+    });
+</script>
+<script id="messageTpl" type="text/x-dot-template">
+	{{~it :message:index}}
+	<div class="clearfix">
+		{{? message.type == 'system'}}
+		<div class="message">
+			<p class="message_system">
+				<span class="content">{{=message.content}}</span>
+			</p>
+		</div>
+		{{??}}
+
+		<div class="message {{? message.author.id == 'me'}}me{{??}}others{{?}}">
+			<div class="avatar" data-author-id="{{=message.author.id}}">
+				<img src="{{=message.author.avatar}}" alt="{{=message.author.name}}">
+			</div>
+			<div class="content">
+				<p class="author_name">{{=message.author.name}}</p>
+				{{? message.type == 'plain'}}
+				<div class="bubble {{? message.author.id == 'me'}} bubble_primary right{{??}} bubble_default left{{?}}">
+					<div class="bubble_cont">
+						<div class="{{=message.type}}">
+							<pre>{{=message.content}}</pre>
+						</div>
+					</div>
+				</div>
+				{{?? message.type == 'picture'}}
+				<div class="bubble {{? message.author.id == 'me'}} right{{??}} left{{?}} bubble_image">
+					<div class="bubble_cont">
+						<div class="{{=message.type}}">
+							{{? message.extra == 'gallery'}}
+							<img class="J_galleryShow" data-gallery="1" src="{{=message.content}}" />
+							{{??}}
+							<img class="J_img" src="{{=message.content}}" />
+							{{?}}
+						</div>
+					</div>
+				</div>
+				{{?? message.type == 'video'}}
+				<div class="bubble {{? message.author.id == 'me'}} right{{??}} left{{?}} bubble_image">
+					<div class="bubble_cont">
+						<div class="{{=message.type}}">
+							<img class="J_fpVideo" src="{{=message.content.poster}}" data-src="{{=message.content.video}}" alt="">
+						</div>
+					</div>
+				</div>
+				{{?? message.type == 'animation'}}
+				<div class="bubble {{? message.author.id == 'me'}} right{{??}} left{{?}} bubble_image">
+					<div class="bubble_cont">
+						<div class="{{=message.type}}">
+							{{=message.content}}
+						</div>
+					</div>
+				</div>
+				{{?}}
+			</div>
+		</div>
+		{{?}}
+
+	</div>
+	{{~}}
+</script>
+</html>

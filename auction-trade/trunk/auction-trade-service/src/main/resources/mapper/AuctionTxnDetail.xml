@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.trade.dao.AuctionTxnDetailDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionTxnDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="txn_seq_no" jdbcType="VARCHAR" property="txnSeqNo" />
+    <result column="req_seq_no" jdbcType="VARCHAR" property="reqSeqNo" />
+    <result column="out_seq_no" jdbcType="VARCHAR" property="outSeqNo" />
+    <result column="txn_status" jdbcType="INTEGER" property="txnStatus" />
+    <result column="currency" jdbcType="INTEGER" property="currency" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="txn_amt" jdbcType="DECIMAL" property="txnAmt" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+    <result column="auction_no" jdbcType="VARCHAR" property="auctionNo" />
+    <result column="txn_finish_time" jdbcType="TIMESTAMP" property="txnFinishTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="bid_status" jdbcType="INTEGER" property="bidStatus" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="free_count" jdbcType="INTEGER" property="freeCount" />
+    <result column="valid_count" jdbcType="INTEGER" property="validCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, txn_seq_no, req_seq_no, out_seq_no, txn_status, currency, user_id, txn_amt, auction_prod_id, 
+    auction_no, txn_finish_time, create_time, bid_status, remarks,free_count,valid_count
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction_txn_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findByTxn" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_txn_detail
+    where txn_seq_no = #{txnSeqNo}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_txn_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.trade.domain.AuctionTxnDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into auction_txn_detail (id, txn_seq_no, req_seq_no, 
+      out_seq_no, txn_status, currency, 
+      user_id, txn_amt, auction_prod_id, 
+      auction_no, txn_finish_time, create_time, 
+      bid_status, remarks,free_count,valid_count)
+    values (#{id,jdbcType=INTEGER}, #{txnSeqNo,jdbcType=VARCHAR}, #{reqSeqNo,jdbcType=VARCHAR}, 
+      #{outSeqNo,jdbcType=VARCHAR}, #{txnStatus,jdbcType=INTEGER}, #{currency,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{txnAmt,jdbcType=DECIMAL}, #{auctionProdId,jdbcType=INTEGER}, 
+      #{auctionNo,jdbcType=VARCHAR}, #{txnFinishTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{bidStatus,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR},#{freeCount,jdbcType=INTEGER},#{validCount,jdbcType=INTEGER})
+  </insert>
+  <update id="updTxnStatus" >
+    update auction_txn_detail
+    set
+    free_count=#{freeCount},
+    valid_count=#{validCount},
+    txn_status=#{txnStatus},
+    currency=#{currency}
+    where id = #{id}
+  </update>
+  <update id="updBidStatus" parameterType="java.lang.String">
+    update auction_txn_detail
+    set
+    bid_status=#{bidStatus}
+    where id = #{id}
+  </update>
+
+</mapper>

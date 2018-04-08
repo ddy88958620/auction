@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.channel.dao.read.PromotionChannelRecordReadDao" >
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.channel.model.PromotionChannelRecord" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="promotion_channel_id" property="promotionChannelId" jdbcType="INTEGER" />
+        <result column="settlement_mode" property="settlementMode" jdbcType="VARCHAR" />
+        <result column="settlement_price" property="settlementPrice" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+    id, promotion_channel_id, settlement_mode,settlement_price, create_time, start_time, end_time
+    </sql>
+
+    <select id="findPromotionChannelSettlementById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel_record
+        where promotion_channel_id = #{promotionChannelId,jdbcType=INTEGER}
+        ORDER by id desc
+        limit 1
+    </select>
+</mapper>

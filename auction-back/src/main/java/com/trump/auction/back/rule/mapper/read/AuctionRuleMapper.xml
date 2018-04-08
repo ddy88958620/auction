@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.rule.dao.read.AuctionRuleDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.rule.model.AuctionRule">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="rule_name" property="ruleName" jdbcType="VARCHAR"/>
+    <result column="difference_flag" property="differenceFlag" jdbcType="INTEGER"/>
+    <result column="premium_amount" property="premiumAmount" jdbcType="DECIMAL"/>
+    <result column="timing_num" property="timingNum" jdbcType="INTEGER"/>
+    <result column="refund_money_proportion" property="refundMoneyProportion" jdbcType="DECIMAL"/>
+    <result column="opening_bid" property="openingBid" jdbcType="DECIMAL"/>
+    <result column="shelves_rule" property="shelvesRule" jdbcType="INTEGER"/>
+    <result column="shelves_delay_time" property="shelvesDelayTime" jdbcType="INTEGER"/>
+    <result column="robot_rule" property="robotRule" jdbcType="INTEGER"/>
+    <result column="robot_taken_in" property="robotTakenIn" jdbcType="INTEGER"/>
+    <result column="highest_price" property="highestPrice" jdbcType="DECIMAL"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="user_id" property="userId" jdbcType="INTEGER"/>
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR"/>
+    <result column="status" property="status"  jdbcType="INTEGER"/>
+    <result column="poundage" property="poundage" jdbcType="DECIMAL"/>
+    <result column="countdown" property="countdown"  jdbcType="INTEGER"/>
+    <result column="start_bid_name" property="startBidName" jdbcType="VARCHAR" />
+    <result column="increase_bid_name" property="increaseBidName" jdbcType="VARCHAR" />
+    <result column="poundage_name" property="poundageName" jdbcType="VARCHAR" />
+    <result column="countdown_name" property="countdownName" jdbcType="VARCHAR" />
+    <result column="difference_name" property="differenceName" jdbcType="VARCHAR" />
+    <result column="proportion_name" property="proportionName" jdbcType="VARCHAR" />
+    <result column="on_shelf_time" property="onShelfTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_name, difference_flag, premium_amount, timing_num, refund_money_proportion,
+    opening_bid, shelves_rule, shelves_delay_time, robot_rule, robot_taken_in, highest_price,
+    create_time, update_time, user_id, user_ip, status, poundage, countdown, start_bid_name,
+    increase_bid_name, poundage_name, countdown_name, difference_name, proportion_name,on_shelf_time
+  </sql>
+  <select id="findAuctionRuleList" parameterType="com.trump.auction.back.product.vo.ParamVo"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_rule
+    <where>1=1
+      <if test="ruleName != null and ruleName!=''" >
+        AND rule_name like concat('%',#{ruleName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="id != null" >
+        AND id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        AND status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="beginTime != null">
+        AND on_shelf_time &gt;=#{beginTime}
+      </if>
+      <if test="endTime != null">
+        AND on_shelf_time &lt;=#{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="findAuctionRuleById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from auction_rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getAuctionRule" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from auction_rule
+    <where>
+      <if test="id != null and id !=''" >
+        id = #{id,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+</mapper>

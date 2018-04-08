@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>晒单详情</title>
+		<link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/common.css'" />
+		<link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/order-comments.css?v=1'" />
+		<script>
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/3.75+'px'
+		</script>
+	</head>
+	<body>
+		<div class="box">
+			<div class="item_box">
+				<div class="good_info">
+					<div class="time"><label th:text="${orderAppraisesVo.updateTimeStr}"></label></div>
+					<img class="product_img" data-th-src="${orderAppraisesVo.productPic}" />
+					<div class="right_content">
+						<p><label th:text="${orderAppraisesVo.productName}"></label></p>
+						<div class="price">出价：<label th:text="${orderAppraisesVo.bidTimes}"></label>次</div>
+					</div>					
+				</div>
+				<div class="comment">
+					<label th:text="${orderAppraisesVo.content}"></label>
+				</div>
+				<div class="imgs">
+					<li th:each="picArr : ${orderAppraisesVo.picArr}" >
+						<img data-th-src="${picArr}" />
+					</li>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/jquery-3.2.1.js'" ></script>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/common.js'" ></script>

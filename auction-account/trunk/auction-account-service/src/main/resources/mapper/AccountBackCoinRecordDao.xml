@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.account.dao.AccountBackCoinRecordDao">
+
+	<!-- 查询一条返币记录 -->
+	<select id="getAccountBackCoinRecordByOrderNo" resultType="com.trump.auction.account.domain.AccountBackcoinRecord">
+		SELECT id, user_id, order_no FROM account_backcoin_record WHERE order_no = #{orderNo} AND account_type = #{accountType} AND user_id = #{userId}
+	</select>
+
+	<!-- 创建返币记录 -->
+	<insert id="insertAccountBackCoinRecord" parameterType="com.trump.auction.account.domain.AccountBackcoinRecord" keyProperty="id">
+		INSERT INTO account_backcoin_record
+		(user_id, order_no, transaction_coin, account_type, account_type_name, create_time)
+		VALUES
+		(#{userId}, #{orderNo}, #{transactionCoin}, #{accountType}, #{accountTypeName}, NOW())
+	</insert>
+
+</mapper>

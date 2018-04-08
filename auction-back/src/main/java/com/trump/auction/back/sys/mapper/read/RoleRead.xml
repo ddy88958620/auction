@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.read.RoleReadDao">
+    <resultMap id="BaseResultMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_summary" property="roleSummary"/>
+        <result column="role_super" property="roleSuper"/>
+        <result column="role_addtime" property="roleAddtime"/>
+        <result column="role_addip" property="roleAddip"/>
+    </resultMap>
+    <!-- 获得超级管理员的角色树 -->
+    <select id="findAdminRoleTree" resultType="ZTree" parameterType="HashMap">
+		select
+		br.id ,
+		br.role_name as name,
+		br.role_super as pid
+		from sys_role br
+	</select>
+    <!-- 得到角色树 -->
+    <select id="findUserRoleTree" resultType="ZTree" parameterType="HashMap">
+		SELECT
+		br.id,
+		br.role_name as name,
+		br.role_super as pid
+		FROM sys_role br
+		LEFT JOIN sys_user_role bur ON br.id=bur.role_id
+		LEFT JOIN sys_user u ON u.id=bur.user_id
+		WHERE u.id= #{userId}
+		group by br.id
+	</select>
+    <!-- 根据父节点获得超级管理员的所有角色 -->
+    <select id="findAdminAll" resultMap="BaseResultMap" parameterType="HashMap">
+        select
+        *
+        from sys_role br
+        <where>
+            <if test="parentId != null">
+                and br.role_super=#{parentId}
+            </if>
+        </where>
+    </select>
+    <sql id="sql">
+        FROM sys_role r
+        LEFT JOIN sys_user_role ur ON r.id=ur.role_id
+        LEFT JOIN sys_user u ON u.id=ur.user_id
+        WHERE
+        u.id=${userId}
+        <if test="roleId != null">
+            and r.role_super=#{roleId}
+        </if>
+    </sql>
+    <!-- 根据父节点获得某个用户的所有角色 -->
+    <select id="findUserAll" resultMap="BaseResultMap" parameterType="HashMap">
+        SELECT r.*
+        <include refid="sql"/>
+    </select>
+    <select id="findById" resultMap="BaseResultMap" parameterType="HashMap">
+		select * from sys_role where id =#{id}
+	</select>
+    <!-- 根据角色ID查询该角色及该角色的子角色（向下无限递归） -->
+    <select id="findIdsByParentId" resultType="String">
+		SELECT id FROM sys_role WHERE FIND_IN_SET(id, getChildUserRole(#{roleId}))
+	</select>
+    <!-- 根据角色查询出关联的用户 -->
+    <select id="showUserListByRoleId" parameterType="Integer" resultType="String">
+		SELECT
+		bu.user_account 
+		FROM sys_user bu
+		LEFT JOIN sys_user_role bur ON bu.id=bur.user_id
+		WHERE
+		bur.role_id=#{roleId} and bu.status=1
+		ORDER BY bu.id
+	</select>
+    <!-- 根据角色ID得到角色权限树 -->
+    <select id="getTreeByRoleId" parameterType="long" resultType="ZTree">
+		SELECT
+		bm.id,
+		bm.module_name as title,
+		bm.module_parent_id as pid
+		FROM sys_module bm
+		LEFT JOIN sys_role_module brm ON bm.id=brm.module_id
+		LEFT JOIN sys_role br ON br.id=brm.role_id
+		WHERE bm.is_deleted = 1 AND
+		br.id=#{roleId} and bm.module_parent_id=#{parentId}
+	</select>
+</mapper>

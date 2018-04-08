@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.account.dao.AccountInfoRecordDao">
+
+	<!-- 插入用户账户记录 -->
+	<insert id="insertAccountInfoRecord" parameterType="com.trump.auction.account.domain.AccountInfoRecord" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO account_info_record
+		(order_no, user_id, user_phone, account_type, transaction_coin, transaction_type, transaction_tag, balance_type, coin, freeze_coin,
+		 remark, order_id,order_serial , product_thumbnail, product_image, product_name)
+		VALUES (
+			#{orderNo}, #{userId}, #{userPhone}, #{accountType}, #{transactionCoin}, #{transactionType}, #{transactionTag}, #{balanceType}, #{coin}, #{freezeCoin},
+						#{remark}, #{orderId},#{orderSerial}, #{productThumbnail}, #{productImage}, #{productName}
+		)
+	</insert>
+
+
+	<!-- 获取账户收支明细列表 -->
+	<select id="getAccountInfoRecordList" parameterType="com.trump.auction.account.domain.AccountInfoRecord" resultType="com.trump.auction.account.domain.AccountInfoRecord">
+		SELECT *
+		FROM account_info_record WHERE user_id = #{userId}
+		<if test="accountType != null">
+			AND account_type = #{accountType}
+		</if>
+		<!-- 全部收支明细里没有积分 -->
+		<if test="accountType == null">
+			AND account_type != 3
+		</if>
+		<if test="createTime != null">
+			AND TO_DAYS(create_time) =TO_DAYS(#{createTime})
+		</if>
+		ORDER BY create_time DESC
+	</select>
+
+	<!-- 根据主键获取一条账户记录 -->
+	<select id="getAccountInfoRecordById" resultType="com.trump.auction.account.domain.AccountInfoRecord">
+		SELECT * FROM account_info_record WHERE id = #{id}
+	</select>
+
+	<!-- 积分兑换赠币的次数 -->
+	<select id="getExchangePointsCount" resultType="int">
+		SELECT COUNT(id) FROM account_info_record
+		WHERE user_id = #{userId} AND transaction_type = #{transactionType} AND TO_DAYS(create_time) = TO_DAYS(NOW())
+	</select>
+
+	<!-- 获取账户收支明细列表 -->
+	<select id="getPointsRecordList" resultType="com.trump.auction.account.domain.AccountInfoRecord">
+		SELECT *
+		FROM account_info_record WHERE user_id = #{userId} AND account_type = #{accountType}
+		ORDER BY create_time DESC
+	</select>
+
+
+	<!-- 根据第三方订单号获取收支记录 -->
+	<select id="getAccountInfoRecordListByOrderId" parameterType="com.trump.auction.account.domain.AccountInfoRecord" resultType="com.trump.auction.account.domain.AccountInfoRecord">
+		SELECT *
+		FROM account_info_record WHERE user_id = #{userId}
+		<if test="orderId != null and orderId != ''">
+			AND order_id = #{orderId}
+		</if>
+		ORDER BY create_time DESC
+	</select>
+
+	<!-- 获取账户收支明细列表 -->
+	<select id="getAccountRecordListByParameter" parameterType="java.util.Map" resultType="com.trump.auction.account.domain.AccountInfoRecord">
+		SELECT *
+		FROM account_info_record
+		<where>
+			<if test="userId != null and userId != ''">
+				AND user_id = #{userId}
+			</if>
+			<if test="accountType != null and accountType != ''">
+				AND account_type = #{accountType}
+			</if>
+			<if test="transactionType != null and transactionType !=''">
+				AND  transaction_type = #{transactionType}
+			</if>
+			<if test="orderbyTime!=null">
+				ORDER BY create_time DESC
+			</if>
+		</where>
+	</select>
+
+    <!-- 取最新一条竞拍交易记录 -->
+    <select id="getAccountInfoRecordByOrderSerial" resultType="com.trump.auction.account.domain.AccountInfoRecord">
+        SELECT * FROM account_info_record WHERE user_id =  #{userId} AND transaction_type = #{transactionType} AND order_serial = #{orderNo} LIMIT 1
+    </select>
+
+</mapper>

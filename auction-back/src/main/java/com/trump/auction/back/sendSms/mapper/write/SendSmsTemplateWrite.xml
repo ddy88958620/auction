@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sendSms.dao.write.SendSmsTemplateWriteDao">
+    <insert id="saveSendSmsTemplate"  parameterType="com.trump.auction.back.sendSms.model.SendSmsTemplate" >
+        insert into send_sms_template (template_name,create_time,template_title, content,send_type,founder)
+        values ( #{templateName,jdbcType=VARCHAR},now(), #{templateTitle,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR}, #{sendType,jdbcType=INTEGER}, #{founder,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateSendSmsTemplate" parameterType="com.trump.auction.back.sendSms.model.SendSmsTemplate" >
+        update send_sms_template
+        set template_name=#{templateName,jdbcType=VARCHAR},template_title=#{templateTitle,jdbcType=VARCHAR},content=#{content,jdbcType=VARCHAR},send_type=#{sendType,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteSendSmsTemplate" parameterType="com.trump.auction.back.sendSms.model.SendSmsTemplate" >
+        update send_sms_template
+        set status = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

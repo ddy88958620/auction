@@ -1,0 +1,13 @@
+.DS_Store
+.project
+org.eclipse.m2e.core.prefs
+pom.properties
+MANIFEST.MF
+resto-brand-core/target
+.settings
+.classpath
+target
+.project.bak
+.gradle
+.idea
+*.iml

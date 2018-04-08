@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.AuctionDetailDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionDetail" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="auction_prod_id" property="auctionProdId" jdbcType="INTEGER" />
+    <result column="auction_id" property="auctionId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="bid_count" property="bidCount" jdbcType="INTEGER" />
+    <result column="return_price" property="returnPrice" jdbcType="DECIMAL" />
+    <result column="auction_status" property="auctionStatus" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="p_coin" property="pCoin" jdbcType="INTEGER" />
+    <result column="z_coin" property="zCoin" jdbcType="INTEGER" />
+    <result column="sub_user_id" property="subUserId" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+  <insert id="saveAuctionDetail" parameterType="com.trump.auction.trade.domain.AuctionDetail">
+        insert into auction_detail_${tableSuffix} (id,user_id,user_name,auction_prod_id,auction_id,create_time,bid_count,return_price,auction_status,nick_name,
+        head_img,user_type,address,p_coin,z_coin,sub_user_id)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+    #{auctionProdId,jdbcType=INTEGER}, #{auctionId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{bidCount,jdbcType=INTEGER}, #{returnPrice,jdbcType=DECIMAL}, #{auctionStatus,jdbcType=INTEGER},
+    #{nickName,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{pCoin,jdbcType=INTEGER},
+    #{zCoin,jdbcType=INTEGER},#{subUserId,jdbcType=VARCHAR})
+  </insert>
+ 
+
+</mapper>

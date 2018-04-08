@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>帮助中心</title>
+    <link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/common.css'" />
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/3.75+'px'
+    </script>
+    <style>
+        body{background: #f6f6f6;}
+        .box{width: 100%;}
+        .item{width: 100%;overflow: hidden;}
+        .title{width: 100%;height: .32rem;line-height: .32rem;font-weight: bold;padding-left: .12rem;box-sizing: border-box;}
+        .question_box{position:relative;padding-top:.15rem;background:#fff;width:100%;height:.28rem;line-height:.28rem;padding-left: .12rem;box-sizing: border-box;font-weight: bold;font-size: .13rem;}
+        .question_box .icon{width: .15rem;vertical-align: middle;margin-top: .048rem;margin-right: .085rem;display: inline-block;float: left;}
+        .answer_box{padding-bottom:.15rem;border-bottom:1px solid #eee;overflow:hidden;background:#fff;width: 100%;padding-left: .357rem;box-sizing: border-box;font-size: .13rem;color: #999;}
+        .answer_box .icon{width: .15rem;display: inline-block;float: left;margin-right: .085rem;margin-top: .048rem;}
+        .content{display:inline-block;float: left;width: 3rem;line-height: .24rem;}
+        ._item{overflow:hidden;background:#fff;}
+        .question_box .open{width: .15rem;position: absolute;top: .25rem;right: .15rem;}
+        .active{overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
+    </style>
+</head>
+<body>
+<div class="box">
+
+            <div class="item" th:each="helpType:${helpTypeList}">
+                    <div  class="title" th:text="${helpType.help_str}"></div>
+                    <ul>
+                        <li  th:each="cl : ${helpType.contentList}">
+                            <div class="_item"  >
+                                <div class="question_box">
+                                    <img class="icon"  data-th-src="${staticResourcesDomain} +'img/help_Q.png'" />
+                                    <div class="content"><label th:text="${cl.contentTitle}"></label></div>
+                                    <img class="open" data-th-src="${staticResourcesDomain} +'img/bottom.png'" />
+                                </div>
+
+                                <div class="answer_box">
+                                    <div class="content active">
+                                        <label style="display:block;"  class="summary" th:text="${cl.contentSummary}"></label>
+                                        <label  style="display:none;" class="content" th:utext="${cl.contentTxt}"></label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+            </div>
+
+</div>
+</body>
+</html>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/jquery-3.2.1.js'" ></script>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/common.js'" ></script>
+<script th:inline="javascript">
+    var staticResourcesDomain =[[${staticResourcesDomain}]];
+    $(function(){
+        $('.open').click(this,function(){
+            if($(this).attr('src')==staticResourcesDomain+'img/bottom.png'){
+                $(this).attr('src',staticResourcesDomain+'img/top.png');
+                $(this).parent().siblings().children('.content').removeClass('active');
+                $(this).parent().next().children('.content').children('.summary').hide();
+                $(this).parent().next().children('.content').children('.content').show();
+            }else{
+                $(this).attr('src',staticResourcesDomain+'img/bottom.png')
+                $(this).parent().siblings().children('.content').addClass('active');
+                $(this).parent().next().children('.content').children('.summary').show();
+                $(this).parent().next().children('.content').children('.content').hide();
+            }
+        })
+ })
+</script>

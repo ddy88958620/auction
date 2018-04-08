@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.order.dao.read.OrderInfoDao" >
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.order.model.OrderInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="buy_id" property="buyId" jdbcType="VARCHAR" />
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="product_pic" property="productPic" jdbcType="VARCHAR" />
+        <result column="order_amount" property="orderAmount" jdbcType="DECIMAL" />
+        <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+        <result column="freight" property="freight" jdbcType="DECIMAL" />
+        <result column="buyer_pay_time" property="buyerPayTime" jdbcType="TIMESTAMP" />
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+        <result column="order_substatus" property="orderSubstatus" jdbcType="INTEGER" />
+        <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP" />
+        <result column="order_dispatch_time" property="orderDispatchTime" jdbcType="TIMESTAMP" />
+        <result column="order_delivery_time" property="orderDeliveryTime" jdbcType="TIMESTAMP" />
+        <result column="order_receive_time" property="orderReceiveTime" jdbcType="TIMESTAMP" />
+        <result column="order_flag" property="orderFlag" jdbcType="INTEGER" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="product_num" property="productNum" jdbcType="INTEGER" />
+        <result column="product_sku" property="productSku" jdbcType="VARCHAR" />
+        <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+        <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+        <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+        <result column="town_code" property="townCode" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+        <result column="town_name" property="townName" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+        <result column="del_status" property="delStatus" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
+        <result column="buy_coin_money" property="buyCoinMoney" jdbcType="DECIMAL" />
+        <result column="paid_money" property="paidMoney" jdbcType="DECIMAL" />
+        <result column="buy_coin_id" property="buyCoinId" jdbcType="INTEGER" />
+        <result column="buy_coin_num" property="buyCoinNum" jdbcType="INTEGER" />
+        <result column="buy_coin_type" property="buyCoinType" jdbcType="INTEGER" />
+        <result column="auction_coin_num" property="auctionCoinNum" jdbcType="INTEGER" />
+        <result column="order_type" property="orderType" jdbcType="INTEGER" />
+        <result column="bid_times" property="bidTimes" jdbcType="INTEGER" />
+        <result column="product_amount" property="productAmount" jdbcType="DECIMAL" />
+        <result column="sales_amount" property="salesAmount" jdbcType="DECIMAL" />
+        <result column="auction_no" property="auctionNo" jdbcType="INTEGER" />
+        <result column="classify_1" property="classify1" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, order_id, buy_id, merchant_id, create_time, update_time, product_pic, order_amount, 
+    product_price, freight, buyer_pay_time, order_status, order_substatus, order_create_time, 
+    order_dispatch_time, order_delivery_time, order_receive_time, order_flag, product_name, 
+    product_id, product_num, product_sku, province_code, city_code, district_code, town_code, 
+    address, province_name, city_name, district_name, town_name, user_name, user_phone, order_type,
+    del_status, remark, cancel_time, buy_coin_money, paid_money, buy_coin_id, buy_coin_num, buy_coin_type,
+    bid_times, auction_no
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from order_info
+        where order_id = #{order_id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findOrderInfoList" resultMap="BaseResultMap" parameterType="map" >
+        select
+        oi.order_id, oi.create_time, pi.product_name, oi.user_name, oi.order_status, pi.product_amount,
+        pi.product_price, oi.order_amount, oi.order_type, oi.bid_times, oi.paid_money, oi.user_phone, pi.classify_1
+        from order_info oi LEFT JOIN auction_product_record pi on oi.auction_no = pi.auction_no
+        <where>
+            <if test="classifyId != null">
+                AND pi.classify_1 = #{classifyId}
+            </if>
+            <if test="productName != null">
+                AND instr(pi.product_name, #{productName} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="userName != null">
+                AND instr(oi.user_name, #{userName} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="userPhone != null">
+                AND instr(oi.user_phone, #{userPhone} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="orderId != null">
+                AND instr(oi.order_id, #{orderId} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="orderStatus != null">
+                AND oi.order_status = #{orderStatus}
+            </if>
+            <if test="orderType != null">
+                AND oi.order_type = #{orderType}
+            </if>
+            <if test="createTimeBegin != null">
+                AND <![CDATA[oi.create_time >= CONCAT(#{createTimeBegin},' 00:00:00')]]>
+            </if>
+            <if test="createTimeEnd != null">
+                AND <![CDATA[oi.create_time <= CONCAT(#{createTimeEnd},' 23:59:59')]]>
+            </if>
+            <if test="transactionPriceBegin != null">
+                AND <![CDATA[oi.order_amount >= CONCAT(#{transactionPriceBegin},' 00:00:00')]]>
+            </if>
+            <if test="transactionPriceEnd != null">
+                AND <![CDATA[oi.order_amount <= CONCAT(#{transactionPriceEnd},' 23:59:59')]]>
+            </if>
+        </where>
+        ORDER by oi.create_time desc
+    </select>
+    <!--统计订单数 -->
+    <select id="countOrder" resultType="int">
+        SELECT COUNT(1)
+        FROM
+        order_info
+        WHERE
+        buy_id = #{userId}
+        ORDER BY id DESC
+    </select>
+</mapper>

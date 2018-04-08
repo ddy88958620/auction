@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task
+    	http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+    <!--测试环境不跑定时任务-->
+<!--	<bean id="changeOrderStatus" class="com.trump.auction.back.task.ChangeOrderStatus"></bean>
+    <bean id="paymentTask" class="com.trump.auction.back.task.PaymentTask"></bean>-->
+<!--	<bean id="paymentTask" class="com.trump.auction.back.task.PaymentTask"></bean>-->
+	<!--<bean id="testQuartz" class="com.trump.auction.back.task.TestQuartz"></bean>-->
+	<!--最多 5个定时任务线程-->
+	<task:scheduler id="myScheduler" pool-size="5"/>
+</beans>
+

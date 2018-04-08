@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.robot.dao.read.RobotDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.robot.model.RobotInfo">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+    <result column="s_date" property="sDate" jdbcType="TIMESTAMP"/>
+    <result column="e_date" property="eDate" jdbcType="TIMESTAMP"/>
+    <result column="numbers" property="numbers" jdbcType="INTEGER"/>
+    <result column="head_img" property="headImg" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+   id,name,address,status,s_date as sDate,e_date as eDate,numbers,head_img
+  </sql>
+  <select id="findRobotList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from robot_info
+    <where>1=1
+      <if test="name != null" >
+        AND name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="id != null" >
+        AND id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        AND status = #{status,jdbcType=INTEGER}
+      </if>
+      ORDER BY s_date DESC
+    </where>
+  </select>
+
+  <select id="findRobotById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from robot_info
+    <where>
+      <if test="id != null and id !=''" >
+        id = #{id,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+</mapper>

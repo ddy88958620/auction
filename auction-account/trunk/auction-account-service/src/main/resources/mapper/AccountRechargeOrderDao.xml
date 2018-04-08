@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.account.dao.AccountRechargeOrderDao">
+
+	<!-- 更新充值订单的状态 -->
+	<update id="updateUserAccountRechargeOrderStatus" parameterType="com.trump.auction.account.domain.AccountRechargeOrder">
+		UPDATE account_recharge_order
+		SET pay_status   = #{payStatus}, pay_remark = #{payRemark},
+			trade_status = #{tradeStatus}, order_status = #{orderStatus}, result_json = #{resultJson}
+		WHERE out_trade_no = #{outTradeNo}
+	</update>
+
+	<!-- 插入订单 -->
+	<insert id="createAccountRechargeOrder" parameterType="com.trump.auction.account.domain.AccountRechargeOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO account_recharge_order
+		(user_id, user_name, user_phone, out_money, into_coin, recharge_type, recharge_type_name, trade_status, order_status,
+		 order_no, out_trade_no, create_time)
+		VALUES
+		(#{userId}, #{userName}, #{userPhone}, #{outMoney}, #{intoCoin}, #{rechargeType}, #{rechargeTypeName}, #{tradeStatus}, #{orderStatus},
+		#{orderNo}, #{outTradeNo}, NOW())
+	</insert>
+
+	<!-- 根据订单号查询订单信息 -->
+	<select id="getAccountRechargeOrderByOutTradeNo" resultType="com.trump.auction.account.domain.AccountRechargeOrder">
+		SELECT * FROM account_recharge_order WHERE out_trade_no = #{outTradeNo}
+	</select>
+
+	<!-- 更新充值订单为失败 -->
+	<update id="updateUserAccountRechargeOrderFailed">
+		UPDATE account_recharge_order SET trade_status = #{tradeStatus}, pay_status = #{tradeStatus}, pay_remark = #{payRemark}, result_json = #{resultJson}
+		WHERE out_trade_no = #{outTradeNo}
+	</update>
+
+	<!-- 查询未完成的充值订单  PS:两小时内的订单 -->
+	<select id="getUnfinishedRechargeOrder" resultType="com.trump.auction.account.domain.AccountRechargeOrder">
+		SELECT id, recharge_type, out_trade_no
+		FROM account_recharge_order
+		WHERE trade_status = #{tradeStatus} AND order_status = #{orderStatus}
+		AND create_time > DATE_ADD(NOW(), INTERVAL -2 HOUR)
+	</select>
+
+</mapper>

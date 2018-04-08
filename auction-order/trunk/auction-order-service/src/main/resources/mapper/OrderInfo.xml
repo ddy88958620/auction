@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.order.dao.OrderInfoDao" >
+    <resultMap id="BaseResultMap" type="com.trump.auction.order.domain.OrderInfo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="buy_id" property="buyId" jdbcType="VARCHAR" />
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="product_pic" property="productPic" jdbcType="VARCHAR" />
+        <result column="order_amount" property="orderAmount" jdbcType="DECIMAL" />
+        <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+        <result column="freight" property="freight" jdbcType="DECIMAL" />
+        <result column="buyer_pay_time" property="buyerPayTime" jdbcType="TIMESTAMP" />
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+        <result column="order_substatus" property="orderSubstatus" jdbcType="INTEGER" />
+        <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP" />
+        <result column="order_dispatch_time" property="orderDispatchTime" jdbcType="TIMESTAMP" />
+        <result column="order_delivery_time" property="orderDeliveryTime" jdbcType="TIMESTAMP" />
+        <result column="order_receive_time" property="orderReceiveTime" jdbcType="TIMESTAMP" />
+        <result column="order_flag" property="orderFlag" jdbcType="INTEGER" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="product_num" property="productNum" jdbcType="INTEGER" />
+        <result column="product_sku" property="productSku" jdbcType="VARCHAR" />
+        <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+        <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+        <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+        <result column="town_code" property="townCode" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+        <result column="town_name" property="townName" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+        <result column="del_status" property="delStatus" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
+        <result column="buy_coin_money" property="buyCoinMoney" jdbcType="DECIMAL" />
+        <result column="paid_money" property="paidMoney" jdbcType="DECIMAL" />
+        <result column="buy_coin_id" property="buyCoinId" jdbcType="INTEGER" />
+        <result column="buy_coin_num" property="buyCoinNum" jdbcType="INTEGER" />
+        <result column="buy_coin_type" property="buyCoinType" jdbcType="INTEGER" />
+        <result column="auction_coin_num" property="auctionCoinNum" jdbcType="INTEGER" />
+        <result column="order_type" property="orderType" jdbcType="INTEGER" />
+        <result column="bid_times" property="bidTimes" jdbcType="INTEGER" />
+        <result column="auction_no" property="auctionNo" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_id, buy_id, merchant_id, create_time, update_time, product_pic, order_amount,
+        product_price, freight, buyer_pay_time, order_status, order_substatus, order_create_time,
+        order_dispatch_time, order_delivery_time, order_receive_time, order_flag, product_name,
+        product_id, product_num, product_sku, province_code, city_code, district_code, town_code,
+        address, province_name, city_name, district_name, town_name, user_name, user_phone,
+        del_status, remark, cancel_time, buy_coin_money, paid_money, buy_coin_id, buy_coin_num, buy_coin_type,
+        auction_coin_num, order_type, bid_times, auction_no
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        order_id, buy_id, update_time, product_pic, order_amount, buy_coin_money, auction_no,
+        product_price, order_status,product_id, user_name, user_phone, paid_money, bid_times,
+        province_code, city_code, district_code, town_code, product_name, product_num, merchant_id,
+        address, province_name, city_name, district_name, town_name, product_name, create_time,
+        province_code, city_code, district_code, town_code, order_delivery_time, buyer_pay_time,
+        order_create_time, order_receive_time, order_type, cancel_time
+        from order_info
+        where order_id = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.trump.auction.order.domain.OrderInfo" >
+        insert into order_info (id, order_id, buy_id,
+        merchant_id, create_time, update_time,
+        product_pic, order_amount, product_price,
+        freight, buyer_pay_time, order_status,
+        order_substatus, order_create_time, order_dispatch_time,
+        order_delivery_time, order_receive_time,
+        order_flag, product_name, product_id,
+        product_num, province_code,
+        city_code, district_code, town_code,
+        address, province_name, city_name,
+        district_name, town_name, user_name,
+        user_phone, del_status, remark,
+        cancel_time, buy_coin_money, paid_money, buy_coin_id, buy_coin_num, buy_coin_type,
+        auction_coin_num, order_type, bid_times, auction_no)
+        values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{buyId,jdbcType=VARCHAR},
+        #{merchantId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{productPic,jdbcType=VARCHAR}, #{orderAmount,jdbcType=DECIMAL}, #{productPrice,jdbcType=DECIMAL},
+        #{freight,jdbcType=DECIMAL}, #{buyerPayTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=INTEGER},
+        #{orderSubstatus,jdbcType=INTEGER}, #{orderCreateTime,jdbcType=TIMESTAMP}, #{orderDispatchTime,jdbcType=TIMESTAMP},
+        #{orderDeliveryTime,jdbcType=TIMESTAMP}, #{orderReceiveTime,jdbcType=TIMESTAMP},
+        #{orderFlag,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER},
+        #{productNum,jdbcType=INTEGER}, #{provinceCode,jdbcType=INTEGER},
+        #{cityCode,jdbcType=VARCHAR}, #{districtCode,jdbcType=VARCHAR}, #{townCode,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR},
+        #{districtName,jdbcType=VARCHAR}, #{townName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+        #{userPhone,jdbcType=VARCHAR}, #{delStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+        #{cancelTime,jdbcType=TIMESTAMP},
+        <choose>
+            <when test="buyCoinMoney != null">
+                #{buyCoinMoney,jdbcType=DECIMAL}
+            </when>
+            <otherwise>
+                0
+            </otherwise>
+        </choose>,
+        #{paidMoney,jdbcType=DECIMAL},
+        #{buyCoinId,jdbcType=INTEGER}, #{buyCoinNum,jdbcType=INTEGER}, #{buyCoinType,jdbcType=INTEGER},
+        #{auctionCoinNum,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{bidTimes,jdbcType=INTEGER}
+        , #{auctionNo,jdbcType=INTEGER})
+    </insert>
+
+    <select id="findAllOrder" resultMap="BaseResultMap" parameterType="com.trump.auction.order.domain.OrderInfo">
+        SELECT
+        order_id, buy_id, update_time, product_pic, order_amount, buy_coin_money, auction_no, product_num, buy_coin_money, order_type,
+        product_price, order_status,product_id, user_name, user_phone, paid_money, bid_times, product_name, create_time
+        FROM
+        order_info
+        WHERE
+        buy_id = #{buyId}
+        <if test="orderStatus != null">
+            <choose>
+                <when test="orderStatus == 0">
+                    AND order_status in (2, 4 ,5)
+                </when>
+                <otherwise>
+                    AND order_status = #{orderStatus}
+                </otherwise>
+            </choose>
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <update id="updateOrderStatus" parameterType="com.trump.auction.order.domain.OrderInfo">
+        UPDATE order_info
+        <set>
+            <if test="orderDispatchTime != null" >
+                order_dispatch_time = #{orderDispatchTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderDeliveryTime != null" >
+                order_delivery_time = #{orderDeliveryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderReceiveTime != null" >
+                order_receive_time = #{orderReceiveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="buyerPayTime != null" >
+                buyer_pay_time =  #{buyerPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderStatus != null and orderStatus !=''" >
+                order_status = #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="cancelTime != null" >
+                cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+            </if>
+            update_time = now()
+        </set>
+        WHERE order_id = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <!--修改地址信息-->
+    <update id="updateAddressByOrderId" parameterType="com.trump.auction.order.domain.OrderInfo" >
+        update order_info
+        <set >
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="provinceCode != null" >
+                province_code = #{provinceCode,jdbcType=INTEGER},
+            </if>
+            <if test="cityCode != null" >
+                city_code = #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="districtCode != null" >
+                district_code = #{districtCode,jdbcType=VARCHAR},
+            </if>
+            <if test="townCode != null" >
+                town_code = #{townCode,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null" >
+                province_name = #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null" >
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName != null" >
+                district_name = #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="townName != null" >
+                town_name = #{townName,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null" >
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findOvertimeOrderInfo" resultType="java.lang.String" parameterType="com.trump.auction.order.domain.OrderInfo">
+        SELECT
+        order_id
+        FROM
+        order_info
+        WHERE
+        order_status = 1
+        AND order_type = 1
+        AND create_time <![CDATA[ <= ]]> #{beforeDate}
+        AND <![CDATA[create_time >= #{startTime,jdbcType=TIMESTAMP}]]>
+        AND <![CDATA[create_time <= #{endTime,jdbcType=TIMESTAMP}]]>
+    </select>
+
+    <select id="findOrderListByAcNo" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        order_id, buy_id, update_time, product_pic, order_amount, buy_coin_money, auction_no, product_num,
+        product_price, order_status,product_id, user_name, user_phone, paid_money, bid_times, product_name
+        FROM
+        order_info
+        WHERE
+        buy_id = #{userId}
+        <foreach collection="auctionNos" item="item" separator=" , " open="AND auction_no in(" close=")">
+            #{item}
+        </foreach>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findOneOrderByAcNo" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        order_id, buy_id, update_time, product_pic, order_amount, buy_coin_money, auction_no, product_num, create_time, cancel_time,
+        product_price, order_status,product_id, user_name, user_phone, paid_money, bid_times, product_name, order_type, address,city_name,province_name	
+        FROM
+        order_info
+        WHERE
+        buy_id = #{userId} AND auction_no = #{auctionNo}
+        ORDER BY id DESC limit 1
+    </select>
+</mapper>

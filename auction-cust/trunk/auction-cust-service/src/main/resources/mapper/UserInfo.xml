@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.cust.dao.UserInfoDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.cust.domain.UserInfo">
+        <id column="id" property="id"/>
+        <result column="user_Type" property="userType"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="real_name" property="realName"/>
+        <result column="id_number" property="idNumber"/>
+        <result column="login_password" property="loginPassword"/>
+        <result column="pay_password" property="payPassword"/>
+        <result column="wx_nick_name" property="wxNickName"/>
+        <result column="wx_open_id" property="wxOpenId"/>
+        <result column="wx_head_img" property="wxHeadImg"/>
+        <result column="qq_nick_name" property="qqNickName"/>
+        <result column="qq_open_id" property="qqOpenId"/>
+        <result column="qq_head_img" property="qqHeadImg"/>
+        <result column="add_time" property="addTime"/>
+        <result column="add_ip" property="addIp"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="user_from" property="userFrom"/>
+        <result column="recharge_type" property="rechargeType"/>
+        <result column="recharge_money" property="rechargeMoney"/>
+        <result column="login_type" property="loginType"/>
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+        <result column="app_info" property="appInfo" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="columnList">
+        id,user_Type,user_phone,real_name,id_number,login_password,pay_password,wx_nick_name,wx_open_id,wx_head_img,
+        qq_nick_name,qq_open_id,qq_head_img,add_time,add_ip,update_time,`status`,
+        user_from,recharge_type,recharge_money,login_type,province_name,city_name,nick_name,head_img,app_info
+    </sql>
+
+    <select id="selectUserInfoById" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_info
+        where id = #{id}
+        and `status` = 1
+    </select>
+
+    <!--根据ID查询用户wx(qq) openid  wx(qq)授权用户唯一标识、头像、手机号码、昵称-->
+    <select id="selectUserIndexInfoById" resultMap="BaseResultMap">
+        SELECT user_phone,wx_open_id ,wx_nick_name,wx_head_img,qq_open_id,qq_nick_name,qq_head_img
+        FROM user_info
+        WHERE id = #{id} AND `status` = 1;
+    </select>
+
+    <select id="selectUserInfoByUserPhone" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_info
+        where user_phone = #{userPhone}
+    </select>
+
+    <insert id="insertUserInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.cust.domain.UserInfo">
+        INSERT INTO user_info
+        (id,user_phone,real_name,id_number,login_password,pay_password,wx_nick_name,wx_open_id,wx_head_img,qq_nick_name,
+         qq_open_id,qq_head_img,add_time,add_ip,update_time,`status`,user_from)
+        VALUES
+        (#{id},#{userPhone},#{realName},#{idNumber},#{loginPassword},#{payPassword},#{wxNickName},#{wxOpenId},#{wxHeadImg},
+        #{qqNickName},#{qqOpenId},#{qqHeadImg},now(),#{addIp},now(),#{status},#{userFrom})
+    </insert>
+
+    <select id="selectUserInfoByOpenId" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_info
+        <where>
+            <if test="type=='WX'">
+                and wx_open_id = #{openId}
+            </if>
+            <if test="type=='QQ'">
+                and qq_open_id = #{openId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findFirstRechargeList" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_info
+        where `status` = 1 and recharge_type in (2,3,4)
+
+    </select>
+
+    <update id="updateThirdUserInfo" parameterType="com.trump.auction.cust.domain.UserInfo">
+        update user_info
+        <set>
+            <if test="wxNickName!=null and wxNickName!=''">
+                wx_nick_name = #{wxNickName},
+            </if>
+            <if test="wxHeadImg!=null and wxHeadImg!=''">
+                wx_head_img = #{wxHeadImg}
+            </if>
+            <if test="qqNickName!=null and qqNickName!=''">
+                qq_nick_name = #{qqNickName},
+            </if>
+            <if test="qqHeadImg!=null and qqHeadImg!=''">
+                qq_head_img = #{qqHeadImg}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateUserPhoneById">
+        update user_info
+        SET user_phone = #{userPhone}
+        where id = #{id}
+    </update>
+
+    <update id="updateLoginPasswordById">
+        update user_info
+        SET login_password = #{loginPassword}
+        where id = #{id}
+    </update>
+
+    <update id="updatePayPasswordById">
+        update user_info
+        SET pay_password = #{payPassword}
+        where id = #{id}
+    </update>
+
+    <update id="updateRechargeTypeById">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="rechargeType!=null and rechargeType!=''">recharge_type=#{rechargeType},</if>
+            <if test="rechargeMoney!=null and rechargeMoney!=''">recharge_money=#{rechargeMoney},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateUserNameAndPwdById">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="realName!=null and realName!=''">real_name=#{realName},</if>
+            <if test="loginPassword!=null and loginPassword!=''">login_password=#{loginPassword},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateLoginTypeById">
+        update user_info
+        set login_type = #{loginType}
+        where id = #{id}
+    </update>
+
+    <update id="updateAddressById">
+        update user_info
+        set province_name = #{provinceName}, city_name = #{cityName}
+        where id = #{id}
+    </update>
+
+    <update id="updateUserInfo" parameterType="com.trump.auction.cust.domain.UserInfo">
+        update user_info
+        <set>
+            <if test="nickName!=null and nickName!=''">
+                nick_name = #{nickName},
+            </if>
+            <if test="headImg!=null and headImg!=''">
+                head_img = #{headImg}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--登录获取设备信息-->
+    <update id="updateAppInfo">
+        update user_info
+        <set>
+            app_info = #{appInfo},
+        </set>
+        where id = #{userId}
+    </update>
+
+    <update id="updateUserInfoById" parameterType="com.trump.auction.cust.domain.UserInfo">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="realName!=null and realName!=''">real_name=#{realName},</if>
+            <if test="provinceName!=null and provinceName!=''">province_name=#{provinceName},</if>
+            <if test="cityName!=null and cityName!=''">city_name=#{cityName},</if>
+            <if test="nickName!=null and nickName!=''">nick_name=#{nickName},</if>
+            <if test="loginPassword!=null and loginPassword!=''">login_password=#{loginPassword},</if>
+            <if test="status!=null and status!=''">status=#{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://code.alibabatech.com/schema/dubbo  
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
+        ">
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="auction-back" />
+	<dubbo:consumer check="false" />
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="${spring.dubbo.registry.address}" />
+
+	<dubbo:reference id="productInfoSubService" timeout="10000"  interface="com.trump.auction.goods.api.ProductInfoSubService" version="1.0.0">
+	</dubbo:reference>
+	
+	<dubbo:reference id="orderInfoStubService" interface="com.trump.auction.order.api.OrderInfoStubService" version="1.0.0">
+		<dubbo:method name="updateOrderStatus" retries="0" timeout="20000"/>
+		<dubbo:method name="queryUnpaidOrders" retries="0" timeout="20000"/>
+	</dubbo:reference>
+	<!--晒单管理-->
+	<dubbo:reference id="orderAppraisesStubService" interface="com.trump.auction.order.api.OrderAppraisesStubService" version="1.0.0">
+		<dubbo:method name="createOrderAppraises" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+	<dubbo:reference id="AuctionOrderStubService" interface="com.trump.auction.trade.api.AuctionOrderStubService" version="1.0.0">
+
+	</dubbo:reference>
+
+	<dubbo:reference id="logisticsStuService" interface="com.trump.auction.order.api.LogisticsStuService" version="1.0.0">
+		<dubbo:method name="updateLogisticsItemById" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+	<dubbo:reference id="productManageStubService" interface="com.trump.auction.goods.api.ProductManageStubService" version="1.0.0">
+	</dubbo:reference>
+	<dubbo:reference id="productClassifyStubService" interface="com.trump.auction.goods.api.ProductClassifyStubService" version="1.0.0">
+	</dubbo:reference>
+
+	<dubbo:reference id="merchantInfoSubService" interface="com.trump.auction.goods.api.MerchantInfoSubService" version="1.0.0">
+		<dubbo:method name="getListMerchantInfo" timeout="20000"/>
+	</dubbo:reference>
+
+	<dubbo:reference id="userInfoStubService" interface="com.trump.auction.cust.api.UserInfoStubService" version="1.0.0"  >
+		<dubbo:method name="findUserInfoById" retries="0" timeout="20000"/>
+		<dubbo:method name="findUserIndexInfoById" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+	<dubbo:reference id="accountRechargeRuleStubService" interface="com.trump.auction.cust.api.AccountRechargeRuleStubService" version="1.0.0">
+		<dubbo:method name="addRule" retries="0" timeout="20000"/>
+		<dubbo:method name="findRuleById" retries="0" timeout="20000"/>
+		<dubbo:method name="updateRuleById" retries="0" timeout="20000"/>
+		<dubbo:method name="deleteRuleById" retries="0" timeout="20000"/>
+	</dubbo:reference>
+	<dubbo:reference id="accountRechargeRuleDetailStubService" interface="com.trump.auction.cust.api.AccountRechargeRuleDetailStubService" version="1.0.0">
+		<dubbo:method name="addRuleDetail" retries="0" timeout="20000"/>
+		<dubbo:method name="findRuleDetailById" retries="0" timeout="20000"/>
+		<dubbo:method name="updateRuleDetailById" retries="0" timeout="20000"/>
+		<dubbo:method name="deleteRuleDetailById" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+	<dubbo:reference id="accountInfoStubService" interface="com.trump.auction.account.api.AccountInfoStubService" version="1.0.0">
+		<!--账户余额总览-->
+		<dubbo:method name="getAccountInfo" retries="0" timeout="20000"/>
+		<dubbo:method name="returnBuyCoin" retries="0" timeout="20000"/>
+	</dubbo:reference>
+	<dubbo:reference id="accountInfoDetailStubService" interface="com.trump.auction.account.api.AccountInfoDetailStubService" version="1.0.0">
+		<!--购物币-->
+		<dubbo:method name="getAccountInfoDetailList" retries="0" timeout="20000"/>
+	</dubbo:reference>
+	<dubbo:reference id="accountInfoRecordStubService" interface="com.trump.auction.account.api.AccountInfoRecordStubService" version="1.0.0">
+		<!--获取收支明细-->
+		<dubbo:method name="getAccountInfoRecordList" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+
+	<dubbo:reference id="userShippingAddressStuService" interface="com.trump.auction.cust.api.UserShippingAddressStuService" version="1.0.0">
+		<dubbo:method name="findUserAddressListByUserId" retries="0" timeout="20000"/>
+		<dubbo:method name="findUserAddressItemByAddressId" retries="0" timeout="20000"/>
+		<dubbo:method name="updateUserAddressItem" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+	<!--拍品快照-->
+	<dubbo:reference id="auctionProdRecordStubService" interface="com.trump.auction.trade.api.AuctionProdRecordStubService" version="1.0.0">
+	</dubbo:reference>
+
+	<!--拍卖信息-->
+	<dubbo:reference id="auctionInfoStubService" interface="com.trump.auction.trade.api.AuctionInfoStubService" version="1.0.0">
+	</dubbo:reference>
+
+	<dubbo:reference id="productInventoryLogSubService" interface="com.trump.auction.goods.api.ProductInventoryLogSubService" version="1.0.0">
+	</dubbo:reference>
+
+	<dubbo:reference id="auctionProdInfoStubService" interface="com.trump.auction.trade.api.AuctionProdInfoStubService" version="1.0.0">
+	</dubbo:reference>
+
+    <dubbo:reference id="addressInfoStuService" interface="com.trump.auction.order.api.AddressInfoStuService" version="1.0.0">
+    </dubbo:reference>
+	<!--规则管理-->
+	<dubbo:reference id="auctionRuleStubService" interface="com.trump.auction.trade.api.AuctionRuleStubService" version="1.0.0">
+	</dubbo:reference>
+	<!--机器人管理-->
+	<dubbo:reference id="robotStubService" interface="com.trump.auction.trade.api.RobotStubService" version="1.0.0">
+	</dubbo:reference>
+
+    <dubbo:reference id="paymentStubService" interface="com.trump.auction.order.api.PaymentStubService" version="1.0.0">
+    </dubbo:reference>
+
+    <!--活动相关-->
+    <dubbo:reference id="lotteryPrizeStubService" interface="com.trump.auction.activity.api.LotteryPrizeStubService" version="1.0.0"/>
+    <dubbo:reference id="activityVideoCdkeysStubService" interface="com.trump.auction.activity.api.ActivityVideoCdkeysStubService" version="1.0.0"/>
+
+	<!--微信、支付宝充值订单-定时任务-->
+	<dubbo:reference id="accountRechargeTaskStubService" interface="com.trump.auction.account.api.AccountRechargeTaskStubService" version="1.0.0">
+		<dubbo:method name="resolveAccountRechargeOrderTask" retries="0" timeout="20000"/>
+	</dubbo:reference>
+
+	<!--短信-->
+	<dubbo:reference id="sendSmsStubService" interface="com.trump.auction.cust.api.SendSmsStubService" version="1.0.0"/>
+</beans>

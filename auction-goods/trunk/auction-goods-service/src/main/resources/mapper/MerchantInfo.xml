@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.goods.dao.MerchantInfoDao">
+
+    <!--添加商家-->
+    <insert id="addMerchantInfo" parameterType="com.trump.auction.goods.domain.MerchantInfo">
+    insert into merchant_info (merchant_name,merchant_type,
+    phone,create_time,update_time,user_ip,user_id,status)
+    values (#{merchantName},#{merchantType},#{phone},now(),now(),#{userIp},#{userId},#{status})
+    </insert>
+    <!--根据条件查询-->
+    <select id="getListMerchantInfo" resultType="com.trump.auction.goods.domain.MerchantInfo">
+        select id,
+        merchant_name as merchantName,
+        merchant_type as merchantType,
+        phone,
+        create_time as createTime,
+        update_time as updateTime,
+        user_ip as userIp,
+        user_id as userId,
+        status
+        from merchant_info
+        <where>
+            <if test="id != null and id !=''" >
+                id = #{id}
+            </if>
+            <if test="merchantName != null and merchantName !=''" >
+                merchant_name = #{merchantName}
+            </if>
+            <if test="phone != null and phone !=''" >
+                phone = #{phone}
+            </if>
+            <if test="status != null and status !=''" >
+                status = #{status}
+            </if>
+        </where>
+    </select>
+   <!--删除商家-->
+    <update id="deleteMerchantInfo">
+        update merchant_info set status=1,update_time = now() where id
+        <foreach collection="array" index="index" item="item" open="in (" separator="," close=")">
+        #{item}
+    </foreach>
+    </update>
+    <!--修改商家-->
+    <update id="updateMerchantInfo" parameterType="com.trump.auction.goods.domain.MerchantInfo">
+       update merchant_info set merchant_name = #{merchantName},merchant_type = #{merchantType},phone = #{phone},status= #{status},update_time = now(),user_ip = #{userIp},user_id = #{userId} where id = #{id}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.auctionProd.dao.read.AuctionInfoDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.auctionProd.model.AuctionInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="auction_no" jdbcType="INTEGER" property="auctionNo" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_price" jdbcType="DECIMAL" property="productPrice" />
+    <result column="rule_id" jdbcType="INTEGER" property="ruleId" />
+    <result column="page_view" jdbcType="INTEGER" property="pageView" />
+    <result column="collect_count" jdbcType="INTEGER" property="collectCount" />
+    <result column="valid_bid_count" jdbcType="INTEGER" property="validBidCount" />
+    <result column="free_bid_count" jdbcType="INTEGER" property="freeBidCount" />
+    <result column="total_bid_count" jdbcType="INTEGER" property="totalBidCount" />
+    <result column="robot_bid_count" jdbcType="INTEGER" property="robotBidCount" />
+    <result column="win_user_desc" jdbcType="VARCHAR" property="winUserDesc" />
+    <result column="person_count" jdbcType="INTEGER" property="personCount" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
+    <result column="buy_flag" jdbcType="INTEGER" property="buyFlag" />
+    <result column="increase_price" jdbcType="DECIMAL" property="increasePrice" />
+    <result column="count_down" jdbcType="INTEGER" property="countDown" />
+    <result column="return_percent" jdbcType="DECIMAL" property="returnPercent" />
+    <result column="start_price" jdbcType="DECIMAL" property="startPrice" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="robot_win_flag" jdbcType="INTEGER" property="robotWinFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="final_price" jdbcType="DECIMAL" property="finalPrice" />
+    <result column="preview_pic" jdbcType="VARCHAR" property="previewPic" />
+    <result column="win_user_id" jdbcType="INTEGER" property="winUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+
+    <result column="classify_id" jdbcType="INTEGER" property="classifyId" />
+    <result column="classify_name" jdbcType="VARCHAR" property="classifyName" />
+    <result column="floor_price" jdbcType="DECIMAL" property="floorPrice" />
+    <result column="float_price" jdbcType="VARCHAR" property="floatPrice" />
+    <result column="floor_bid_count" jdbcType="INTEGER" property="floorBidCount" />
+    <result column="poundage" property="poundage" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, auction_no, product_id, product_name, product_price, rule_id, page_view, collect_count, 
+    valid_bid_count, free_bid_count, total_bid_count, robot_bid_count, win_user_desc, 
+    person_count, start_time, end_time, rule_name, buy_flag, increase_price, count_down, 
+    return_percent, start_price, status, robot_win_flag, create_time, final_price, preview_pic, 
+    win_user_id, update_time,auction_prod_id, classify_id,classify_name,floor_price,float_price,
+    floor_bid_count,poundage
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.back.auctionProd.model.AuctionInfo"  useGeneratedKeys="true" keyProperty="id">
+    insert into auction_info (id,auction_no, product_id,
+      product_name, product_price, rule_id, 
+      page_view, collect_count, valid_bid_count, 
+      free_bid_count, total_bid_count, robot_bid_count, 
+      win_user_desc, person_count, start_time, 
+      end_time, rule_name, buy_flag, 
+      increase_price, count_down, return_percent, 
+      start_price, status, robot_win_flag, 
+      create_time, final_price, preview_pic, 
+      win_user_id, update_time, auction_prod_id,classify_id,classify_name,floor_price,float_price,
+      floor_bid_count,poundage
+      )
+    values (#{id,jdbcType=INTEGER},#{auctionNo,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER},
+      #{productName,jdbcType=VARCHAR}, #{productPrice,jdbcType=DECIMAL}, #{ruleId,jdbcType=INTEGER}, 
+      #{pageView,jdbcType=INTEGER}, #{collectCount,jdbcType=INTEGER}, #{validBidCount,jdbcType=INTEGER}, 
+      #{freeBidCount,jdbcType=INTEGER}, #{totalBidCount,jdbcType=INTEGER}, #{robotBidCount,jdbcType=INTEGER},
+      #{winUserDesc,jdbcType=VARCHAR}, #{personCount,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{ruleName,jdbcType=VARCHAR}, #{buyFlag,jdbcType=INTEGER}, 
+      #{increasePrice,jdbcType=DECIMAL}, #{countDown,jdbcType=INTEGER}, #{returnPercent,jdbcType=DECIMAL}, 
+      #{startPrice,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{robotWinFlag,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{finalPrice,jdbcType=DECIMAL}, #{previewPic,jdbcType=VARCHAR}, 
+      #{winUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+       #{auctionProdId},
+       #{classifyId,jdbcType=INTEGER},
+      #{classifyName,jdbcType=VARCHAR},#{floorPrice,jdbcType=DECIMAL},#{ floatPrice,jdbcType=VARCHAR},
+      #{floorBidCount},#{poundage}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.auctionProd.model.AuctionInfo">
+    update auction_info
+    set auction_no = #{auctionNo,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_price = #{productPrice,jdbcType=DECIMAL},
+      rule_id = #{ruleId,jdbcType=INTEGER},
+      page_view = #{pageView,jdbcType=INTEGER},
+      collect_count = #{collectCount,jdbcType=INTEGER},
+      valid_bid_count = #{validBidCount,jdbcType=INTEGER},
+      free_bid_count = #{freeBidCount,jdbcType=INTEGER},
+      total_bid_count = #{totalBidCount,jdbcType=INTEGER},
+      robot_bid_count = #{robotBidCount,jdbcType=INTEGER},
+      win_user_desc = #{winUserDesc,jdbcType=VARCHAR},
+      person_count = #{personCount,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      rule_name = #{ruleName,jdbcType=VARCHAR},
+      buy_flag = #{buyFlag,jdbcType=INTEGER},
+      increase_price = #{increasePrice,jdbcType=DECIMAL},
+      count_down = #{countDown,jdbcType=INTEGER},
+      return_percent = #{returnPercent,jdbcType=DECIMAL},
+      start_price = #{startPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      robot_win_flag = #{robotWinFlag,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      final_price = #{finalPrice,jdbcType=DECIMAL},
+      preview_pic = #{previewPic,jdbcType=VARCHAR},
+      win_user_id = #{winUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      auction_prod_id = #{auctionProdId,jdbcType=INTEGER}
+      classify_id = #{classifyId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryLastAuction" resultMap="BaseResultMap" parameterType="com.trump.auction.back.auctionProd.vo.AuctionCondition" >
+    SELECT id,auction_prod_id,auction_no,product_price,status,preview_pic FROM
+    (
+    SELECT id,auction_prod_id,auction_no,product_price,status,preview_pic FROM auction_info
+    where DATE_FORMAT(create_time, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startTime}, '%Y-%m-%d')
+      AND DATE_FORMAT(#{endTime}, '%Y-%m-%d')
+    ORDER BY auction_no DESC
+    ) AS a
+    GROUP BY
+    a.auction_prod_id
+  </select>
+
+  <select id="queryLastOneAuctionByAuctionProdId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT <include refid="Base_Column_List" />
+    FROM auction_info
+    where auction_prod_id = #{auctionProdId,jdbcType=INTEGER}
+    ORDER BY auction_no DESC
+    limit 1
+  </select>
+  <!--查找正在拍列表-->
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_info
+    <where>1=1
+      <if test="productName != null" >
+        AND product_name like concat('%',#{productName},'%')
+      </if>
+      <if test="id != null" >
+        AND id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        AND status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="auctionNo != null" >
+        AND auction_no = #{auctionNo,jdbcType=INTEGER}
+      </if>
+      <if test="startTime!=null">
+        AND start_time  &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null">
+        AND start_time &lt;= #{endTime}
+      </if>
+
+      <!--<if test="startTimeS != null and endTimeS != null">-->
+        <!--<![CDATA[AND start_time between #{startTimeS} and #{endTimeS}]]>-->
+      <!--</if>-->
+      <!--<if test="startTimeE != null and endTimeE != null">-->
+        <!--<![CDATA[AND end_time between #{startTimeE} and #{endTimeE}]]>-->
+      <!--</if>-->
+    </where>
+    ORDER  BY create_time DESC
+  </select>
+
+  <select id="queryAuctionByStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT <include refid="Base_Column_List" />
+    from auction_info
+    WHERE status = #{status,jdbcType=INTEGER}
+  </select>
+</mapper>

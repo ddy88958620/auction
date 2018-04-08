@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.trade.dao.AuctionBidInfoDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionBidInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="txn_seq_no" jdbcType="VARCHAR" property="txnSeqNo" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="bid_count" jdbcType="INTEGER" property="bidCount" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+    <result column="auction_no" jdbcType="INTEGER" property="auctionNo" />
+    <result column="used_count" jdbcType="INTEGER" property="usedCount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sub_user_id" jdbcType="VARCHAR" property="subUserId" />
+    <result column="p_coin" jdbcType="INTEGER" property="pCoin" />
+    <result column="z_coin" jdbcType="INTEGER" property="zCoin" />
+
+  </resultMap>
+ 
+  <insert id="insert" parameterType="com.trump.auction.trade.domain.AuctionBidInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into auction_bid_info_${tableSuffix} (id, txn_seq_no, user_id,
+    user_name, bid_count, auction_prod_id,
+    auction_no, used_count, create_time,
+    update_time,status,sub_user_id,p_coin,z_coin)
+    values (#{id,jdbcType=INTEGER}, #{txnSeqNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+    #{userName,jdbcType=VARCHAR}, #{bidCount,jdbcType=INTEGER}, #{auctionProdId,jdbcType=INTEGER},
+    #{auctionNo,jdbcType=INTEGER}, #{usedCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},#{subUserId,jdbcType=VARCHAR},#{pCoin,jdbcType=INTEGER},#{zCoin,jdbcType=INTEGER})
+  </insert>
+</mapper>

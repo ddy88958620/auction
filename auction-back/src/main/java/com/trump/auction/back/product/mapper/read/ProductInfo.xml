@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.product.dao.read.ProductInfoDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.product.model.ProductInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_title" property="productTitle" jdbcType="VARCHAR" />
+    <result column="classify_1" property="classify1" jdbcType="INTEGER" />
+    <result column="classify_2" property="classify2" jdbcType="INTEGER" />
+    <result column="classify_3" property="classify3" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="product_amount" property="productAmount" jdbcType="DECIMAL" />
+    <result column="sales_amount" property="salesAmount" jdbcType="DECIMAL" />
+    <result column="product_status" property="productStatus" jdbcType="INTEGER" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="stages_id" property="stagesId" jdbcType="INTEGER" />
+    <result column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="freight" property="freight" jdbcType="DECIMAL" />
+    <result column="sku_info" property="skuInfo" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="sku_title" property="skuTitle" jdbcType="VARCHAR" />
+    <result column="color_title" property="colorTitle" jdbcType="VARCHAR" />
+    <result column="proportion" property="proportion" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, merchant_id, order_id, product_name, create_time, update_time, product_id, product_title, 
+    classify_1, classify_2, classify_3, brand_id, product_amount, sales_amount, product_status, 
+    flag, user_id, user_ip, stages_id, sku_id, freight, sku_info, remarks, pic_url, sku_title, 
+    color_title, proportion
+  </sql>
+
+  <select id="getProductByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_info
+    where id = #{productId,jdbcType=INTEGER}
+  </select>
+</mapper>

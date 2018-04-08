@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.push.dao.write.NotificationRecordDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.push.model.NotificationRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="noti_type" property="notiType" jdbcType="INTEGER" />
+    <result column="noti_device_id" property="notiDeviceId" jdbcType="INTEGER" />
+    <result column="send_type" property="sendType" jdbcType="INTEGER" />
+    <result column="send_status" property="sendStatus" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="time_type" property="timeType" jdbcType="INTEGER" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="device_count" property="deviceCount" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, subject, title, content, noti_type, noti_device_id, send_type, send_status, create_time, time_type,
+    send_time, url, activity_id, product_id, user_ip, user_id, user_name,device_count,status
+  </sql>
+  <insert id="add" parameterType="com.trump.auction.back.push.model.NotificationRecord" >
+    insert into notification_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="notiType != null" >
+        noti_type,
+      </if>
+      <if test="notiDeviceId != null" >
+        noti_device_id,
+      </if>
+      <if test="sendType != null" >
+        send_type,
+      </if>
+      <if test="sendStatus != null" >
+        send_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="timeType != null" >
+        time_type,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="userIp != null" >
+        user_ip,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="deviceCount != null" >
+        device_count,
+      </if>
+      <if test="status != null">
+        status
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="subject != null" >
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="notiType != null" >
+        #{notiType,jdbcType=INTEGER},
+      </if>
+      <if test="notiDeviceId != null" >
+        #{notiDeviceId,jdbcType=INTEGER},
+      </if>
+      <if test="sendType != null" >
+        #{sendType,jdbcType=INTEGER},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeType != null" >
+        #{timeType,jdbcType=INTEGER},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceCount != null" >
+        #{deviceCount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </insert>
+
+  <update id="delete">
+    UPDATE notification_record SET status = 1 WHERE id = #{id}
+  </update>
+</mapper>

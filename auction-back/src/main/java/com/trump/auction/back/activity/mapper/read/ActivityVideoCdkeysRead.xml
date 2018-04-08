@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.activity.dao.read.ActivityVideoCdkeysReadDao">
+    <select id="selectVideoCdkeysList" resultType="com.trump.auction.back.activity.model.ActivityVideoCdkeys">
+        SELECT
+            `id`,
+            `cdkey`,
+            `cdkey_type` AS cdkeyType,
+            `cdkey_name` AS cdkeyName,
+            `useful_life` AS usefulLife,
+            `activate_url` AS activateUrl,
+            `is_used` AS isUsed,
+            `add_time` AS addTime
+        FROM `activity_video_cdkeys`
+        <where>
+            <if test="isUsed != null">and is_used=#{isUsed}</if>
+            <if test="cdkey != null and cdkey != ''">and cdkey like concat(#{cdkey},'%')</if>
+            <if test="cdkeyType != null">and cdkey_type=#{cdkeyType}</if>
+        </where>
+        ORDER BY add_time DESC
+    </select>
+</mapper>

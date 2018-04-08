@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.activity.dao.ActivityShareDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.activity.domain.ActivityShare" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="activity_id" property="activityId" jdbcType="VARCHAR" />
+    <result column="share_entrance" property="shareEntrance" jdbcType="INTEGER" />
+    <result column="activity_name" property="activityName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="activity_url" property="activityUrl" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="sharer_points" property="sharerPoints" jdbcType="VARCHAR" />
+    <result column="sharer_coin" property="sharerCoin" jdbcType="VARCHAR" />
+    <result column="register_points" property="registerPoints" jdbcType="VARCHAR" />
+    <result column="register_coin" property="registerCoin" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,activity_id, share_entrance, activity_name, start_time, end_time, activity_url, pic_url, title,
+    sub_title, sharer_points, sharer_coin, register_points, register_coin, create_time, 
+    status
+  </sql>
+  <select id="getActivityInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from activity_share
+    where activity_id = #{activityId,jdbcType=VARCHAR}
+    and NOW() <![CDATA[   <=  ]]> end_time
+    AND NOW() <![CDATA[   >=  ]]> start_time
+  </select>
+
+  <!--根据入口查询有效的活动-->
+  <select id="getActivityByEntrance" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from activity_share
+    where share_entrance = #{shareEntrance,jdbcType=VARCHAR}
+    and NOW() <![CDATA[   <=  ]]> end_time
+    AND NOW() <![CDATA[   >=  ]]> start_time
+  </select>
+</mapper>

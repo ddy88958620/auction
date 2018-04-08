@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.goods.dao.ProductInventoryLogDao">
+    <!--验证库存是否足够-->
+    <select id="validateStock" resultType="boolean" parameterType="map">
+        select
+         count(id)
+        from product_inventory_log
+        <where>
+            <if test="productId != null and productId !=''" >
+                product_id = #{productId}
+            </if>
+            <if test="productNum != null and productNum !=''" >
+                AND product_num >= #{productNum}
+            </if>
+        </where>
+    </select>
+    <!--扣除库存-->
+    <update id="subtractStock" parameterType="com.trump.auction.goods.domain.ProductInventoryLog">
+        update product_inventory_log
+        set product_num  = #{productNum},update_time = now()
+        where product_id = #{productId}
+    </update>
+    <!--添加库存-->
+    <update id="addStock" parameterType="com.trump.auction.goods.domain.ProductInventoryLog">
+        update product_inventory_log
+        set product_num  = #{productNum},update_time = now()
+        where product_id = #{productId}
+    </update>
+    <!--根据商品Id查询-->
+    <select id="getProductInventoryLog" resultType="com.trump.auction.goods.domain.ProductInventoryLog" parameterType="java.lang.Integer">
+         select
+        id,
+        product_id  as productId,
+        product_num as productNum,
+        create_time as createTime,
+        update_time as updateTime
+        from product_inventory_log
+        <where>
+        <if test="productId != null and productId !=''" >
+            product_id = #{productId}
+        </if>
+        </where>
+    </select>
+
+    <insert id="insertStock" parameterType="com.trump.auction.goods.domain.ProductInventoryLog">
+        insert into product_inventory_log(product_id, product_num,create_time,update_time,user_id,user_ip)
+        values(#{productId},#{productNum},#{createTime},#{updateTime},#{userId},#{userIp})
+    </insert>
+
+    <update id="updateStock" parameterType="com.trump.auction.goods.domain.ProductInventoryLog">
+        update product_inventory_log
+        set product_num  = #{productNum},update_time = #{updateTime},user_id = #{userId},user_ip = #{userIp}
+        where product_id = #{productId}
+    </update>
+
+
+</mapper>

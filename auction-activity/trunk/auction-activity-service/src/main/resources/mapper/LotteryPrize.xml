@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.activity.dao.LotteryPrizeDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.activity.domain.LotteryPrize">
+        <id column="id" property="id"/>
+        <result column="prize_no" property="prizeNo"/>
+        <result column="prize_name" property="prizeName"/>
+        <result column="prize_pic" property="prizePic"/>
+        <result column="prize_type" property="prizeType"/>
+        <result column="prize_type_sub" property="prizeTypeSub"/>
+        <result column="amount" property="amount"/>
+        <result column="prize_rate" property="prizeRate"/>
+        <result column="store" property="store"/>
+        <result column="is_open" property="isOpen"/>
+        <result column="order_number" property="orderNumber"/>
+        <result column="is_plan1" property="isPlan1"/>
+        <result column="is_plan2" property="isPlan2"/>
+        <result column="remark" property="remark"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="buy_coin_type" property="buyCoinType"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_pic" property="productPic"/>
+    </resultMap>
+
+    <sql id="columnList">
+        `id`,`prize_no`,`prize_name`,`prize_pic`,`prize_type`,`prize_type_sub`,`amount`,`prize_rate`,`store`,`is_open`,
+        `order_number`,`is_plan1`,`is_plan2`,`remark`,`add_time`,`update_user`,`update_time`,buy_coin_type,product_id,
+        product_name,product_pic
+    </sql>
+
+    <insert id="insertLotteryPrize" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.activity.domain.LotteryPrize">
+        INSERT INTO `activity_lottery_prize` (
+            `id`,`prize_no`,`prize_name`,`prize_pic`,`prize_type`,`prize_type_sub`,`amount`,`prize_rate`,`store`,`is_open`,
+            `order_number`,`is_plan1`,`is_plan2`,`remark`,`add_time`,`update_user`,`update_time`,buy_coin_type,product_id,
+            product_name,product_pic)
+        VALUES
+            (#{id},#{prizeNo},#{prizeName},#{prizePic},#{prizeType},#{prizeTypeSub},#{amount},#{prizeRate},#{store},#{isOpen},
+             #{orderNumber},#{isPlan1},#{isPlan2},#{remark},now(),#{updateUser},now(),#{buyCoinType},#{productId},#{productName},#{productPic})
+    </insert>
+
+    <update id="updateRateAndStoreById" parameterType="com.trump.auction.activity.domain.LotteryPrize">
+        UPDATE `activity_lottery_prize`
+        set store=#{store},
+            prize_rate=#{prizeRate},
+            remark=#{remark},
+            update_user=#{updateUser}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateLotteryAndPlanZero">
+        UPDATE `activity_lottery_prize` SET order_number=0,is_open=1,is_plan1='N',is_plan2='N'
+    </update>
+
+    <update id="updatePrizePlan">
+        UPDATE `activity_lottery_prize`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="isPlan1!=null and isPlan1!=''">is_plan1 = #{isPlan1},</if>
+            <if test="isPlan2!=null and isPlan2!=''">is_plan2 = #{isPlan2},</if>
+            <if test="isOpen!=null">is_open = #{isOpen},</if>
+            <if test="orderNumber!=null">order_number = #{orderNumber},</if>
+        </trim>
+        where prize_no = #{prizeNo}
+    </update>
+
+    <select id="selectOpenPrizeList" resultMap="BaseResultMap">
+        SELECT
+            <include refid="columnList"></include>
+        FROM `activity_lottery_prize`
+        WHERE is_open = 2
+        ORDER BY order_number
+    </select>
+
+    <select id="selectCanPrizeList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="columnList"></include>
+        FROM `activity_lottery_prize`
+        WHERE is_open = 2
+        AND prize_rate > 0
+        AND store > 0
+        ORDER BY order_number
+    </select>
+
+    <select id="selectLatestPrizeNo" resultType="String">
+        SELECT prize_no AS prizeNo FROM activity_lottery_prize ORDER BY id DESC LIMIT 1
+    </select>
+
+    <select id="selectPrizeByPrizeNo" resultMap="BaseResultMap">
+        SELECT
+            <include refid="columnList"></include>
+        FROM activity_lottery_prize
+        WHERE prize_no = #{prizeNo}
+    </select>
+
+    <update id="updateStoreByPrizeNo">
+        UPDATE activity_lottery_prize
+        set store = #{store}
+        WHERE prize_no = #{prizeNo}
+        and store = #{storeOld}
+    </update>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.AuctionProductPriceRuleDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionProductPriceRule" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="min_float_rate" property="minFloatRate" jdbcType="INTEGER" />
+    <result column="max_float_rate" property="maxFloatRate" jdbcType="INTEGER" />
+    <result column="random_rate" property="randomRate" jdbcType="INTEGER" />
+    <result column="product_info_id" property="productInfoId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,min_float_rate,max_float_rate,random_rate,product_info_id
+  </sql>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.trade.domain.AuctionProductPriceRule" >
+    insert into auction_product_price_rule (id,min_float_rate,max_float_rate,random_rate,product_info_id)
+    values (#{id,jdbcType=BIGINT}, #{minFloatRate,jdbcType=INTEGER},#{maxFloatRate,jdbcType=INTEGER},
+    #{randomRate,jdbcType=INTEGER},#{productInfoId,jdbcType=INTEGER})
+  </insert>
+  
+  <delete id="deleteByAucProInfoId" parameterType="java.lang.Integer" >
+    delete from auction_product_price_rule
+    where product_info_id = #{productInfoId,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="queryRuleByAucProInfoId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    	<include refid="Base_Column_List" />
+    from auction_product_price_rule
+    where product_info_id = #{productInfoId,jdbcType=INTEGER} order by min_float_rate desc 
+  </select>
+
+
+</mapper>

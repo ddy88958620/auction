@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >  
+  	<meta name="description" content="">
+  	<title>开心拍卖</title>
+  	<link rel="stylesheet" type="text/css" href="../css/share/reset.css">
+  	<link rel="stylesheet" type="text/css" href="../css/share/lead.css">
+</head>
+<body>
+	<a href="http://sj.qq.com/myapp/detail.htm?apkName=com.canfu.auction">
+		<div class="bg">
+			<img src="../images/receive.png">
+		</div>
+	</a>
+	<div class="getmoney">20</div>
+	<div id="mcover">
+		<img src="../images/tishi.png">
+	</div>
+
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script>
+        $(function() {// 初始化内容
+            var Request = getData();
+            var coin = Request['coin'];
+            if(coin){
+                $('.getmoney').html(coin);
+            }
+        });
+
+        function getData() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for(var i = 0; i < strs.length; i ++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.auctionProd.dao.read.AuctionProxyBidDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.auctionProd.model.AuctionProxyBid">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="bid_nums" jdbcType="INTEGER" property="bidNums" />
+    <result column="bid_price" jdbcType="INTEGER" property="bidPrice" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+    <result column="auction_id" jdbcType="INTEGER" property="auctionId" />
+    <result column="surplus_price" jdbcType="INTEGER" property="surplusPrice" />
+    <result column="s_date" jdbcType="TIMESTAMP" property="sDate" />
+    <result column="u_date" jdbcType="TIMESTAMP" property="uDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_name, bid_nums, bid_price, auction_prod_id, auction_id, surplus_price, 
+    s_date, u_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction_proxy_bid
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_proxy_bid
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.back.auctionProd.model.AuctionProxyBid">
+    insert into auction_proxy_bid (id, user_id, user_name, 
+      bid_nums, bid_price, auction_prod_id, 
+      auction_id, surplus_price, s_date, 
+      u_date)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{bidNums,jdbcType=INTEGER}, #{bidPrice,jdbcType=INTEGER}, #{auctionProdId,jdbcType=INTEGER}, 
+      #{auctionId,jdbcType=INTEGER}, #{surplusPrice,jdbcType=INTEGER}, #{sDate,jdbcType=TIMESTAMP}, 
+      #{uDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionProxyBid">
+    insert into auction_proxy_bid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="bidNums != null">
+        bid_nums,
+      </if>
+      <if test="bidPrice != null">
+        bid_price,
+      </if>
+      <if test="auctionProdId != null">
+        auction_prod_id,
+      </if>
+      <if test="auctionId != null">
+        auction_id,
+      </if>
+      <if test="surplusPrice != null">
+        surplus_price,
+      </if>
+      <if test="sDate != null">
+        s_date,
+      </if>
+      <if test="uDate != null">
+        u_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="bidNums != null">
+        #{bidNums,jdbcType=INTEGER},
+      </if>
+      <if test="bidPrice != null">
+        #{bidPrice,jdbcType=INTEGER},
+      </if>
+      <if test="auctionProdId != null">
+        #{auctionProdId,jdbcType=INTEGER},
+      </if>
+      <if test="auctionId != null">
+        #{auctionId,jdbcType=INTEGER},
+      </if>
+      <if test="surplusPrice != null">
+        #{surplusPrice,jdbcType=INTEGER},
+      </if>
+      <if test="sDate != null">
+        #{sDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uDate != null">
+        #{uDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionProxyBid">
+    update auction_proxy_bid
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="bidNums != null">
+        bid_nums = #{bidNums,jdbcType=INTEGER},
+      </if>
+      <if test="bidPrice != null">
+        bid_price = #{bidPrice,jdbcType=INTEGER},
+      </if>
+      <if test="auctionProdId != null">
+        auction_prod_id = #{auctionProdId,jdbcType=INTEGER},
+      </if>
+      <if test="auctionId != null">
+        auction_id = #{auctionId,jdbcType=INTEGER},
+      </if>
+      <if test="surplusPrice != null">
+        surplus_price = #{surplusPrice,jdbcType=INTEGER},
+      </if>
+      <if test="sDate != null">
+        s_date = #{sDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uDate != null">
+        u_date = #{uDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.auctionProd.model.AuctionProxyBid">
+    update auction_proxy_bid
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      bid_nums = #{bidNums,jdbcType=INTEGER},
+      bid_price = #{bidPrice,jdbcType=INTEGER},
+      auction_prod_id = #{auctionProdId,jdbcType=INTEGER},
+      auction_id = #{auctionId,jdbcType=INTEGER},
+      surplus_price = #{surplusPrice,jdbcType=INTEGER},
+      s_date = #{sDate,jdbcType=TIMESTAMP},
+      u_date = #{uDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

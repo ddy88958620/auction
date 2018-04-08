@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.order.dao.LogisticsDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.order.domain.Logistics" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="logistics_id" property="logisticsId" jdbcType="VARCHAR" />
+    <result column="logistics_name" property="logisticsName" jdbcType="VARCHAR" />
+    <result column="logistics_info" property="logisticsInfo" jdbcType="VARCHAR" />
+    <result column="logistics_code" property="logisticsCode" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="logistics_status" property="logisticsStatus" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="trans_name" property="transName" jdbcType="VARCHAR" />
+    <result column="trans_telphone" property="transTelphone" jdbcType="VARCHAR" />
+    <result column="trans_phone" property="transPhone" jdbcType="VARCHAR" />
+    <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+    <result column="city_code" property="cityCode" jdbcType="INTEGER" />
+    <result column="district_code" property="districtCode" jdbcType="INTEGER" />
+    <result column="town_code" property="townCode" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="receiver_code" property="receiverCode" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="town_name" property="townName" jdbcType="VARCHAR" />
+    <result column="send_address" property="sendAddress" jdbcType="VARCHAR" />
+    <result column="send_phone" property="sendPhone" jdbcType="VARCHAR" />
+    <result column="send_name" property="sendName" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="freight" property="freight" jdbcType="DECIMAL" />
+    <result column="total_order" property="totalOrder" jdbcType="DECIMAL" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="back_user_id" property="backUserId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, logistics_id, logistics_name, logistics_info, logistics_code, create_date, start_time, 
+    logistics_status, order_id, trans_name, trans_telphone, trans_phone, province_code, 
+    city_code, district_code, town_code, address, receiver_code, province_name, city_name, 
+    district_name, town_name, send_address, send_phone, send_name, receiver_name, freight, 
+    total_order, update_time, back_user_id, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.trump.auction.order.domain.Logistics" >
+    insert into logistics (create_date,
+      logistics_status, order_id,
+      trans_name, trans_phone,
+      province_code, city_code, district_code, 
+      town_code, address,
+      province_name, city_name, district_name, 
+      town_name, total_order, back_user_id)
+    values (now(),
+      #{logisticsStatus,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR},
+      #{transName,jdbcType=VARCHAR}, #{transPhone,jdbcType=VARCHAR},
+      #{provinceCode,jdbcType=INTEGER}, #{cityCode,jdbcType=INTEGER}, #{districtCode,jdbcType=INTEGER}, 
+      #{townCode,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
+      #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR}, 
+      #{townName,jdbcType=VARCHAR}, #{totalOrder,jdbcType=DECIMAL},  #{backUserId,jdbcType=INTEGER})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.order.domain.Logistics" >
+    update logistics
+    <set >
+      update_time = now(),
+      <if test="logisticsId != null" >
+        logistics_id = #{logisticsId,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsName != null" >
+        logistics_name = #{logisticsName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsInfo != null" >
+        logistics_info = #{logisticsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCode != null" >
+        logistics_code = #{logisticsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsStatus != null" >
+        logistics_status = #{logisticsStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sendAddress != null" >
+        send_address = #{sendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sendPhone != null" >
+        send_phone = #{sendPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        send_name = #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="backUserId != null" >
+        back_user_id = #{backUserId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

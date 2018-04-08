@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.order.dao.OrderAppraisesDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.order.domain.OrderAppraises" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="buy_id" property="buyId" jdbcType="VARCHAR" />
+    <result column="buy_nick_name" property="buyNickName" jdbcType="VARCHAR" />
+    <result column="buy_pic" property="buyPic" jdbcType="VARCHAR" />
+    <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="appraises_pic" property="appraisesPic" jdbcType="VARCHAR" />
+    <result column="isShow" property="isShow" jdbcType="INTEGER" />
+    <result column="bid_times" property="bidTimes" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="auction_no" property="auctionNo" jdbcType="VARCHAR" />
+    <result column="appraises_level" property="appraisesLevel" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.trump.auction.order.domain.OrderAppraises" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, buy_id,buy_nick_name, buy_pic,merchant_id, product_id, create_time, update_time, appraises_pic, 
+    isShow,bid_times,type,status
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from order_appraises
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+ <insert id="insertAppraise" parameterType="com.trump.auction.order.domain.OrderAppraises" >
+    insert into order_appraises
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="buyId != null" >
+        buy_id,
+      </if>
+      <if test="buyNickName != null" >
+        buy_nick_name,
+      </if>
+      <if test="buyPic != null" >
+        buy_pic,
+      </if>
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="appraisesPic != null" >
+        appraises_pic,
+      </if>
+      <if test="appraisesLevel != null" >
+        appraises_level,
+      </if>
+      <if test="isShow != null" >
+        isShow,
+      </if>
+      <if test="bidTimes != null" >
+        bid_times,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="auctionNo != null" >
+        auction_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyId != null" >
+        #{buyId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyNickName != null" >
+        #{buyNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="buyPic != null" >
+        #{buyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appraisesPic != null" >
+        #{appraisesPic,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisesLevel != null" >
+        #{appraisesLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="bidTimes != null" >
+        #{bidTimes,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="auctionNo != null" >
+        #{auctionNo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateAppraise" parameterType="com.trump.auction.order.domain.OrderAppraises" >
+    update order_appraises
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyId != null" >
+        buy_id = #{buyId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyNickName != null" >
+        buy_nick_name = #{buy_nick_name,jdbcType=VARCHAR},
+      </if>
+      <if test="buyPic != null" >
+        buy_pic = #{buyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appraisesPic != null" >
+        appraises_pic = #{appraisesPic,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null" >
+        isShow = #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="bidTimes != null" >
+        bid_times = #{bidTimes,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+ <select id="getAppraisesByUserId" resultMap="ResultMapWithBLOBs" parameterType="map" >
+ 	select * from order_appraises where buy_id = #{userId} and status = 2 and isShow=1 order by create_time desc
+ </select> 
+ 
+ <select id="queryAppraisesByProductId" resultMap="ResultMapWithBLOBs" parameterType="map" >
+ 	select *  from order_appraises where product_id = #{productId} and status = 2 and isShow=1 order by create_time desc
+ </select>
+ 
+  <update id="orderAppraisesCheck" parameterType="map">
+  	update order_appraises set isShow = #{isShow},appraises_level =#{appraisesLevel},appraises_pic=#{appraisesPic},status = 2 where id=#{appraisesId}
+  </update>
+  
+  <select id="getNewestAppraises" resultMap="ResultMapWithBLOBs" parameterType="map" >
+ 	select * from order_appraises where  buy_id = #{userId} and order_id = #{orderId} order by id desc LIMIT 1
+ </select>
+  
+</mapper>

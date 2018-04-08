@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.appraises.dao.write.OrderAppraisesRulesDao" >
+    <sql id="Base_Column_List" >
+        id, appraises_level,appraises_words,pic_number,base_rewords,show_rewords
+    </sql>
+    <insert id="insert"   parameterType="com.trump.auction.back.appraises.model.OrderAppraisesRules" >
+        insert into order_appraises_rules
+        (appraises_level,appraises_words,pic_number,base_rewords,show_rewords,status,user_id,user_ip,create_time,update_time)
+        values (#{appraisesLevel,jdbcType=VARCHAR}, #{appraisesWords,jdbcType=VARCHAR}, #{picNumber,jdbcType=VARCHAR},
+        #{baseRewords,jdbcType=INTEGER}, #{showRewords,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{userIp,jdbcType=VARCHAR}
+        ,now(),now()
+        )
+    </insert>
+
+    <update id="updateOrderAppraisesRules">
+        update order_appraises_rules
+        <set>
+            <if test="appraisesLevel != null">
+                appraises_level =#{appraisesLevel},
+            </if>
+            <if test="appraisesWords != null">
+                appraises_words =#{appraisesWords},
+            </if>
+            <if test="picNumber != null">
+                pic_number =#{picNumber},
+            </if>
+            <if test="baseRewords != null">
+                base_rewords =#{baseRewords},
+            </if>
+            <if test="showRewords != null">
+                show_rewords =#{showRewords},
+            </if>
+            <if test="status != null">
+                status =#{status},
+            </if>
+
+            <if test="userId != null">
+                user_id =#{userId},
+            </if>
+
+            <if test="userIp != null">
+                user_ip =#{userIp},
+            </if>
+
+        </set>
+        ,update_time =now()
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAppraisesRules" parameterType="java.lang.String">
+        UPDATE  order_appraises_rules a SET a.status=2,a.update_time=now() WHERE Id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

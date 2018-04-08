@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.ProductInventoryLogDao">
+
+    <!--扣除库存-->
+    <update id="subtractStock"
+            parameterType="com.trump.auction.trade.domain.ProductInventoryLog">
+        update product_inventory_log
+        set product_num  = product_num-#{productNum},update_time = now()
+        where product_id = #{productId}
+    </update>
+
+
+</mapper>

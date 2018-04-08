@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sys.dao.read.ConfigReadDao">
+	<resultMap id="BaseResultMap" type="Config">
+		<id column="id" property="id" />
+		<result column="sys_name" property="sysName" />
+		<result column="sys_value" property="sysValue" />
+		<result column="sys_key" property="sysKey" />
+		<result column="sys_type" property="sysType" />
+		<result column="input_type" property="inputType" />
+		<result column="remark" property="remark" />
+		<result column="limit_code" property="limitCode" />
+		<result column="sys_value_big" property="sysValueBig" />
+	</resultMap>
+	<select id="findParams" resultMap="BaseResultMap" parameterType="String">
+		select * from sys_config
+		<where>
+			<if test="_parameter != null and _parameter != ''">
+				sys_type=#{sysType}
+			</if>
+		</where>
+	</select>
+    <select id="findParamsBySysKey" resultMap="BaseResultMap" parameterType="String">
+        select * from sys_config
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                sys_key=#{sysKey}
+            </if>
+        </where>
+    </select>
+</mapper>

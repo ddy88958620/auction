@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.read.ModuleReadDao">
+	<resultMap id="BaseResultMap" type="Module">
+		<id column="id" property="id" />
+		<result column="module_name" property="moduleName" />
+		<result column="module_url" property="moduleUrl" />
+		<result column="module_style" property="moduleStyle" />
+		<result column="module_describe" property="moduleDescribe" />
+		<result column="module_sequence" property="moduleSequence" />
+		<result column="module_view" property="moduleView" />
+		<result column="module_parent_id" property="moduleParentId" />
+		<result column="icon" property="icon" />
+	</resultMap>
+	<select id="findAllTreeByParentId" resultType="ZTree">
+		select id,module_name as name from sys_module where is_deleted = 1 and module_parent_id=#{moduleParentId}
+	</select>
+	<!-- 根据父节点ID获得普通户的全部菜单 -->
+	<select id="findUserAllTreeByParentId"  resultType="ZTree">
+		select
+		rm.id as id,rm.module_name as name
+		<include refid="sql" />
+		group by rm.id
+		order by rm.module_sequence
+	</select>
+	<!-- 根据父节点获得超级管理员的所有菜单 -->
+	<select id="findAdminAll" resultMap="BaseResultMap" parameterType="HashMap">
+		select
+		*
+		from sys_module rm
+		where rm.is_deleted = 1
+		and rm.module_parent_id=#{parentId}
+		<if test="moduleView != null">
+			and rm.module_view = #{moduleView}
+		</if>
+		ORDER BY rm.module_sequence
+	</select>
+	<!-- 获得超级管理员的权限树 -->
+	<select id="findAdminTree" resultType="ZTree" parameterType="HashMap">
+		select
+		rm.id ,
+		rm.module_name as name,
+		rm.module_parent_id as pid
+		from sys_module rm
+		 where rm.is_deleted = 1
+		<if test="parentId != null">
+			and rm.module_parent_id=#{parentId}
+		</if>
+		<if test="moduleView != null">
+			and rm.module_view = #{moduleView}
+		</if>
+
+		ORDER BY rm.module_sequence
+	</select>
+	<sql id="sql">
+		from sys_module rm
+		LEFT JOIN sys_role_module brm ON rm.id=brm.module_id
+		LEFT JOIN sys_role br ON brm.role_id=br.id
+		LEFT JOIN sys_user_role bur ON br.id=bur.role_id
+		LEFT JOIN sys_user bu ON
+		bur.user_id=bu.id
+		where rm.module_view = 1 and rm.is_deleted = 1
+		and rm.module_parent_id=#{parentId}
+		AND bu.id=#{userId}
+	</sql>
+	<!-- 根据父节点ID获得普通户的全部菜单 -->
+	<select id="findUserAll" resultMap="BaseResultMap" parameterType="HashMap">
+		select
+		rm.*
+		<include refid="sql" />
+		group by rm.id
+		order by rm.module_sequence
+	</select>
+	<!-- 获得普通用户的权限树 -->
+	<select id="findUserTree" resultType="ZTree" parameterType="HashMap">
+		select distinct
+		rm.id ,
+		rm.module_name as name,
+		rm.module_parent_id as pid
+		from sys_module rm
+		LEFT JOIN
+		sys_role_module brm ON rm.id=brm.module_id
+		LEFT JOIN sys_role br ON brm.role_id=br.id
+		LEFT JOIN sys_user_role bur ON br.id=bur.role_id
+		LEFT JOIN sys_user bu ON bur.user_id=bu.id
+		where rm.is_deleted = 1
+		AND bu.id=#{userId} and  rm.module_parent_id=#{parentId}
+	</select>
+	<select id="findModuleByUrl" parameterType="HashMap" resultType="Integer">
+		select count(distinct rm.id)
+		from sys_module rm
+		LEFT JOIN sys_role_module brm ON rm.id=brm.module_id
+		LEFT JOIN sys_role br ON
+		brm.role_id=br.id
+		LEFT JOIN sys_user_role bur ON br.id=bur.role_id
+		LEFT JOIN sys_user bu ON bur.user_id=bu.id
+		where   rm.is_deleted = 1
+		AND bu.id=#{id} and rm.is_deleted=1
+		and module_url =#{moduleUrl}
+	</select>
+	<select id="findById" resultMap="BaseResultMap" parameterType="HashMap">
+		select * from sys_module where id =#{id} and is_deleted=1
+	</select>
+</mapper>

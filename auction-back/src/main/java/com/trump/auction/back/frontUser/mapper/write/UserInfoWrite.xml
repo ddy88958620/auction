@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.frontUser.dao.write.UserInfoWriteDao">
+    <update id="updateUserInfoWrite">
+        update user_info set status=2 where id = #{id}
+    </update>
+
+    <update id="updateUserInfoById" parameterType="com.trump.auction.back.frontUser.model.UserInfo">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="realName!=null and realName!=''">real_name=#{realName},</if>
+            <if test="userPhone!=null and userPhone!=''">user_phone=#{userPhone},</if>
+            <if test="loginPassword!=null and loginPassword!=''">login_password=#{loginPassword},</if>
+            <if test="status!=null and status!=''">status=#{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

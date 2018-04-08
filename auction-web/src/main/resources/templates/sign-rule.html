@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>签到规则</title>
+		<link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/common.css'" />
+		<script>
+			document.documentElement.style.fontSize=document.documentElement.clientWidth/3.75+'px'
+		</script>
+		<style>
+		     body{background: #f6f6f6;color: #999;}
+			.box{padding: .125rem;font-size: .125rem;}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			 1. 签到打卡规则<br />
+			每天登陆且签到可获得相应积分，每次签到奖励5积分，连续签到天数越多获得积分越多。
+			获取规则如下：<br />
+			连续签到1天，获5积分<br/>
+			连续签到2天，获5积分<br/>
+			连续签到3天，获5积分<br/>
+			连续签到4天，获5积分<br/>
+			连续签到5天，获5积分<br/>
+			连续签到6天，获5积分<br/>
+			连续签到7天，获5积分，额外赠30积分<br/>
+			每7天为一个周期，循环<br/>
+			......<br />
+
+			以此类推<br />
+			(1)连续签到7天，即可获得额外积分<br/>
+			(2)如果中断签到，连续签到记录也将清零<br />
+
+		</div>
+	</body>
+</html>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/jquery-3.2.1.js'" ></script>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/common.js'" ></script>

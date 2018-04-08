@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.write.RoleDao">
+	<!-- 根据主键更新 -->
+	<update id="updateById" parameterType="Role">
+		update sys_role
+		<set>
+			<if test="roleName != null and roleName != ''">
+				role_name =#{roleName},
+			</if>
+			<if test="roleSummary != null and roleSummary !=''">
+				role_summary =#{roleSummary},
+			</if>
+		</set>
+		where id =#{id}
+	</update>
+	<!-- 根据主键删除对象 -->
+	<delete id="deleteById">
+		delete from sys_role where id
+		<foreach collection="array" index="index" item="item" open="in (" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<insert id="insert" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+		insert sys_role
+		(role_name,role_summary,role_super,role_addip)
+		values (#{roleName},#{roleSummary},#{roleSuper},#{roleAddip})
+	</insert>
+</mapper>

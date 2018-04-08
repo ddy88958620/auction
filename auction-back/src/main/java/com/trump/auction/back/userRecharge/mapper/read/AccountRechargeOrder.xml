@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.userRecharge.dao.read.AccountRechargeOrderDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.userRecharge.model.AccountRechargeOrder">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="out_money" property="outMoney"/>
+        <result column="into_coin" property="intoCoin"/>
+        <result column="recharge_type" property="rechargeType"/>
+        <result column="recharge_type_name" property="rechargeTypeName"/>
+        <result column="trade_status" property="tradeStatus"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="pay_remark" property="payRemark"/>
+        <result column="result_json" property="resultJson"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="out_trade_no" property="outTradeNo"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="selectAccountRechargeOrder" resultMap="BaseResultMap">
+
+        SELECT id,user_id,user_phone,out_money,recharge_type,trade_status,create_time,order_no,pay_status
+        FROM account_recharge_order
+        <where>
+            <if test="userId!=null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            <if test="orderNo!=null and orderNo != ''">
+                AND order_no = #{orderNo}
+            </if>
+            <if test="userPhone!=null and userPhone != ''">
+                AND user_phone = #{userPhone}
+            </if>
+            <if test="rechargeType!=null and rechargeType != ''">
+                AND recharge_type = #{rechargeType}
+            </if>
+            <if test="tradeStatus!=null and tradeStatus != ''">
+                AND trade_status = #{tradeStatus}
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') >=  #{createTimeBegin}  ]]>
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') <=  #{createTimeEnd}  ]]>
+            </if>
+            <if test="outMoneyBegin != null and outMoneyBegin != ''">
+                AND <![CDATA[out_money >= CONCAT(#{outMoneyBegin})]]>
+            </if>
+            <if test="outMoneyEnd != null and outMoneyEnd != ''">
+                AND <![CDATA[out_money <= CONCAT(#{outMoneyEnd})]]>
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+
+</mapper>

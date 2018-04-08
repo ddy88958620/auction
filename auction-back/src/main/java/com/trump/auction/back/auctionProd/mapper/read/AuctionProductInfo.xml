@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.auctionProd.dao.read.AuctionProductInfoDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.auctionProd.model.AuctionProductInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_price" jdbcType="DECIMAL" property="productPrice" />
+    <result column="product_num" jdbcType="INTEGER" property="productNum" />
+    <result column="rule_id" jdbcType="INTEGER" property="ruleId" />
+    <result column="auction_start_time" jdbcType="TIMESTAMP" property="auctionStartTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+    <result column="shelves_delay_time" jdbcType="TIMESTAMP" property="shelvesDelayTime" />
+    <result column="classify_id" jdbcType="INTEGER" property="classifyId" />
+    <result column="classify_name" jdbcType="VARCHAR" property="classifyName" />
+    <result column="floor_price" jdbcType="DECIMAL" property="floorPrice" />
+    <result column="float_price" jdbcType="VARCHAR" property="floatPrice" />
+    <result column="on_shelf_time" jdbcType="TIMESTAMP" property="onShelfTime" />
+    <result column="under_shelf_time" jdbcType="TIMESTAMP" property="underShelfTime" />
+    <result column="auction_rule" jdbcType="VARCHAR" property="auctionRule" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_id, product_name, product_price, product_num, rule_id, auction_start_time, 
+    status, create_time, update_time, user_id, user_ip, shelves_delay_time, classify_id,
+    classify_name,floor_price,float_price, on_shelf_time, under_shelf_time,auction_rule
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction_product_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findAuctionProdList" parameterType="com.trump.auction.back.auctionProd.vo.AuctionProdVo" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from auction_product_info
+    <where>
+      status!=6
+      <if test="type != null">
+        <if test="type ==1">
+          and (status = 1)
+        </if>
+
+      </if>
+        <if test="id != null">
+          and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="productId != null">
+          and    product_id = #{productId,jdbcType=INTEGER}
+        </if>
+        <if test="productName != null and productName != ''">
+          AND product_name like concat('%',#{productName},'%')
+        </if>
+        <if test="ruleId != null">
+          and  rule_id = #{ruleId,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+          and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="classifyId != null">
+          and classify_id = #{classifyId,jdbcType=INTEGER}
+        </if>
+      <if test="onShelfTime!=null">
+      AND on_shelf_time &gt;= #{onShelfTime}
+      </if>
+      <if test="underShelfTime!=null">
+      AND on_shelf_time &lt;= #{underShelfTime}
+      </if>
+    </where>
+
+
+    ORDER BY create_time DESC
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_product_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.back.auctionProd.model.AuctionProductInfo">
+    insert into auction_product_info (id,product_id, product_name,
+      product_price, product_num, rule_id,
+      auction_start_time, status, create_time,
+      update_time, user_id, user_ip,
+      shelves_delay_time, classify_id,classify_name,floor_price,
+      float_price,on_shelf_time,under_shelf_time)
+    values (#{id,jdbcType=INTEGER},#{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR},
+      #{productPrice,jdbcType=DECIMAL}, #{productNum,jdbcType=INTEGER}, #{ruleId,jdbcType=INTEGER},
+      #{auctionStartTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{userIp,jdbcType=VARCHAR},
+      #{shelvesDelayTime,jdbcType=TIMESTAMP}, #{classifyId,jdbcType=INTEGER},
+      #{classifyName,jdbcType=VARCHAR},#{floorPrice,jdbcType=DECIMAL},
+      #{floatPrice,jdbcType=VARCHAR},#{onShelfTime},#{underShelfTime})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.auctionProd.model.AuctionProductInfo">
+    update auction_product_info
+    set product_id = #{productId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_price = #{productPrice,jdbcType=DECIMAL},
+      product_num = #{productNum,jdbcType=INTEGER},
+      rule_id = #{ruleId,jdbcType=INTEGER},
+      auction_start_time = #{auctionStartTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      shelves_delay_time = #{shelvesDelayTime,jdbcType=TIMESTAMP},
+      classify_id = #{classifyId,jdbcType=INTEGER},
+      classify_name = #{classifyName,jdbcType=INTEGER},
+      floor_price=#{floorPrice,jdbcType=DECIMAL},
+      float_price=#{floatPrice,jdbcType=VARCHAR},
+      on_shelf_time=#{onShelfTime,jdbcType=TIMESTAMP},
+      under_shelf_time=#{underShelfTime,jdbcType=TIMESTAMP}
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryTimingProduct" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_product_info
+    where <![CDATA[create_time <= #{date,jdbcType=TIMESTAMP}]]>
+    AND status = #{status,jdbcType=INTEGER}
+  </select>
+  <!--根据id查询拍品详情-->
+  <select id="findAuctionProductInfoById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_product_info
+    where id=#{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="findOffByProductId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_product_info
+    where product_id=#{productId,jdbcType=INTEGER}
+  </select>
+
+  <!--批量更新拍品状态-->
+  <update id="updAuctionProdStatus"  parameterType="list">
+    update auction_product_info
+    set status = #{status,jdbcType=INTEGER}
+    where id in
+    <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+  <!--更新拍品定时的时间和状态-->
+  <update id="updAuctionProdDateAndStatus" parameterType="com.trump.auction.back.auctionProd.model.AuctionProductInfo">
+    update auction_product_info
+    set
+    auction_start_time = #{auctionStartTime,jdbcType=TIMESTAMP},
+    status = #{status,jdbcType=INTEGER}
+    where id=#{id,jdbcType=INTEGER}
+  </update>
+  <!--更新-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionProductInfo" >
+    update auction_product_info
+    <set >
+    <if test="productId != null" >
+      product_id = #{productId,jdbcType=INTEGER},
+    </if>
+    <if test="productName != null" >
+      product_name = #{productName,jdbcType=VARCHAR},
+    </if>
+    <if test="productPrice != null" >
+      product_price = #{productPrice,jdbcType=DECIMAL},
+    </if>
+    <if test="productNum != null" >
+      product_num = #{productNum,jdbcType=INTEGER},
+    </if>
+    <if test="ruleId != null" >
+      rule_id = #{ruleId,jdbcType=INTEGER},
+    </if>
+    <if test="auctionStartTime != null" >
+      auction_start_time = #{auctionStartTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="status != null" >
+      status = #{status,jdbcType=INTEGER},
+    </if>
+    <if test="createTime != null" >
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="updateTime != null" >
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="userId != null" >
+      user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="userIp != null" >
+      user_ip = #{userIp,jdbcType=VARCHAR},
+    </if>
+    <if test="shelvesDelayTime != null" >
+      shelves_delay_time = #{shelvesDelayTime,jdbcType=INTEGER},
+    </if>
+    <if test="classifyId != null" >
+      classify_id = #{classifyId,jdbcType=INTEGER},
+    </if>
+    <if test="classifyName != null" >
+      classify_name = #{classifyName,jdbcType=VARCHAR},
+    </if>
+    <if test="floorPrice != null" >
+      floor_price = #{floorPrice,jdbcType=DECIMAL},
+    </if>
+    <if test="floatPrice != null" >
+      float_price = #{floatPrice,jdbcType=VARCHAR},
+    </if>
+    <if test="onShelfTime != null" >
+      on_shelf_time = #{onShelfTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="underShelfTime != null" >
+      under_shelf_time = #{underShelfTime,jdbcType=TIMESTAMP},
+    </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据状态和设定的时间查询所有的符合条件的拍品-->
+  <select id="getByStatusAndDate" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_product_info
+    where
+    date_format(auction_start_time,'%Y-%m-%d %H:%m') = date_format(now(),'%Y-%m-%d %H:%m')
+    AND status = 2
+  </select>
+
+  <update id="updateProductStatus">
+    update auction_product_info
+    set
+    status = #{status,jdbcType=INTEGER},
+    update_time = now()
+    where id=#{prodId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateProductNum">
+    update auction_product_info
+    set
+    product_num = #{prodNum,jdbcType=INTEGER},
+    update_time = now()
+    where id=#{prodId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findOn" parameterType="com.trump.auction.back.product.vo.ParamVo" resultType="com.trump.auction.back.auctionProd.vo.AuctionProdVo">
+  /*  select   apis.product_id productId,apis.product_name productName,
+    apis.product_price productPrice,apis.status,apis.classify_id classifyId,apis.classify_name classifyName,
+    apis.on_shelf_time onShelfTime,apis.under_shelf_time underShelfTime,apis.id,
+    apis.rule_id ruleId,apis.auction_start_time auctionStartTime,apis.bargain,apis.bargainPrice FROM (
+    SELECT
+    product_id ,product_name ,
+    api.product_price ,api.status,api.classify_id ,api.classify_name ,
+    api.on_shelf_time ,api.under_shelf_time ,api.id,
+    rule_id ,api.auction_start_time ,
+    IFNULL((SELECT count(1) from auction_info a where a.auction_prod_id = api.id and STATUS = 2),0) bargain,
+    IFNULL((SELECT sum(final_price) from auction_info a where a.auction_prod_id = api.id and STATUS = 2),0) bargainPrice
+    FROM auction_product_info api ) apis*/
+    select   apis.product_id productId,apis.product_name productName,
+    apis.product_price productPrice,apis.status,apis.classify_id classifyId,apis.classify_name classifyName,
+    apis.on_shelf_time onShelfTime,apis.under_shelf_time underShelfTime,apis.id,
+    apis.rule_id ruleId,apis.auction_start_time auctionStartTime
+    FROM auction_product_info apis
+    <where>
+      apis.status = 1 in (1,2) 
+      <if test="beginTime != null">
+        AND DATE_FORMAT(apis.on_shelf_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{beginTime},'%Y-%m-%d')
+      </if>
+      <if test="endTime != null">
+        AND DATE_FORMAT(apis.on_shelf_time,'%Y-%m-%d') &lt;=DATE_FORMAT(#{endTime},'%Y-%m-%d')
+      </if>
+      <if test="productId != null">
+        AND apis.id = #{productId}
+      </if>
+      <if test="productName!= null and productName!=''">
+        AND apis.product_name like concat('%',#{productName},'%')
+      </if>
+      <if test="classifyId!=null">
+        AND apis.classify_id = #{classifyId}
+      </if>
+      <if test="productStatus!=null">
+        AND apis.status = #{productStatus}
+      </if>
+      <if test="beginPrice != null">
+        AND apis.bargainPrice &gt;=#{beginPrice}
+      </if>
+      <if test="endPrice != null">
+        AND apis.bargainPrice &lt;=#{endPrice}
+      </if>
+      <if test="productId != null">
+        AND apis.id = #{productId}
+      </if>
+      <if test="bargain!=null">
+        <if test="bargain==1">
+          ORDER by apis.bargain ASC
+        </if>
+        <if test="bargain==2">
+          ORDER by apis.bargain DESC
+        </if>
+      </if>
+
+    </where>
+  </select>
+  <select id="findOff" parameterType="com.trump.auction.back.product.vo.ParamVo" resultType="com.trump.auction.back.auctionProd.vo.AuctionProdVo">
+    select
+    api.product_id productId,api.product_name productName,api.product_price productPrice,api.status,
+    api.on_shelf_time onShelfTime,api.under_shelf_time underShelfTime,api.id,api.create_time createTime,
+    api.classify_id classifyId,api.classify_name classifyName,api.product_num productNum/*,
+    IFNULL((SELECT count(1) from auction_info a where a.auction_prod_id = api.id and STATUS = 2),0) bargain*/
+    FROM auction_product_info api
+    <where>
+      api.status = 4
+      <if test="beginTime != null">
+        AND DATE_FORMAT(api.under_shelf_time,'%Y-%m-%d') &gt;=DATE_FORMAT(#{beginTime},'%Y-%m-%d')
+      </if>
+      <if test="endTime != null">
+        AND DATE_FORMAT(api.under_shelf_time,'%Y-%m-%d') &lt;=DATE_FORMAT(#{endTime},'%Y-%m-%d')
+      </if>
+      <if test="productId != null">
+        AND api.id = #{productId}
+      </if>
+      <if test="productName!= null and productName!=''">
+        AND api.product_name like concat('%',#{productName},'%')
+      </if>
+      <if test="classifyId!=null">
+        AND api.classify_id = #{classifyId}
+      </if>
+      <if test="productStatus!=null">
+        AND api.status = #{productStatus}
+      </if>
+    </where>
+    <if test="bargain!=null">
+      <if test="bargain==1">
+        ORDER by bargain ASC
+      </if>
+      <if test="bargain==2">
+        ORDER by bargain DESC
+      </if>
+    </if>
+  </select>
+
+
+  <select id="getProductNumByRuleId" parameterType="int" resultType="int">
+    select ifnull(sum(product_num),0) productNum from  auction_product_info where rule_id = #{ruleId} ;
+  </select>
+
+  <select id="getByClassifyId" parameterType="int" resultType="int">
+    select ifnull(count(1),0) productNum from  auction_product_info
+    where classify_id = #{classifyId} AND status!=6;
+  </select>
+
+
+
+</mapper>

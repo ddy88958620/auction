@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.userRecharge.dao.read.AccountRechargeRuleDetailDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.userRecharge.model.AccountRechargeRuleDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_id" property="ruleId" jdbcType="INTEGER" />
+    <result column="recharge_money" property="rechargeMoney" jdbcType="INTEGER" />
+    <result column="detail_type" property="detailType" jdbcType="INTEGER" />
+    <result column="present_coin" property="presentCoin" jdbcType="INTEGER" />
+    <result column="points" property="points" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_id, recharge_money, detail_type, present_coin, coin, status, create_time
+  </sql>
+  <select id="findRuleDetailByRuleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from account_recharge_rule_detail
+    where rule_id = #{id,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.goods.dao.ProductInventoryLogRecordDao">
+    <!--增加未有的记录库存使用记录-->
+    <insert id="addStock" parameterType="com.trump.auction.goods.domain.ProductInventoryLogRecord">
+      insert into product_inventory_log_record (product_id,upd_product_num,old_product_num,type,
+      create_time,update_time,user_id,user_ip)
+      values(#{productId},#{updProductNum},#{oldProductNum},#{type},#{createTime},#{updateTime},#{userId},#{userIp})
+    </insert>
+    <!--修改已有的记录库存使用记录-->
+    <update id="updateStock" parameterType="com.trump.auction.goods.domain.ProductInventoryLogRecord">
+        update product_inventory_log_record
+        set old_product_num = IFNULL(old_product_num,0) - #{productNum},
+        upd_product_num = IFNULL(upd_product_num,0) + #{productNum},update_time = now()
+        where product_id = #{productId}
+    </update>
+    <!--该商品是否有使用记录-->
+    <select id="validateRecord" resultType="com.trump.auction.goods.domain.ProductInventoryLogRecord" parameterType="java.lang.Integer">
+        select
+        id                           ,
+        product_id      as productId,
+        upd_product_num as updProductNum,
+        old_product_num as oldProductNum,
+        type               ,
+        create_time     as createTime,
+        update_time     as updateTime
+        from product_inventory_log_record
+        where product_id = #{productId}
+    </select>
+
+
+
+</mapper>

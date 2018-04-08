@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.activity.dao.read.LotteryPrizeReadDao">
+    <select id="selectLotteryPrizeList" resultType="com.trump.auction.back.activity.model.LotteryPrize">
+        SELECT
+            id,
+            prize_no AS prizeNo,
+            prize_name AS prizeName,
+            prize_pic AS prizePic,
+            prize_type AS prizeType,
+            prize_type_sub AS prizeTypeSub,
+            amount,
+            prize_rate AS prizeRate,
+            store,
+            is_open AS isOpen,
+            order_number AS orderNumber,
+            is_plan1 as isPlan1,
+            is_plan2 as isPlan2,
+            remark,
+            add_time AS addTime,
+            update_user AS updateUser,
+            update_time AS updateTime,
+            (SELECT COUNT(id) FROM activity_lottery_record WHERE prize_no = t1.prize_no) AS prizeCount
+        FROM `activity_lottery_prize` t1
+        ORDER BY is_open DESC, order_number ASC
+    </select>
+
+    <select id="selectLotteryPrizeById" resultType="com.trump.auction.back.activity.model.LotteryPrize">
+        SELECT
+        id,
+        prize_rate AS prizeRate,
+        store,
+        remark
+        FROM `activity_lottery_prize`
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectPlan1LotteryList" resultType="java.util.Map">
+        SELECT
+            id,
+            prize_no as prizeNo,
+            prize_name as prizeName
+        FROM
+            activity_lottery_prize
+        WHERE is_plan1 = 'Y'
+        ORDER BY order_number ASC
+    </select>
+
+    <select id="selectPlan2LotteryList" resultType="java.util.Map">
+        SELECT
+            id,
+            prize_no as prizeNo,
+            prize_name as prizeName
+        FROM
+            activity_lottery_prize
+        WHERE is_plan2 = 'Y'
+        ORDER BY order_number ASC
+    </select>
+
+    <select id="selectPrizeNameByPrizeNo" resultType="String">
+        SELECT
+        prize_name as prizeName
+        FROM
+        activity_lottery_prize
+        WHERE prize_no = #{prizeNo} LIMIT 1
+    </select>
+</mapper>

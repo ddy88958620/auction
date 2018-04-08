@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.sharding.ShardingAuctionDetailDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionDetail" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="auction_prod_id" property="auctionProdId" jdbcType="INTEGER" />
+    <result column="auction_id" property="auctionId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="bid_count" property="bidCount" jdbcType="INTEGER" />
+    <result column="return_price" property="returnPrice" jdbcType="DECIMAL" />
+    <result column="auction_status" property="auctionStatus" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="p_coin" property="pCoin" jdbcType="INTEGER" />
+    <result column="z_coin" property="zCoin" jdbcType="INTEGER" />
+    <result column="sub_user_id" property="subUserId" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,auction_prod_id ,auction_id ,
+    auction_status ,bid_count ,
+    user_id ,user_name ,
+    return_price ,head_img ,
+    nick_name ,user_type ,address,
+    p_coin ,z_coin,sub_user_id
+  </sql>
+  <select id="selectByUserId"  resultMap="BaseResultMap">
+
+    select id, user_id, user_name,
+      auction_prod_id, auction_id, create_time,
+      bid_count, return_price, auction_status,
+      nick_name, head_img, user_type,
+      address, p_coin, z_coin,sub_user_id from auction_detail
+       where   user_id=#{userId}
+          and  auction_id = #{auctionId}
+          and  sub_user_id=#{subUserId}
+  </select>
+  <select id="findList"   resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List"/>
+     from     auction_detail
+    where    auction_id = #{auctionId} and auction_status=#{status} and user_type=#{userType}
+  </select>
+  <select id="findDetailBidCount"  resultType="java.lang.Integer">
+    select count(1) from auction_detail
+    where    auction_id = #{auctionId}
+  </select>
+  
+<!--   <update id="updDetailStatus" >
+      update  auction_detail set bid_count=bid_count+#{bidCount},z_coin=z_coin+#{zCoin},p_coin=p_coin+#{pCoin}  where  id=#{id}
+  </update> -->
+  <update id="updDetailStatusByAuctionIdAndUserIdAndSubUserId" >
+      update  auction_detail set bid_count=bid_count+#{bidCount},z_coin=z_coin+#{zCoin},p_coin=p_coin+#{pCoin}  where user_id=#{userId} and auction_id=#{auctionId} and sub_user_id=#{subUserId}
+  </update>
+  <update id="updUserSuccess" >
+    update  auction_detail set auction_status=#{status}    where user_id=#{userId} and auction_id=#{auctionId} and sub_user_id=#{subUserId}
+  </update>
+  <update id="updUserfail" >
+    update  auction_detail set auction_status=#{status},return_price= truncate((p_coin*#{returnPercent}/100),0)    where   auction_id=#{auctionId} and auction_status=1
+  </update>
+  <select id="find" parameterType="com.trump.auction.trade.vo.ParamVo" resultType="com.trump.auction.trade.vo.AuctionOrderVo">
+    select ad.id,ad.auction_prod_id auctionProdId,ad.auction_id auctionId,
+        ad.auction_status status,ad.bid_count bidCount,ad.user_id userId,ad.user_name userName,
+        ad.return_price returnPrice,ad.head_img headImg,ad.nick_name nickName,ad.user_type userType,
+        ad.address,ad.sub_user_id subUserId
+    from
+    auction_detail ad
+    where 1=1
+    <if test="auctionStatus!=null">
+      and ad.auction_status = #{auctionStatus}
+    </if>
+    <if test="userId!=null">
+      and ad.user_id = #{userId}
+    </if>
+    <if test="auctionId!=null">
+      AND auction_id = #{auctionId}
+    </if>
+    <if test="auctionProdId!=null">
+      AND auction_prod_id = #{auctionProdId}
+    </if>
+    order  by  create_time   desc
+  </select>
+
+  <select id="selectByAuctionId" parameterType="com.trump.auction.trade.vo.ParamVo"
+          resultType="com.trump.auction.trade.vo.AuctionOrderVo">
+    select id,auction_prod_id auctionProdId,auction_id auctionId,
+          auction_status auctionStatus,bid_count bidCount,
+          user_id userId,user_name userName,
+          return_price returnPrice,head_img headImg,
+          nick_name nickName,user_type userType,address,
+          p_coin pCoin,z_coin zCoin,sub_user_id subUserId
+      from
+      auction_detail
+      where   auction_status = #{auctionStatus} AND auction_id = #{auctionId}
+  </select>
+
+</mapper>

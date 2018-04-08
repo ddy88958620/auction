@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.order.dao.LogisticsCompanyDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.order.domain.LogisticsCompany" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_url" property="companyUrl" jdbcType="VARCHAR" />
+    <result column="company_title" property="companyTitle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="shipper_code" property="shipperCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_name, company_url, company_title, create_time, update_time, enable, user_id, 
+    shipper_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_company
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from logistics_company
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.order.domain.LogisticsCompany" >
+    insert into logistics_company (company_name, company_url,
+      company_title, create_time, update_time, 
+      enable, user_id, shipper_code
+      )
+    values (#{companyName,jdbcType=VARCHAR}, #{companyUrl,jdbcType=VARCHAR},
+      #{companyTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{enable,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{shipperCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.trump.auction.order.domain.LogisticsCompany" >
+    insert into logistics_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyUrl != null" >
+        company_url,
+      </if>
+      <if test="companyTitle != null" >
+        company_title,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="shipperCode != null" >
+        shipper_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyUrl != null" >
+        #{companyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTitle != null" >
+        #{companyTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="shipperCode != null" >
+        #{shipperCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.order.domain.LogisticsCompany" >
+    update logistics_company
+    <set >
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyUrl != null" >
+        company_url = #{companyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTitle != null" >
+        company_title = #{companyTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="shipperCode != null" >
+        shipper_code = #{shipperCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.order.domain.LogisticsCompany" >
+    update logistics_company
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      company_url = #{companyUrl,jdbcType=VARCHAR},
+      company_title = #{companyTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      enable = #{enable,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      shipper_code = #{shipperCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findLogisticsCompanyList" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from logistics_company
+  </select>
+</mapper>

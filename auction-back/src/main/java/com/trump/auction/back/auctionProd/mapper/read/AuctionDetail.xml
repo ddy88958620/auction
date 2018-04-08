@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.auctionProd.dao.read.AuctionDetailDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.auctionProd.model.AuctionDetail" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="auction_prod_id" property="auctionProdId" jdbcType="INTEGER" />
+    <result column="auction_id" property="auctionId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="bid_count" property="bidCount" jdbcType="INTEGER" />
+    <result column="return_price" property="returnPrice" jdbcType="DECIMAL" />
+    <result column="auction_status" property="auctionStatus" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="p_coin" property="pCoin" jdbcType="INTEGER" />
+    <result column="z_coin" property="zCoin" jdbcType="INTEGER" />
+    <result column="sub_user_id" jdbcType="VARCHAR" property="subUserId" />
+
+  </resultMap>
+
+
+  <select id="selectByAuctionId" parameterType="int"
+          resultType="com.trump.auction.back.auctionProd.vo.AuctionOrderVo">
+    select id,auction_prod_id auctionProdId,auction_id auctionId,
+          auction_status auctionStatus,bid_count bidCount,
+          user_id userId,user_name userName,
+          return_price returnPrice,head_img headImg,
+          nick_name nickName,user_type userType,address,
+          p_coin pCoin,z_coin zCoin,sub_user_id subUserId
+      from
+      auction_detail
+      where   auction_status = #{auctionStatus} AND auction_id = #{auctionId}
+  </select>
+  <!--根据拍品id查看期数详情-->
+  <select id="queryAuctionDetailByAuctionId" parameterType="int"
+          resultType="com.trump.auction.back.auctionProd.model.AuctionDetail">
+    select id,auction_prod_id auctionProdId,auction_id auctionId,
+    auction_status auctionStatus,bid_count bidCount,
+    user_id userId,user_name userName,
+    return_price returnPrice,head_img headImg,
+    nick_name nickName,user_type userType,address,
+    p_coin pCoin,z_coin zCoin,sub_user_id subUserId
+    from
+    auction_detail
+    where auction_prod_id = #{auctionProdId}
+  </select>
+  <!--列表-->
+  <select id="viewAuctionInfoList" resultMap="BaseResultMap" parameterType="com.trump.auction.back.product.vo.ParamVo" >
+    select
+    id auctionDetailId,auction_prod_id auctionProdId,auction_id auctionId,
+    auction_status auctionStatus,bid_count bidCount,
+    user_id userId,user_name userName,create_time createTime,
+    return_price returnPrice,head_img headImg,
+    nick_name nickName,user_type userType,address address,
+    p_coin pCoin,z_coin zCoin,sub_user_id subUserId
+    from auction_detail
+    <where>
+      auction_id=#{id} AND auction_prod_id = #{auctionProdId}
+      <if test="userId != null" >
+        AND user_id =#{userId,jdbcType=INTEGER}
+      </if>
+      <if test="userName != null" >
+        AND user_name like concat('%',#{userName},'%')
+      </if>
+      <if test="status != null" >
+        AND auction_status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="userType != null" >
+        AND user_type=#{userType,jdbcType=INTEGER}
+      </if>
+      <if test="beginTime != null" >
+        AND create_time >=#{beginTime}
+      </if>
+      <if test="endTime != null" >
+        AND create_time &lt;=#{endTime}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.appraises.dao.read.OrderAppraisesRulesReadDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.appraises.model.OrderAppraisesRules" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="appraises_level" property="appraisesLevel" jdbcType="VARCHAR" />
+    <result column="appraises_words" property="appraisesWords" jdbcType="VARCHAR" />
+    <result column="pic_number" property="picNumber" jdbcType="VARCHAR" />
+    <result column="base_rewords" property="baseRewords" jdbcType="INTEGER" />
+    <result column="show_rewords" property="showRewords" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id,appraises_level,appraises_words,pic_number,base_rewords,show_rewords
+  </sql>
+
+  	<select id="findAll" resultMap="BaseResultMap" parameterType="HashMap">
+	select
+    <include refid="Base_Column_List"/>
+    from order_appraises_rules where status = 1
+	order by appraises_level ASC
+	</select>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from order_appraises_rules where status = 1
+    and id = #{id,jdbcType=INTEGER} limit 1
+  </select>
+
+  <select id="checkLevelExits" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from order_appraises_rules where status = 1
+    and appraises_level = #{appraisesLevel,jdbcType=VARCHAR} limit 1
+  </select>
+
+  <select id="findByParameter" resultMap="BaseResultMap" parameterType="com.trump.auction.back.appraises.model.OrderAppraisesRules">
+    select
+    <include refid="Base_Column_List" />
+    from order_appraises_rules
+
+    <where>
+      <if test="null != appraisesLevel">
+        AND appraises_level = #{appraisesLevel}
+      </if>
+      <!--<if test="null != appraisesWords">-->
+        <!--AND appraises_words = #{appraisesWords}-->
+      <!--</if>-->
+      <!--<if test="null != picNumber">-->
+        <!--AND pic_number = #{picNumber}-->
+      <!--</if>-->
+      <!--<if test="null != baseRewords">-->
+        <!--AND base_rewords = #{baseRewords}-->
+      <!--</if>-->
+      <!--<if test="null != showRewords">-->
+        <!--AND show_rewords = #{showRewords}-->
+      <!--<if test="null != orderAppraisesRules.appraisesLevel">-->
+        <!--AND appraises_level = #{orderAppraisesRules.appraisesLevel}-->
+      <!--</if>-->
+      <!--<if test="null != orderAppraisesRules.appraisesWords">-->
+        <!--and appraises_words = #{orderAppraisesRules.appraisesWords}-->
+      <!--</if>-->
+      <!--<if test="null != orderAppraisesRules.picNumber">-->
+        <!--and pic_number = #{orderAppraisesRules.picNumber}-->
+      <!--</if>-->
+      <!--<if test="null != orderAppraisesRules.baseRewords">-->
+        <!--and base_rewords = #{orderAppraisesRules.baseRewords}-->
+      <!--</if>-->
+      <!--<if test="null != orderAppraisesRules.showRewords">-->
+        <!--and show_rewords = #{orderAppraisesRules.showRewords}-->
+
+      <!--</if>-->
+      <if test="null == null">
+        AND status = 1
+      </if>
+    </where>
+  </select>
+
+  <select id="findAllLevel" resultMap="BaseResultMap" parameterType="HashMap">
+    select
+    <include refid="Base_Column_List"/>
+    from order_appraises_rules
+    order by appraises_level   ASC,create_time Desc
+  </select>
+
+  <select id="findByParameterAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from order_appraises_rules
+    where 1=1
+    <if test="null != orderAppraisesRules.appraisesLevel">
+      AND appraises_level = #{orderAppraisesRules.appraisesLevel}
+    </if>
+    limit 1
+  </select>
+</mapper>

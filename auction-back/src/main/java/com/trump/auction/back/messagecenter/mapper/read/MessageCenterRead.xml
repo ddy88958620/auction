@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.messagecenter.dao.read.MessageCenterReadDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.messagecenter.model.MessageCenter" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="channel_type" property="channelType" jdbcType="INTEGER" />
+    <result column="content_title" property="contentTitle" jdbcType="VARCHAR" />
+    <result column="content_summary" property="contentSummary" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="add_user_id" property="addUserId" jdbcType="VARCHAR" />
+    <result column="add_ip" property="addIp" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="view_count" property="viewCount" jdbcType="INTEGER" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="from_url" property="fromUrl" jdbcType="VARCHAR" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="external_url" property="externalUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.trump.auction.back.messagecenter.model.MessageCenter" extends="BaseResultMap" >
+    <result column="content_txt" property="contentTxt" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, channel_type, content_title, content_summary, add_time, add_user_id, add_ip, 
+    update_user_id, update_time, view_count, is_deleted, remark, order_num, from_url, 
+    img_url, external_url
+  </sql>
+  <sql id="Blob_Column_List" >
+    content_txt
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message_center
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="findMessageCenterList" resultMap="ResultMapWithBLOBs" parameterType="com.trump.auction.back.messagecenter.model.MessageCenter" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message_center
+    <where>
+      <if test="null != channelType">
+        AND channel_type = #{channelType}
+      </if>
+      <if test="null != contentTitle">
+        AND instr(content_title, #{contentTitle} collate  `utf8_unicode_ci`)>0
+      </if>
+      <if test="null != contentSummary">
+        AND instr(content_summary, #{contentSummary} collate  `utf8_unicode_ci`)>0
+      </if>
+    </where>
+    ORDER BY order_num asc
+  </select>
+</mapper>

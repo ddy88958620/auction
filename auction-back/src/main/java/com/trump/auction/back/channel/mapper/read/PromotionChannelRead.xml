@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.channel.dao.read.PromotionChannelReadDao" >
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.channel.model.PromotionChannel" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
+        <result column="channel_name" property="channelName" jdbcType="VARCHAR" />
+        <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+        <result column="city_code" property="cityCode" jdbcType="INTEGER" />
+        <result column="town_code" property="townCode" jdbcType="INTEGER" />
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="town_name" property="townName" jdbcType="VARCHAR" />
+        <result column="cooperation_mode" property="cooperationMode" jdbcType="VARCHAR" />
+        <result column="person_in_charge" property="personInCharge" jdbcType="VARCHAR" />
+        <result column="pick_up" property="pickUp" jdbcType="VARCHAR" />
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+        <result column="contact_email" property="contactEmail" jdbcType="VARCHAR" />
+        <result column="extension_url" property="extensionUrl" jdbcType="VARCHAR" />
+        <result column="extension_qrc" property="extensionQrc" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+        <result column="channel_source" property="channelSource" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+    id, channel_id, province_code, city_code, town_code, province_name, city_name, town_name, 
+    cooperation_mode, person_in_charge, pick_up, contact_phone, contact_email,
+    extension_url, extension_qrc, create_time, update_time, user_id, user_ip, channel_name,channel_source,description
+  </sql>
+
+    <select id="findByParam" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel
+        <where>
+            <if test="id !=null and id !=''">
+              and  id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="channelId !=null and channelId !=''">
+                and  channel_id = #{channelId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel
+        where channel_id = #{channelId,jdbcType=VARCHAR} limit 1
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel
+        where id = #{id,jdbcType=INTEGER} limit 1
+    </select>
+
+    <select id="findPromotionChannelList" resultMap="BaseResultMap" parameterType="map" >
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel
+
+        <where>
+            <if test="null != channelId">
+                AND instr(channel_id, #{channelId} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="null != channelName">
+                AND instr(channel_name, #{channelName} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="null != personInCharge">
+                AND instr(person_in_charge, #{personInCharge} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="null != pickUp">
+                AND instr(pick_up, #{pickUp} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="null != contactPhone">
+                AND instr(contact_phone, #{contactPhone} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="null != createTimeBegin">
+                AND <![CDATA[create_time >= CONCAT(#{createTimeBegin},' 00:00:00')]]>
+            </if>
+            <if test="null != createTimeEnd">
+                AND <![CDATA[create_time < DATE_ADD(#{createTimeEnd},INTERVAL 1 DAY)  ]]>
+            </if>
+            <if test="null != channelSource">
+                AND instr(channel_source, #{channelSource} collate  `utf8_unicode_ci`)>0
+            </if>
+
+            <if test="null == null">
+                AND status = 0
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectByChannelSourceSource" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel
+        where channel_source = #{channelSource,jdbcType=VARCHAR}
+    </select>
+</mapper>

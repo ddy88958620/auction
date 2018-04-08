@@ -1,0 +1,57 @@
+body {
+  background: #f2f4f5; }
+
+.box {
+  width: 100%;
+  margin-top: .1rem; }
+  .box .item_box {
+    width: 100%;
+    background: #fff;
+    overflow: hidden; }
+    .box .item_box .good_info {
+      width: 100%;
+      font-size: .13rem;
+      overflow: hidden; }
+      .box .item_box .good_info .product_img {
+        width: .75rem;
+        height: .75rem;
+        margin-top: .14rem;
+        margin-left: .12rem;
+        margin-right: .12rem;
+        display: inline-block;
+        float: left; }
+      .box .item_box .good_info .right_content {
+        width: 1.4rem;
+        display: inline-block;
+        float: left;
+        margin-top: .29rem; }
+        .box .item_box .good_info .right_content p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #666; }
+        .box .item_box .good_info .right_content .price {
+          color: #fa800a; }
+      .box .item_box .good_info .time {
+        float: right;
+        margin-top: .13rem;
+        margin-right: .12rem;
+        font-size: .11rem;
+        color: #999; }
+    .box .item_box .comment {
+      width: 100%;
+      padding: .1rem .12rem 0 .12rem;
+      box-sizing: border-box;
+      font-size: .13rem;
+      color: #666;
+      line-height: .2rem; }
+    .box .item_box .imgs {
+      width: 100%;
+      padding: 0 .12rem .1rem .12rem;
+      box-sizing: border-box; }
+      .box .item_box .imgs img {
+        max-width: 100%;
+        /*height: 2.4rem;*/
+        margin-top: .12rem; }
+
+/*# sourceMappingURL=order-comments.css.map */

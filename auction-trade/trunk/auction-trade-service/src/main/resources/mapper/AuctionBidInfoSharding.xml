@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.trade.dao.sharding.ShardingAuctionBidInfoDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionBidInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="txn_seq_no" jdbcType="VARCHAR" property="txnSeqNo" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="bid_count" jdbcType="INTEGER" property="bidCount" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+    <result column="auction_no" jdbcType="INTEGER" property="auctionNo" />
+    <result column="used_count" jdbcType="INTEGER" property="usedCount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sub_user_id" jdbcType="VARCHAR" property="subUserId" />
+    <result column="p_coin" jdbcType="INTEGER" property="pCoin" />
+    <result column="z_coin" jdbcType="INTEGER" property="zCoin" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, txn_seq_no, user_id, user_name, bid_count, auction_prod_id, auction_no, used_count,
+    create_time, update_time,status,p_coin,z_coin
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_bid_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findBidInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_bid_info
+    where status=#{status} and  user_id=#{userId} and auction_no=#{auctionNo} order  by create_time desc limit 1
+  </select>
+<!--   <update id="updStatus" parameterType="java.lang.Integer">
+      update  auction_bid_info set  status=#{status},update_time=now(),used_count=#{usedCount},p_coin=p_coin+#{pCoin},z_coin=z_coin+#{zCoin}  where id=#{id}
+  </update> -->
+  <update id="updStatusByTxnSeqNo">
+  		 update  auction_bid_info set  status=#{status},update_time=now(),used_count=#{usedCount},p_coin=p_coin+#{pCoin},z_coin=z_coin+#{zCoin}  where txn_seq_no=#{txnSeqNo}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_bid_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <select id="getBidInfoByAuctionIdAndUserId" parameterType="int" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM auction_bid_info
+    where auction_no = #{auctionId} and user_id = #{userId} AND status in (1,2)
+    order  by create_time desc limit 1
+  </select>
+
+</mapper>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sys.dao.write.SysLogDao" >
+	<insert id="insertLog" parameterType="SysLog">
+		insert into sys_log (user_id,log_type,user_log) values (#{userId},#{logType},#{userLog})
+	</insert>
+</mapper>

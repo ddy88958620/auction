@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.activity.dao.LotteryRecordDao">
+	<!-- 插入中奖记录 -->
+	<insert id="insertLotteryRecord" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.activity.domain.LotteryRecord">
+		INSERT INTO activity_lottery_record (
+			`id`,`prize_no`,`prize_name`,`prize_pic`,`prize_type`,`prize_type_sub`,`amount`,`user_id`,`user_name`,
+			`user_phone`,`order_no`,`add_time`,buy_coin_type,product_id,product_name,product_pic
+		) VALUES
+		(#{id},#{prizeNo},#{prizeName},#{prizePic},#{prizeType},#{prizeTypeSub},#{amount},#{userId},#{userName},
+			   #{userPhone},#{orderNo},NOW(),#{buyCoinType},#{productId},#{productName},#{productPic})
+	</insert>
+
+	<!-- 中奖记录 -->
+	<select id="selectLotteryRecordList" resultType="com.trump.auction.activity.domain.LotteryRecord">
+		SELECT
+			id,
+			prize_no AS prizeNo,
+			prize_name AS prizeName,
+			prize_pic AS prizePic,
+			prize_type AS prizeType,
+			prize_type_sub AS prizeTypeSub,
+			amount,
+			user_id AS userId,
+			user_name AS userName,
+			user_phone AS userPhone,
+			order_no AS orderNo,
+			add_time AS addTime,
+			buy_coin_type AS buyCoinType,
+			product_id AS productId,
+			product_name AS productName,
+			product_pic AS productPic
+		FROM
+			activity_lottery_record
+		WHERE
+			user_id = #{userId}
+		ORDER BY add_time DESC
+	</select>
+
+</mapper>

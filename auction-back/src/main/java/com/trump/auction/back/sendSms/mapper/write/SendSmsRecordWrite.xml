@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sendSms.dao.write.SendSmsRecordWriteDao">
+    <insert id="saveSendSmsRecord"  parameterType="com.trump.auction.back.sendSms.model.SendSmsRecord" >
+        insert into send_sms (phone,create_time,count, code,publisher,release_time,sms_template_id)
+        values ( #{phone,jdbcType=VARCHAR},now(), #{count,jdbcType=INTEGER},#{code,jdbcType=INTEGER}, #{publisher,jdbcType=VARCHAR}, #{releaseTime,jdbcType=TIMESTAMP},#{smsTemplateId,jdbcType=INTEGER})
+    </insert>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.write.SysUserDao">
+	<!-- 插入用户 -->
+	<insert id="insert" parameterType="SysUser">
+		insert sys_user
+		(user_account,user_password,user_name,user_sex,user_address,user_telephone,
+		user_mobile,user_email,user_qq,add_ip,remark,parent_id)
+		values
+		(#{userAccount},#{userPassword},#{userName},#{userSex},#{userAddress},#{userTelephone},
+		#{userMobile},#{userEmail},#{userQq},#{addIp},#{remark},#{parentId})
+	</insert>
+	<!-- 删除用户 -->
+	<update id="deleteById">
+		update sys_user set status = 2 where id
+		<foreach collection="list" index="index" item="item" open="in (" separator="," close=")">
+			#{item}
+		</foreach>
+		and status = 1
+		and id not in (${adminIds})
+	</update>
+	<!-- 更新用户对象 -->
+	<update id="updateById" parameterType="SysUser">
+		update sys_user
+		<set>
+			<if test="userAccount != null and userAccount != ''">
+				user_account =#{userAccount},
+			</if>
+			<if test="userPassword != null and userPassword !=''">
+				user_password =#{userPassword},
+			</if>
+			<if test="userName != null and userName != ''">
+				user_name =#{userName},
+			</if>
+			<if test="userSex != null and userSex != ''">
+				user_sex =#{userSex},
+			</if>
+			<if test="userAddress != null and userAddress != ''">
+				user_address =#{userAddress},
+			</if>
+			<if test="userTelephone != null and userTelephone != ''">
+				user_telephone =#{userTelephone},
+			</if>
+			<if test="userMobile != null and userMobile != ''">
+				user_mobile =#{userMobile},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				user_email =#{userEmail},
+			</if>
+			<if test="userQq != null and userQq != ''">
+				user_qq =#{userQq},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark =#{remark},
+			</if>
+		</set>
+		where id =#{id} 
+	</update>
+	<!-- 更新密码 -->
+	<update id="updatePwdById" parameterType="SysUser">
+		update sys_user set user_password =#{userPassword},default_pwd =2 where id =#{id}
+	</update>
+</mapper>

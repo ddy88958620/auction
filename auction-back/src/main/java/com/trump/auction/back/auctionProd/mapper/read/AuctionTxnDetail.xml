@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.auctionProd.dao.read.AuctionTxnDetailDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.auctionProd.model.AuctionTxnDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="txn_seq_no" jdbcType="VARCHAR" property="txnSeqNo" />
+    <result column="req_seq_no" jdbcType="VARCHAR" property="reqSeqNo" />
+    <result column="out_seq_no" jdbcType="VARCHAR" property="outSeqNo" />
+    <result column="txn_status" jdbcType="INTEGER" property="txnStatus" />
+    <result column="currency" jdbcType="INTEGER" property="currency" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="txn_amt" jdbcType="DECIMAL" property="txnAmt" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+    <result column="auction_no" jdbcType="VARCHAR" property="auctionNo" />
+    <result column="txn_finish_time" jdbcType="TIMESTAMP" property="txnFinishTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="bid_status" jdbcType="INTEGER" property="bidStatus" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, txn_seq_no, req_seq_no, out_seq_no, txn_status, currency, user_id, txn_amt, auction_prod_id, 
+    auction_no, txn_finish_time, create_time, bid_status, remarks
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction_txn_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_txn_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.back.auctionProd.model.AuctionTxnDetail">
+    insert into auction_txn_detail (id, txn_seq_no, req_seq_no, 
+      out_seq_no, txn_status, currency, 
+      user_id, txn_amt, auction_prod_id, 
+      auction_no, txn_finish_time, create_time, 
+      bid_status, remarks)
+    values (#{id,jdbcType=INTEGER}, #{txnSeqNo,jdbcType=VARCHAR}, #{reqSeqNo,jdbcType=VARCHAR}, 
+      #{outSeqNo,jdbcType=VARCHAR}, #{txnStatus,jdbcType=INTEGER}, #{currency,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{txnAmt,jdbcType=DECIMAL}, #{auctionProdId,jdbcType=INTEGER}, 
+      #{auctionNo,jdbcType=VARCHAR}, #{txnFinishTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{bidStatus,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionTxnDetail">
+    insert into auction_txn_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="txnSeqNo != null">
+        txn_seq_no,
+      </if>
+      <if test="reqSeqNo != null">
+        req_seq_no,
+      </if>
+      <if test="outSeqNo != null">
+        out_seq_no,
+      </if>
+      <if test="txnStatus != null">
+        txn_status,
+      </if>
+      <if test="currency != null">
+        currency,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="txnAmt != null">
+        txn_amt,
+      </if>
+      <if test="auctionProdId != null">
+        auction_prod_id,
+      </if>
+      <if test="auctionNo != null">
+        auction_no,
+      </if>
+      <if test="txnFinishTime != null">
+        txn_finish_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="bidStatus != null">
+        bid_status,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="txnSeqNo != null">
+        #{txnSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reqSeqNo != null">
+        #{reqSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outSeqNo != null">
+        #{outSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnStatus != null">
+        #{txnStatus,jdbcType=INTEGER},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="txnAmt != null">
+        #{txnAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="auctionProdId != null">
+        #{auctionProdId,jdbcType=INTEGER},
+      </if>
+      <if test="auctionNo != null">
+        #{auctionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnFinishTime != null">
+        #{txnFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidStatus != null">
+        #{bidStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionTxnDetail">
+    update auction_txn_detail
+    <set>
+      <if test="txnSeqNo != null">
+        txn_seq_no = #{txnSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reqSeqNo != null">
+        req_seq_no = #{reqSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outSeqNo != null">
+        out_seq_no = #{outSeqNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnStatus != null">
+        txn_status = #{txnStatus,jdbcType=INTEGER},
+      </if>
+      <if test="currency != null">
+        currency = #{currency,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="txnAmt != null">
+        txn_amt = #{txnAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="auctionProdId != null">
+        auction_prod_id = #{auctionProdId,jdbcType=INTEGER},
+      </if>
+      <if test="auctionNo != null">
+        auction_no = #{auctionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnFinishTime != null">
+        txn_finish_time = #{txnFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidStatus != null">
+        bid_status = #{bidStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.auctionProd.model.AuctionTxnDetail">
+    update auction_txn_detail
+    set txn_seq_no = #{txnSeqNo,jdbcType=VARCHAR},
+      req_seq_no = #{reqSeqNo,jdbcType=VARCHAR},
+      out_seq_no = #{outSeqNo,jdbcType=VARCHAR},
+      txn_status = #{txnStatus,jdbcType=INTEGER},
+      currency = #{currency,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      txn_amt = #{txnAmt,jdbcType=DECIMAL},
+      auction_prod_id = #{auctionProdId,jdbcType=INTEGER},
+      auction_no = #{auctionNo,jdbcType=VARCHAR},
+      txn_finish_time = #{txnFinishTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      bid_status = #{bidStatus,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.userRecharge.dao.read.AccountRechargeRuleDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.userRecharge.model.AccountRechargeRule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_user" property="ruleUser" jdbcType="INTEGER" />
+    <result column="rule_title" property="ruleTitle" jdbcType="VARCHAR" />
+    <result column="rule_status" property="ruleStatus" jdbcType="INTEGER" />
+    <result column="rule_start_time" property="ruleStartTime" jdbcType="TIMESTAMP" />
+    <result column="rule_end_time" property="ruleEndTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_user, rule_title, rule_status, rule_start_time, rule_end_time,
+    remark, create_time, update_time
+  </sql>
+  <select id="findRules" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from account_recharge_rule
+    <where>
+      <if test="id!=null and id != ''">
+        AND id = #{id}
+      </if>
+      <if test="ruleTitle != null and ruleTitle !=''">
+        and rule_title like CONCAT('%', #{ruleTitle}, '%')
+      </if>
+      <if test="ruleStatus != null and ruleStatus !=''">
+        and rule_status = #{ruleStatus}
+      </if>
+      <if test="createTimeBegin != null and createTimeBegin != ''">
+        <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') >=  #{createTimeBegin}  ]]>
+      </if>
+      <if test="createTimeEnd != null and createTimeEnd != ''">
+        <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') <=  #{createTimeEnd}  ]]>
+      </if>
+    </where>
+    ORDER BY rule_status DESC, create_time DESC
+  </select>
+</mapper>

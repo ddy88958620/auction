@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >  
+  	<meta name="description" content="">
+  	<title>开心拍卖</title>
+  	<link rel="stylesheet" type="text/css" href="../css/share/reset.css">
+  	<link rel="stylesheet" type="text/css" href="../css/share/common.css">
+  	<link rel="stylesheet" type="text/css" href="../css/share/homenew.css">
+</head>
+<body>
+	<div class="bg">
+		<img src="../images/home-bg.png">
+	</div>
+	<img src="../images/hdgz.png" class="hdgz">
+	<div class="main">
+		<div class="price">
+			<!-- <div class="left">
+				<p id="current">¥20.00</p>
+				<p class="now">当前价格</p>
+			</div>
+			<div class="right">
+				市场价：???
+			</div> -->
+			<div class="left">
+				<p>
+					<img src="../images/package.png">
+					<span>2018神秘礼包</span>
+				</p>
+				<p>
+					<img src="../images/authentic.png">
+					<span class="now">京东商城正品</span>
+				</p>
+			</div>
+			<div class="right">
+				<div class="time">
+					<span>00</span>
+					<span class="maohao">:</span>
+					<span id="timeout">10</span>
+					<span class="maohao">:</span>
+					<span id="timeoutm">00</span>
+				</div>
+				<div class="timesuc">
+					<span>00</span>
+					<span class="maohao">:</span>
+					<span id="timeoutqq">00</span>
+					<span class="maohao">:</span>
+					<span id="timeoutmqq">00</span>
+				</div>
+				<div class="timewc">
+					<span>00</span>
+					<span class="maohao">:</span>
+					<span id="timeoutmwd">01</span>
+					<span class="maohao">:</span>
+					<span id="timeoutmwd">00</span>
+				</div>
+			</div>
+		</div>
+<!-- 		<p class="bag">
+			<span>2018神秘礼包</span>
+			<span class="zhengpin">京东商城正品</span>
+		</p> -->
+		<p class="bag">规则：每出价一次，成交价上涨一毛钱。10秒内无人竞拍，以成交价拍中</p>
+		<div class="current">
+			<p class="currentprice">¥ <span id="current">20.00</span> 当前价格</p>
+			<p>市场价：520</p>
+		</div>
+		<p class="bids">若无人出价，糊糊将以20.00拍得本商品</p>
+		<div class="record">
+			<p class="title">最新出价人</p>
+			<ul>
+				<li style="width: 18%;">
+					<img src="../images/user-one.png">
+				</li>
+				<li>糊糊</li>
+				<li class="state">
+					<img src="../images/leadlx.png">
+				</li>
+				<li>上海浦东</li>
+				<li>¥20.00</li>
+			</ul>
+			<ul>
+				<li style="width: 18%;">
+					<img src="../images/user-two.png">
+				</li>
+				<li>开心果</li>
+				<li class="state">出局</li>
+				<li>河南郑州</li>
+				<li>¥19.90</li>
+			</ul>
+			<ul>
+				<li style="width: 18%;">
+					<img src="../images/user-three.png">
+				</li>
+				<li>柠檬</li>
+				<li class="state">出局</li>
+				<li>四川雅安</li>
+				<li>¥19.80</li>
+			</ul>
+		</div>
+		<img src="../images/mask.png" class="mask">
+		<div class="bidsuccess">出价成功</div>
+		<div class="offer">
+			<span>立刻出价<span style="display: none;">（<span class="num">3</span>/3拍币）</span></span>
+		</div>
+		<div class="being">
+			<span>正在出价<span style="display: none;">（<span class="num">3</span>/3拍币）</span></span>
+		</div>
+	</div>
+	<div id="wrapper">
+		<div class="box">
+			<div id="dialogBg" class="claseDialogBtn"></div>
+			<div id="dialog">
+				<p class="success">恭喜竞拍成功</p>
+				<p class="looks">输入手机号查看神秘礼包</p>
+			 	<form action="" method="post">	
+					<input type="text" id="mytext" name="mytext" placeholder="请输入手机号"/>
+		        	<button type="button" id="btnSenderMessage" name="mybutton"></button>
+				</form>
+			</div>
+			<div id="dialogtwo">
+				<p class="success">恭喜竞拍成功</p>
+				<p class="looks">输入手机号查看神秘礼包</p>
+			 	<form action="" method="post" class="form">	
+					<input type="text" id="mycode" name="mycode" placeholder="请输入短信验证码"/>
+					<button type="button" class="hqcode">获取验证码</button>
+					<div class="send">已发送(<span id="time">60</span>)s</div>
+					<input type="text" id="mypicture" name="mypicture" placeholder="请输入图形验证码"/>
+					<img src="../images/picture.png" class="picture">
+					<input type="password" id="mypwd" name="mypwd" placeholder="6-16位数字与字母组合密码"/>
+		        	<button type="button" id="btnSenderMessagetwo" name="mybutton"></button>
+				</form>
+			</div>
+			<div id="dialogrule">
+				<p class="rule">1：本次活动仅限未注册开心拍卖的新用户参与</p>
+				<p>2：活动内用户通过模拟开心拍卖竞拍流程的H5互动获得相应的赠币奖励。</p>
+				<p>3：本次活动奖品将直接发送至注册手机号内，用户领取需要下载开心拍卖APP，使用注册手机号登录，在“我的”-“我的财产”处可查收</p>
+				<p>4：本次活动所有解释权在法律范围内归开心拍卖APP所有</p>
+			</div>
+		</div>
+	</div>
+	<div class="Mask"></div>
+	<div class="rulebox">
+		<p class="rulebox_title">准备好竞拍了吗？</p>
+		<p class="rulebox_word">每出价一次，成交价上涨一毛钱，10秒内无人竞拍，以成交价拍中</p>
+		<p class="rulebox_btn">准备好了</p>
+	</div>
+	<div class="Mask1"></div>
+	<div class="rulebox1">
+		<p class="rulebox_title1"></p>
+		<p class="rulebox_btn1">确定</p>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/indexnew.js"></script>

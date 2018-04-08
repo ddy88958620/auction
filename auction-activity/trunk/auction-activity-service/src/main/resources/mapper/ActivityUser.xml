@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.activity.dao.ActivityUserDao">
+	<resultMap id="BaseResultMap" type="com.trump.auction.activity.domain.ActivityUser">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="free_lottery_times" property="freeLotteryTimes"/>
+		<result column="last_free_time" property="lastFreeTime"/>
+		<result column="add_time" property="addTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
+	<sql id="columnList">
+		`id`, `user_id`, `user_phone`, `free_lottery_times`, `last_free_time`, `add_time`, `update_time`
+	</sql>
+
+	<insert id="insertActivityUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.activity.domain.ActivityUser">
+		INSERT INTO `activity_user`
+		(`id`, `user_id`, `user_phone`,  `free_lottery_times`, `last_free_time`, `add_time`, `update_time`)
+		VALUES
+		(#{id}, #{userId}, #{userPhone},  #{freeLotteryTimes}, NOW(), NOW(), NOW());
+	</insert>
+
+	<select id="selectActivityUserByUserId" resultType="com.trump.auction.activity.domain.ActivityUser">
+		SELECT
+			<include refid="columnList"/>
+		FROM `activity_user`
+		WHERE user_id = #{userId}
+	</select>
+
+	<update id="updateFreeLotteryTimes">
+		UPDATE activity_user SET
+			free_lottery_times = #{freeLotteryTimes},
+			last_free_time = NOW(),
+			update_time = NOW()
+		WHERE user_id = #{userId}
+		  AND free_lottery_times = #{freeLotteryTimesOld}
+	</update>
+</mapper>

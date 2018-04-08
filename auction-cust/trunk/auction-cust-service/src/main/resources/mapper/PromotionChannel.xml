@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.cust.dao.PromotionChannelDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.cust.domain.PromotionChannel">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+        <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+        <result column="province_code" jdbcType="INTEGER" property="provinceCode" />
+        <result column="city_code" jdbcType="INTEGER" property="cityCode" />
+        <result column="town_code" jdbcType="INTEGER" property="townCode" />
+        <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+        <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+        <result column="town_name" jdbcType="VARCHAR" property="townName" />
+        <result column="cooperation_mode" jdbcType="VARCHAR" property="cooperationMode" />
+        <result column="settlement_price" jdbcType="INTEGER" property="settlementPrice" />
+        <result column="settlement_mode" jdbcType="VARCHAR" property="settlementMode" />
+        <result column="person_in_charge" jdbcType="VARCHAR" property="personInCharge" />
+        <result column="pick_up" jdbcType="VARCHAR" property="pickUp" />
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+        <result column="contact_email" jdbcType="VARCHAR" property="contactEmail" />
+        <result column="extension_url" jdbcType="VARCHAR" property="extensionUrl" />
+        <result column="extension_qrc" jdbcType="VARCHAR" property="extensionQrc" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+        <result column="channel_source" jdbcType="VARCHAR" property="channelSource" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, channel_id, channel_name, province_code, city_code, town_code, province_name,
+        city_name, town_name, cooperation_mode, settlement_price, settlement_mode, person_in_charge,
+        pick_up, contact_phone, contact_email, extension_url, extension_qrc, create_time,
+        update_time, user_id, user_ip, channel_source, description, status
+    </sql>
+
+    <select id="selectByChannelId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from promotion_channel
+        where channel_id = #{channelId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectChannelByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+          FROM promotion_channel
+         WHERE channel_source = #{channelName}
+    </select>
+</mapper>

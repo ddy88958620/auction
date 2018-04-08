@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.frontUser.dao.read.AccountInfoRecordDao">
+	<resultMap id="BaseResultMap" type="com.trump.auction.back.frontUser.model.AccountInfoRecord" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+		<result column="account_type" property="accountType" jdbcType="INTEGER" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="transaction_coin" property="transactionCoin" jdbcType="INTEGER" />
+		<result column="transaction_type" property="transactionType" jdbcType="INTEGER" />
+		<result column="transaction_tag" property="transactionTag" jdbcType="VARCHAR" />
+		<result column="balance_type" property="balanceType" jdbcType="BIT" />
+		<result column="coin" property="coin" jdbcType="INTEGER" />
+		<result column="freeze_coin" property="freezeCoin" jdbcType="INTEGER" />
+		<result column="product_thumbnail" property="productThumbnail" jdbcType="VARCHAR" />
+		<result column="product_image" property="productImage" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="order_serial" property="orderSerial" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+		id, order_no, user_id, user_phone, account_type, product_name, transaction_coin,
+		transaction_type, transaction_tag, balance_type, coin, freeze_coin, product_thumbnail,
+		product_image, order_id, order_serial, remark, create_time, update_time
+	</sql>
+	<select id="getAccountInfoRecordList" resultMap="BaseResultMap"
+			parameterType="com.trump.auction.back.frontUser.model.AccountInfoRecord" >
+		select
+		<include refid="Base_Column_List" />
+		from account_info_record
+		where user_id = #{userId}
+		<if test="accountType != null and accountType != ''">
+			AND account_type = #{accountType}
+		</if>
+		<!-- 全部收支明细里没有积分 -->
+		<if test="accountType == null or accountType == ''">
+			AND account_type != 3
+		</if>
+		<if test="createTime != null">
+			AND TO_DAYS(create_time) =TO_DAYS(#{createTime})
+		</if>
+		ORDER BY create_time DESC
+	</select>
+</mapper>

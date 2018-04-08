@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.activity.dao.UserSignDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.activity.domain.UserSign">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="last_sign_time" property="lastSignTime"/>
+        <result column="series_sign_days" property="seriesSignDays"/>
+    </resultMap>
+
+    <sql id="columnList">
+        id,
+        user_id,
+        last_sign_time,
+        series_sign_days
+    </sql>
+
+    <insert id="insertUserSign" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.activity.domain.UserSign">
+        INSERT INTO user_sign
+        (<include refid="columnList"></include>)
+        VALUES
+        (#{id},#{userId},now(),#{seriesSignDays})
+    </insert>
+
+    <update id="updateUserSign" parameterType="com.trump.auction.activity.domain.UserSign">
+        update user_sign
+        <set>
+            last_sign_time = now(),
+            series_sign_days = #{seriesSignDays}
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <select id="selectUserSignByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_sign
+        where user_id = #{userId}
+    </select>
+
+    <select id="checkIsSigned" resultType="int">
+        select count(*) from user_sign where user_id = #{userId} and last_sign_time >= #{todayDate}
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.labelManager.dao.write.LabelManagerWriteDao">
+    <resultMap id="AuctionProductLabelMap" type="com.trump.auction.back.labelManager.model.LabelAuctionProduct">
+        <id column="id" property="auctionProductId"/>
+        <result column="product_name" property="auctionProductName"/>
+        <result column="product_amount" property="auctionProductPrice"/>
+        <result column="product_num" property="auctionProductStock"/>
+    </resultMap>
+
+    <insert id="saveLabelManager" parameterType="com.trump.auction.back.labelManager.model.LabelManager">
+        insert into label_manager (label_name,label_pic,label_status,status,label_sort,create_time) values(#{labelName},#{labelPic},#{labelStatus},#{status},#{labelSort},now())
+    </insert>
+
+    <update id="editSuccessLabelManager" parameterType="com.trump.auction.back.labelManager.model.LabelManager">
+        update label_manager
+        <set>
+            <if test="labelName != null and labelName !=''">
+                label_manager.label_name = #{labelName},
+            </if>
+            <if test="labelPic != null and labelPic !=''">
+                label_manager.label_pic =#{labelPic},
+            </if>
+            <if test="labelStatus != null and labelStatus !=''">
+                label_manager.label_status =#{labelStatus},
+            </if>
+            <if test="status != null and status !=''">
+                label_manager.status =#{status},
+            </if>
+            <if test="labelSort != null and labelSort !=''">
+                label_manager.label_sort =#{labelSort},
+            </if>
+            <if test="auctionProductId != null and auctionProductId !=''">
+                label_manager.auction_product_id =#{auctionProductId},
+            </if>
+        </set>
+        where label_manager.id = #{id}
+    </update>
+
+    <update id="updateLabelManagerStatus" parameterType="com.trump.auction.back.labelManager.model.LabelManager">
+        update label_manager l set l.label_status = #{labelStatus} where l.id =#{id}
+    </update>
+
+    <update id="deleteLabelManagerInfo" parameterType="com.trump.auction.back.labelManager.model.LabelManager">
+        update label_manager l set l.status = 1 where l.id =#{id}
+    </update>
+
+    <update id="bindLabelManager" parameterType="com.trump.auction.back.labelManager.model.LabelManager">
+        update label_manager l set l.auction_product_id = #{auctionProductId} where l.id =#{id}
+    </update>
+
+    <select id="selectLabelAuctionProduct" resultMap="AuctionProductLabelMap">
+        select a.product_name,a.id,p.product_amount,a.product_num from auction_product_info a,product_info p
+        <where>
+            <if test="null == null" >
+                and a.product_id=p.id
+            </if>
+            <if test="condition != null and condition != ''">
+                and  (a.id =#{condition} or a.product_name like CONCAT(CONCAT('%', #{auctionProductName}), '%'))
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

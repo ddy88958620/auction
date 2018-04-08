@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.sharding.ShardingAuctionBidetailDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionBidetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bid_id" property="bidId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="bid_type" property="bidType" jdbcType="INTEGER" />
+    <result column="auction_prod_id" property="auctionProdId" jdbcType="INTEGER" />
+    <result column="auction_no" property="auctionNo" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="bid_price" property="bidPrice" jdbcType="DECIMAL" />
+    <result column="bid_sub_type" property="bidSubType" jdbcType="INTEGER" />
+    <result column="sub_user_id" property="subUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id,bid_id,user_id,user_name,bid_type,auction_prod_id,auction_no,user_ip,create_time,update_time,bid_price,head_img,nick_name,address,bid_sub_type
+  </sql>
+
+  <select id="find" parameterType="com.trump.auction.trade.vo.ParamVo"  resultType="com.trump.auction.trade.vo.BidVo">
+    SELECT
+    abd.user_name userName,abd.bid_price bidPrice,abd.nick_name nickName,abd.address,abd.head_img headImg
+    FROM auction_bid_detail abd
+    where 1=1
+    <if test="auctionId!=null">
+      and auction_no = #{auctionId}
+    </if>
+    order by abd.create_time DESC
+  </select>
+
+  <select id="getLastBidRecord" parameterType="com.trump.auction.trade.vo.ParamVo"
+          resultType="com.trump.auction.trade.vo.BidVo">
+    SELECT
+        abd.user_name userName,abd.bid_price bidPrice,
+        ai.product_name productName,abd.create_time createTime
+    FROM auction_bid_detail abd left join auction_info ai on abd.auction_no = ai.id
+      where 1=1
+      <if test="auctionId!=null">
+        and abd.auction_no = #{auctionId}
+      </if>
+    order by abd.create_time DESC
+  </select>
+  <select id="findBidTime"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select
+        <include refid="Base_Column_List" />
+      from auction_bid_detail where  auction_no=#{0}  order by create_time desc limit 0,1
+  </select>
+  <select id="findBidTimes"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction_bid_detail where  auction_no=#{auctionId}  order by id desc limit 0,#{number}
+  </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.AuctionProductRecordDao" >
+    <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionProductRecord" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="auction_no" property="auctionNo" jdbcType="INTEGER" />
+        <result column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+        <result column="rule_id" property="ruleId" jdbcType="INTEGER" />
+        <result column="classify_1" property="classify1" jdbcType="VARCHAR" />
+        <result column="classify_2" property="classify2" jdbcType="VARCHAR" />
+        <result column="classify_3" property="classify3" jdbcType="VARCHAR" />
+        <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+        <result column="product_amount" property="productAmount" jdbcType="DECIMAL" />
+        <result column="sales_amount" property="salesAmount" jdbcType="DECIMAL" />
+        <result column="sku_info" property="skuInfo" jdbcType="VARCHAR" />
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+        <result column="preview_pic" property="previewPic" jdbcType="VARCHAR" />
+        <result column="master_pic" property="masterPic" jdbcType="VARCHAR" />
+        <result column="pic_urls" property="picUrls" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+        <result column="poundage" property="poundage" jdbcType="DECIMAL" />
+        <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+        <result column="start_bid_name" property="startBidName" jdbcType="VARCHAR" />
+        <result column="increase_bid_name" property="increaseBidName" jdbcType="VARCHAR" />
+        <result column="poundage_name" property="poundageName" jdbcType="VARCHAR" />
+        <result column="countdown_name" property="countdownName" jdbcType="VARCHAR" />
+        <result column="difference_name" property="differenceName" jdbcType="VARCHAR" />
+        <result column="proportion_name" property="proportionName" jdbcType="VARCHAR" />
+
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, auction_no, product_id, product_name, product_price, rule_id, classify_1, classify_2,
+        classify_3, brand_id, product_amount, sales_amount, sku_info, remarks, preview_pic,
+        master_pic, pic_urls, create_time, update_time, user_id, user_ip, poundage, merchant_id,
+         start_bid_name,
+        increase_bid_name, poundage_name, countdown_name, difference_name, proportion_name
+    </sql>
+
+    <insert id="insert" parameterType="com.trump.auction.trade.domain.AuctionProductRecord" >
+        insert into auction_product_record (id, auction_no, product_id,
+        product_name, product_price, rule_id,
+        classify_1, classify_2, classify_3,
+        brand_id, product_amount, sales_amount,
+        sku_info, remarks, preview_pic,
+        master_pic, pic_urls, create_time,
+        update_time, user_id, user_ip,
+        poundage, merchant_id,start_bid_name,
+        increase_bid_name,poundage_name,countdown_name,difference_name,proportion_name)
+        values (#{id,jdbcType=INTEGER}, #{auctionNo,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER},
+        #{productName,jdbcType=VARCHAR}, #{productPrice,jdbcType=DECIMAL}, #{ruleId,jdbcType=INTEGER},
+        #{classify1,jdbcType=VARCHAR}, #{classify2,jdbcType=VARCHAR}, #{classify3,jdbcType=VARCHAR},
+        #{brandId,jdbcType=INTEGER}, #{productAmount,jdbcType=DECIMAL}, #{salesAmount,jdbcType=DECIMAL},
+        #{skuInfo,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{previewPic,jdbcType=VARCHAR},
+        #{masterPic,jdbcType=VARCHAR}, #{picUrls,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, #{userIp,jdbcType=VARCHAR},
+        #{poundage,jdbcType=DECIMAL}, #{merchantId,jdbcType=INTEGER},
+        #{startBidName,jdbcType=VARCHAR}, #{increaseBidName,jdbcType=VARCHAR}, #{poundageName,jdbcType=VARCHAR},
+        #{countdownName,jdbcType=VARCHAR},
+        #{differenceName,jdbcType=VARCHAR}, #{proportionName,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getRecordByAuctionNum" parameterType="int" resultMap="BaseResultMap" >
+        select
+          <include refid="Base_Column_List" />
+         from auction_product_record where auction_no = #{auctionId}
+    </select>
+
+</mapper>

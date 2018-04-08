@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.rule.dao.write.AuctionRuleDaoWrite" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.rule.model.AuctionRule">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="rule_name" property="ruleName" jdbcType="VARCHAR"/>
+    <result column="difference_flag" property="differenceFlag" jdbcType="INTEGER"/>
+    <result column="premium_amount" property="premiumAmount" jdbcType="DECIMAL"/>
+    <result column="timing_num" property="timingNum" jdbcType="INTEGER"/>
+    <result column="refund_money_proportion" property="refundMoneyProportion" jdbcType="DECIMAL"/>
+    <result column="opening_bid" property="openingBid" jdbcType="DECIMAL"/>
+    <result column="shelves_rule" property="shelvesRule" jdbcType="INTEGER"/>
+    <result column="shelves_delay_time" property="shelvesDelayTime" jdbcType="INTEGER"/>
+    <result column="robot_rule" property="robotRule" jdbcType="INTEGER"/>
+    <result column="robot_taken_in" property="robotTakenIn" jdbcType="INTEGER"/>
+    <result column="highest_price" property="highestPrice" jdbcType="DECIMAL"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="user_id" property="userId" jdbcType="INTEGER"/>
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR"/>
+    <result column="status" property="status"  jdbcType="INTEGER"/>
+    <result column="poundage" property="poundage" jdbcType="DECIMAL"/>
+    <result column="countdown" property="countdown"  jdbcType="INTEGER"/>
+      <result column="start_bid_name" property="startBidName" jdbcType="VARCHAR" />
+      <result column="increase_bid_name" property="increaseBidName" jdbcType="VARCHAR" />
+      <result column="poundage_name" property="poundageName" jdbcType="VARCHAR" />
+      <result column="countdown_name" property="countdownName" jdbcType="VARCHAR" />
+      <result column="difference_name" property="differenceName" jdbcType="VARCHAR" />
+      <result column="proportion_name" property="proportionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insertAuctionRule" parameterType="com.trump.auction.back.rule.model.AuctionRule">
+    insert into auction_rule (id, rule_name, difference_flag,
+      premium_amount, timing_num, refund_money_proportion,
+      opening_bid, shelves_rule, shelves_delay_time,
+      robot_rule, robot_taken_in, highest_price,
+      create_time, update_time, user_id,
+      user_ip, status, poundage,
+      countdown, start_bid_name, increase_bid_name,
+      poundage_name, countdown_name, difference_name,
+      proportion_name)
+    values (#{id,jdbcType=INTEGER}, #{ruleName,jdbcType=VARCHAR}, #{differenceFlag,jdbcType=INTEGER},
+      #{premiumAmount,jdbcType=DECIMAL}, #{timingNum,jdbcType=INTEGER}, #{refundMoneyProportion,jdbcType=DECIMAL},
+      #{openingBid,jdbcType=DECIMAL}, #{shelvesRule,jdbcType=INTEGER}, #{shelvesDelayTime,jdbcType=INTEGER},
+      #{robotRule,jdbcType=INTEGER}, #{robotTakenIn,jdbcType=INTEGER}, #{highestPrice,jdbcType=DECIMAL},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER},
+      #{userIp,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{poundage,jdbcType=DECIMAL},
+      #{countdown,jdbcType=INTEGER}, #{startBidName,jdbcType=VARCHAR}, #{increaseBidName,jdbcType=VARCHAR},
+      #{poundageName,jdbcType=VARCHAR}, #{countdownName,jdbcType=VARCHAR}, #{differenceName,jdbcType=VARCHAR},
+      #{proportionName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateAuctionRule" parameterType="com.trump.auction.back.rule.model.AuctionRule">
+    update auction_rule
+    set rule_name = #{ruleName,jdbcType=VARCHAR},
+      difference_flag = #{differenceFlag,jdbcType=INTEGER},
+      premium_amount = #{premiumAmount,jdbcType=DECIMAL},
+      timing_num = #{timingNum,jdbcType=INTEGER},
+      refund_money_proportion = #{refundMoneyProportion,jdbcType=DECIMAL},
+      opening_bid = #{openingBid,jdbcType=DECIMAL},
+      shelves_rule = #{shelvesRule,jdbcType=INTEGER},
+      shelves_delay_time = #{shelvesDelayTime,jdbcType=INTEGER},
+      robot_rule = #{robotRule,jdbcType=INTEGER},
+      robot_taken_in = #{robotTakenIn,jdbcType=INTEGER},
+      highest_price = #{highestPrice,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      poundage = #{poundage,jdbcType=DECIMAL},
+      countdown = #{countdown,jdbcType=INTEGER},
+      start_bid_name = #{startBidName,jdbcType=VARCHAR},
+      increase_bid_name = #{increaseBidName,jdbcType=VARCHAR},
+      poundage_name = #{poundageName,jdbcType=VARCHAR},
+      countdown_name = #{countdownName,jdbcType=VARCHAR},
+      difference_name = #{differenceName,jdbcType=VARCHAR},
+      proportion_name = #{proportionName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--删除规则-->
+  <update id="deleteAuctionRule">
+    update auction_rule set status=2,update_time = now() where id
+    <foreach collection="array" index="index" item="item" open="in (" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+</mapper>

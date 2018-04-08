@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="dev">
+		<bean class="com.trump.auction.back.util.sys.AppPropertyConfigurer">
+			<property name="location" value="classpath:application-dev.properties" />
+		</bean>
+		<import resource="spring/quartz/spring-quartz-dev.xml" />
+	</beans>
+
+	<beans profile="test">
+		<bean class="com.trump.auction.back.util.sys.AppPropertyConfigurer">
+			<property name="location" value="classpath:application-test.properties" />
+		</bean>
+		<import resource="spring/quartz/spring-quartz-test.xml" />
+	</beans>
+
+	<beans profile="prod">
+		<bean class="com.trump.auction.back.util.sys.AppPropertyConfigurer">
+			<property name="location" value="classpath:application-prod.properties" />
+		</bean>
+		<import resource="spring/quartz/spring-quartz-prod.xml" />
+	</beans>
+</beans> 

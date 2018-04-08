@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sensitiveWord.dao.read.SensitiveWordReadDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.sensitiveWord.model.SensitiveWord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="sensitive_word" property="sensitiveWord" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, status, title, deleted, create_time, update_time, user_id, user_name, user_ip,sensitive_word
+  </sql>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    id, type, status, title, deleted, create_time, update_time, user_id, user_name, user_ip,sensitive_word
+    from sensitive_word
+    <where>
+      deleted = 0
+      <if test="type != null">
+        and type = #{type}
+      </if>
+      <if test="status != null">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    id, type, status, title, deleted, create_time, update_time, user_id, user_name, user_ip
+    from sensitive_word
+    <where>
+      deleted = 0
+    </where>
+  </select>
+
+  <select id="findById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sensitive_word
+    where deleted = 0 and id = #{id}
+  </select>
+
+</mapper>

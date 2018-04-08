@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sendSms.dao.read.SendSmsTemplateReadDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.sendSms.model.SendSmsTemplate">
+        <id column="id" property="id"/>
+        <result column="template_name" property="templateName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="send_type" property="sendType"/>
+        <result column="founder" property="founder"/>
+        <result column="template_title" property="templateTitle"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+    <sql id="columnList">
+        id,template_name,create_time,template_title,send_type,founder,content
+    </sql>
+
+    <select id="selectSendSmsTemplateInfo" resultMap="BaseResultMap">
+        SELECT <include refid="columnList" ></include>
+        FROM send_sms_template
+        <where>
+            <if test="id!=null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="templateName!=null and templateName != ''">
+                AND template_name = #{templateName}
+            </if>
+            <if test="templateTitle!=null and templateTitle != ''">
+                AND template_title = #{templateTitle}
+            </if>
+            <if test="sendType!=null and sendType != ''">
+                AND send_type = #{sendType}
+            </if>
+            <if test="null == null">
+                AND status = 0
+            </if>
+            <if test="createTime != null and createTime != ''">
+                <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') =  #{createTime}  ]]>
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findByParameter" resultMap="BaseResultMap">
+        SELECT <include refid="columnList" ></include>
+        FROM send_sms_template
+        <where>
+            <if test="id!=null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="templateName!=null and templateName != ''">
+                AND template_name = #{templateName}
+            </if>
+            <if test="templateTitle!=null and templateTitle != ''">
+                AND template_title = #{templateTitle}
+            </if>
+            <if test="sendType!=null and sendType != ''">
+                AND send_type = #{sendType}
+            </if>
+            <if test="null == null">
+                AND status = 0
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

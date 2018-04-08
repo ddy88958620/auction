@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.activity.dao.ActivityVideoCdkeysDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.activity.domain.ActivityVideoCdkeys">
+        <id column="id" property="id" />
+        <result column="cdkey" property="cdkey" />
+        <result column="cdkey_type" property="cdkeyType" />
+        <result column="cdkey_name" property="cdkeyName" />
+        <result column="useful_life" property="usefulLife" />
+        <result column="activate_url" property="activateUrl" />
+        <result column="is_used" property="isUsed" />
+        <result column="add_time" property="addTime" />
+    </resultMap>
+    <insert id="insertVideoCdkeys" parameterType="java.util.List">
+        insert into activity_video_cdkeys(
+        cdkey,
+        cdkey_type,
+        cdkey_name,
+        useful_life,
+        activate_url,
+        add_time
+        )values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.cdkey},
+            #{item.cdkeyType},
+            #{item.cdkeyName},
+            #{item.usefulLife},
+            #{item.activateUrl},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectVideoCdkeysByKey" resultType="java.lang.String" parameterType="java.util.List">
+        select
+        cdkey
+        from activity_video_cdkeys
+        where cdkey in(
+        <foreach collection="list" item="item" index="index" separator="," >
+            #{item.cdkey}
+        </foreach>
+        )
+    </select>
+</mapper>

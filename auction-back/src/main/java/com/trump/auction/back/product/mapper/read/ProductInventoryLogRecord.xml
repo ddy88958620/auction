@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.product.dao.read.ProductInventoryLogRecordDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.product.model.ProductInventoryLogRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="upd_product_num" jdbcType="INTEGER" property="updProductNum" />
+    <result column="old_product_num" jdbcType="INTEGER" property="oldProductNum" />
+    <result column="color_id" jdbcType="INTEGER" property="colorId" />
+    <result column="sku_id" jdbcType="INTEGER" property="skuId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_id, upd_product_num, old_product_num, color_id, sku_id, type, create_time, 
+    update_time, user_id, user_ip
+  </sql>
+
+  <select id="getRecordListByProductId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from product_inventory_log_record
+    where product_id = #{productId,jdbcType=INTEGER}
+    ORDER by create_time DESC
+  </select>
+
+
+</mapper>

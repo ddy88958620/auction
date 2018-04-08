@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.product.dao.read.ProductManageDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.product.model.ProductManage" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="classify_1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="classify_2" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="classify_3" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="brand_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sales_price" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="stages_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="on_shelf_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="under_shelf_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, product_name, status, classify_1, classify_2, classify_3, brand_name, 
+    sales_price, stages_id, create_time, update_time, user_id, user_ip, on_shelf_time, 
+    under_shelf_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product_manage
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByParamVo" resultType="com.trump.auction.back.product.vo.ProductVo"
+          parameterType="com.trump.auction.back.product.vo.ParamVo">
+    SELECT
+      p.id productId,m.id productManageId,p.product_name productName,c.name brandName,
+      m.on_shelf_time onShelfTime,m.status,p.product_status productStatus,p.create_time beginTime,
+      m.under_shelf_time endTime,p.product_amount productAmount,p.sales_amount salesAmount,
+      p.merchant_id merchantId,me.merchant_name merchantName,pl.product_num productNum,
+      p.pic_url previewPic,p.product_amount productPrice,p.user_id userId,p.sales_amount salesAmount,
+      p.sku_info auctionParam,p.remarks rules,p.product_title productTitle,c.name classifyName
+    FROM product_info p
+    left join product_manage m on p.id = m.product_id
+    left join product_classify c on p.classify_1 = c.id
+    left JOIN product_inventory_log pl on p.id = pl.product_id
+    left join merchant_info me on p.merchant_id = me.id
+    <where>
+       p.product_status!=999
+      <if test="classify1!=null">
+        and p.classify_1 = #{classify1}
+      </if>
+      <if test="productName!=null and productName!=''">
+       AND p.product_name like concat('%',#{productName},'%')
+      </if>
+      <if test="productId!=null">
+       AND p.id = #{productId}
+      </if>
+      <if test="beginTime!=null">
+        AND DATE_FORMAT(p.create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{beginTime},'%Y-%m-%d')
+      </if>
+      <if test="endTime!=null">
+        AND DATE_FORMAT(p.create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+      </if>
+      <if test="productStatus!=null">
+        <if test="productStatus==0">
+          AND m.status =0
+        </if>
+        <if test="productStatus==1">
+          AND m.status = 1
+        </if>
+      </if>
+    </where>
+
+    ORDER by p.create_time DESC
+  </select>
+
+  <select id="findProductInfoById" parameterType="java.lang.Integer" resultType="com.trump.auction.back.product.vo.ProductVo">
+    select product_name as productName, pi.id as productId, sales_amount as salesAmount, merchant_name as merchantName,
+    sku_title as skuTitle, color_title as colorTitle from product_info pi join merchant_info mi
+    on pi.merchant_id = mi.id where pi.id = #{productId}
+  </select>
+</mapper>

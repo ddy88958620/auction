@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.cust.dao.AccountRechargeRuleDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.cust.domain.AccountRechargeRule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_user" property="ruleUser" jdbcType="INTEGER" />
+    <result column="rule_title" property="ruleTitle" jdbcType="VARCHAR" />
+    <result column="rule_status" property="ruleStatus" jdbcType="INTEGER" />
+    <result column="rule_start_time" property="ruleStartTime" jdbcType="TIMESTAMP" />
+    <result column="rule_end_time" property="ruleEndTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rule_user, rule_title, rule_status, rule_start_time, rule_end_time,
+    remark, create_time, update_time
+  </sql>
+  <select id="findRuleById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from account_recharge_rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteRuleById" parameterType="java.lang.Integer" >
+    delete from account_recharge_rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="addRule" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.cust.domain.AccountRechargeRule" >
+    insert into account_recharge_rule (rule_user, rule_title,
+      rule_status, rule_start_time,
+      rule_end_time, remark, create_time, 
+      update_time)
+    values (#{ruleUser,jdbcType=INTEGER}, #{ruleTitle,jdbcType=VARCHAR},
+      #{ruleStatus,jdbcType=INTEGER}, #{ruleStartTime,jdbcType=TIMESTAMP},
+      #{ruleEndTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateRuleById" parameterType="com.trump.auction.cust.domain.AccountRechargeRule" >
+    update account_recharge_rule
+    <set >
+      <if test="ruleUser != null" >
+        rule_user = #{ruleUser,jdbcType=INTEGER},
+      </if>
+      <if test="ruleTitle != null" >
+        rule_title = #{ruleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleStatus != null" >
+        rule_status = #{ruleStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ruleStartTime != null" >
+        rule_start_time = #{ruleStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleEndTime != null" >
+        rule_end_time = #{ruleEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findEnableRule" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from account_recharge_rule
+    <where>
+      rule_status = 1
+      <![CDATA[   and DATE_FORMAT(rule_start_time, '%Y-%m-%d')<=  DATE_FORMAT(NOW(), '%Y-%m-%d')   ]]>
+      <![CDATA[   and DATE_FORMAT(rule_end_time, '%Y-%m-%d')>=  DATE_FORMAT(NOW(), '%Y-%m-%d')   ]]>
+    </where>
+  </select>
+  <update id="closeAllRuleStatus">
+    update account_recharge_rule SET rule_status = 0
+  </update>
+</mapper>

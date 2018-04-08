@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.messagecenter.dao.write.MessageCenterDao" >
+  <insert id="saveMessageCenter" parameterType="com.trump.auction.back.messagecenter.model.MessageCenter" >
+    insert into message_center (channel_type, content_title,
+    content_summary, add_time, add_user_id,
+    add_ip,
+    order_num, img_url,
+    external_url, content_txt)
+    values (#{channelType,jdbcType=INTEGER}, #{contentTitle,jdbcType=VARCHAR},
+    #{contentSummary,jdbcType=VARCHAR}, now(), #{addUserId,jdbcType=VARCHAR},
+    #{addIp,jdbcType=VARCHAR},
+    #{orderNum,jdbcType=INTEGER}, #{imgUrl,jdbcType=VARCHAR},
+    #{externalUrl,jdbcType=VARCHAR}, #{contentTxt,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="updateMessageCenter" parameterType="com.trump.auction.back.messagecenter.model.MessageCenter" >
+    update message_center
+    set channel_type = #{channelType,jdbcType=INTEGER},
+    content_title = #{contentTitle,jdbcType=VARCHAR},
+    content_summary = #{contentSummary,jdbcType=VARCHAR},
+    update_user_id = #{updateUserId,jdbcType=INTEGER},
+    update_time = now(),
+    order_num = #{orderNum,jdbcType=INTEGER},
+    img_url = #{imgUrl,jdbcType=VARCHAR},
+    content_txt = #{contentTxt,jdbcType=LONGVARCHAR},
+    external_url = #{externalUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteMessageCenter" parameterType="java.lang.Integer">
+    delete from message_center where id
+    <foreach collection="ids" item="item" separator="," open="in (" close=")">
+      #{item}
+    </foreach>
+  </delete>
+</mapper>

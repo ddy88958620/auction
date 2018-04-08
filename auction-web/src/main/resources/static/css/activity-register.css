@@ -1,0 +1,172 @@
+html{ 
+	width: 100%;
+	height:100%;
+}
+body{
+	width: 100%;
+	height: 100%;
+	background: url('../images/bg.jpg') no-repeat;
+	background-size: 100% 100%;
+	font-family: '微软雅黑'
+}
+.main{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 5%;
+	left: 0;
+}
+.main p{
+	width: 100%;
+	height: auto;
+	color: #fff;
+	text-align: center;
+}
+.main .startup{
+	font-size: 2.4rem;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+.main .times{
+	font-size: 18px;
+}
+.main .discount{
+	font-size: 18px;
+}
+.main .register{
+	width: 100%;
+	height: 24rem;
+	background: url('../images/register.png') no-repeat;
+	background-size: 100% 100%;
+	margin: 0 auto;
+	padding-top: 30px;
+	position: relative;	
+}
+.main .register img{
+	width: 100px;
+	height: 100px;
+	display: block;
+	margin: 0 auto;
+}
+.main .register input{
+	width: 65%;
+	height: 40px;
+	line-height: 40px;
+	display: block;
+	border: none;
+	border-bottom: 1px solid #dad9d9;
+	background: none;
+	margin: 0 auto;
+	margin-bottom: 8px;
+	font-size: 16px;
+	color: #333333;
+	border-radius: 0;
+}
+.main .register .code{
+	position: relative;
+}
+.main .register .hqcode{
+    width: 120px;
+	height: 40px;
+	line-height: 40px;
+	border: none;
+	background: none;
+	color: #F5863A;
+    font-size: 16px;
+    position: absolute;
+    top: 1px;
+    right: 13%;
+    padding: 0;
+}
+.main .register .send{
+	width: 120px;
+	height: 40px;
+	line-height: 40px;
+	border: none;
+	background: none;
+	color: #F5863A;
+    font-size: 16px;
+    position: absolute;
+    top: 1px;
+    right: 13%;
+    text-align: center;
+    display: none;
+}
+.main .register #btnSenderMessage{
+	width: 65%;
+	height: 45px;
+	line-height: 45px;
+	display: block;
+	border: none;
+	background-color: #F5863A;
+	margin: 10px auto;
+	border-radius: 5px;
+	color: #fff;
+    margin-top: 20px;
+    font-size: 16px	
+}
+.main .auction{
+	font-size: 16px;
+	margin-top: -10px;
+}
+
+html, body, div, span,applet, object, iframe, table, caption,
+tbody, tfoot, thead, tr,th, td, del, dfn, em, font, img, ins,
+kbd, q, s, samp, small,strike, strong, sub, sup, tt, var,
+h1, h2, h3, h4, h5, h6,p, blockquote, pre, a, abbr,
+acronym, address, big,cite, code, dl, dt, dd, ol, ul, li,
+fieldset, form, label,legend {
+	　　vertical-align: baselinebaseline;
+	　　font-family: inherit;
+	　　font-weight: inherit;
+	　　font-style: inherit;
+	　　font-size: 100%;
+	　　outline: 0;
+	　　padding: 0;
+	　　margin: 0;
+	　　border: 0;
+}
+
+:focus {
+	　　outline: 0;
+}
+
+body {
+	　　background: white;
+	　　line-height: 1;
+	　　color: black;
+	margin: 0;
+	font-family: "微软雅黑"
+}
+
+p{
+	margin: 0;
+}
+
+ol, ul {
+	　　list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+table {
+	　　border-collapse: separate;
+	　　border-spacing: 0;
+}
+
+caption, th, td {
+	　　font-weight: normal;
+	　　text-align: left;
+}
+
+blockquote:before,blockquote:after, q:before, q:after {
+	　　content: "";
+}
+
+blockquote, q {
+	　　quotes: "" "";
+}
+
+li{
+	list-style: none;
+}

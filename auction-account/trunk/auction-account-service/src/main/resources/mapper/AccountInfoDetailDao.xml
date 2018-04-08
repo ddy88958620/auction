@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.account.dao.AccountInfoDetailDao">
+    <!-- 插入用户账户记录 -->
+    <insert id="insertAccountInfoDetail" parameterType="com.trump.auction.account.domain.AccountInfoDetail" keyProperty="id">
+        INSERT INTO account_info_detail (`order_no`,`user_id`, `user_phone`,`coin_type`, `transaction_type`, `transaction_tag`,
+          `buy_coin_type`,`coin`,`available_coin`, `unavailable_coin`,`product_id`,`valid_start_time`, `valid_end_time`,
+          `remark`, product_name
+        )
+        VALUES
+          ( #{orderNo}, #{userId}, #{userPhone}, #{coinType}, #{transactionType}, #{transactionTag},
+            #{buyCoinType}, #{coin}, #{availableCoin}, #{unavailableCoin}, #{productId}, #{validStartTime}, #{validEndTime},
+            #{remark},#{productName}
+          ) ;
+      </insert>
+
+	<!-- 获取账户收支明细列表 -->
+    <select id="getAccountInfoDetailListByUserId"  resultType="com.trump.auction.account.domain.AccountInfoDetail">
+        SELECT
+            *
+        FROM   account_info_detail  where user_id = #{userId}
+    </select>
+
+    <!-- 根据主键获取一条账户记录 -->
+    <select id="getAccountInfoDetailById" resultType="com.trump.auction.account.domain.AccountInfoDetail">
+		SELECT
+            *
+        FROM account_info_detail   where id = #{id}
+	</select>
+
+  <!-- 获取用户赠币列表 1：可用；2：过期或不可用 -->
+  <select id="getAccountInfoDetailList" resultType="com.trump.auction.account.domain.AccountInfoDetail">
+    SELECT  * FROM   account_info_detail  where user_id = #{userId} AND coin_type = #{coinType}
+        <if test="listType == 1">
+          <![CDATA[
+          AND status = 1 AND valid_end_time > NOW() AND valid_start_time < NOW()
+          ]]>
+        </if>
+        <if test="listType == 2">
+          <![CDATA[
+               AND (status = 3 OR valid_end_time < NOW())
+          ]]>
+        </if>
+      ORDER BY create_time DESC
+  </select>
+
+  <!-- 使用开心币 -->
+	<update id="reduceBuyCoin">
+		UPDATE account_info_detail SET status = #{status}, unavailable_coin = #{transactionCoin} WHERE id = #{id}
+	</update>
+
+    <!-- 获取用户可用的开心币数量 -->
+  <select id="getAccountInfoDetail" resultType="int">
+    SELECT IFNULL(SUM(coin), 0) FROM account_info_detail WHERE status = 1 AND coin_type = #{coinType} AND user_id = #{userId} AND valid_end_time > NOW()
+  </select>
+
+    <!-- 根据期号查询开心币详情 -->
+    <select id="getAvailableBuyCoinById" resultType="com.trump.auction.account.domain.AccountInfoDetail">
+        SELECT * FROM account_info_detail WHERE order_no = #{orderNo} AND status = #{status} AND user_id = #{userId}
+        ORDER BY create_time DESC LIMIT 1
+    </select>
+
+    <!-- 更新开心币状态 -->
+    <update id="updateAccountInfoDetailStatus">
+        UPDATE account_info_detail SET status = #{status}, unavailable_coin = #{unavailableCoin} WHERE id = #{id}
+    </update>
+
+</mapper>

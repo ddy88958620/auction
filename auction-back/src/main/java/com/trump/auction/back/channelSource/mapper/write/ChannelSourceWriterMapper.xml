@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.channelSource.dao.write.ChannelSourceWriteDao" >
+
+    <sql id="Base_Column_List" >
+        id, channel_name,channel_key,status,create_time,update_time,remark
+    </sql>
+
+    <update id="updateChannelSource">
+        update auction_channel
+        <set>
+        <if test="channelName != null">
+            channel_name =#{channelName},
+        </if>
+        <if test="channelKey != null">
+            channel_key =#{channelKey},
+        </if>
+        <if test="status != null">
+            status =#{status},
+        </if>
+        <if test="remark != null">
+            remark =#{remark},
+        </if>
+        </set>
+        ,update_time =now()
+        where id = #{id}
+    </update>
+
+    <insert id="saveChannelSource" parameterType="com.trump.auction.back.channelSource.model.ChannelSource">
+        insert into auction_channel
+         (channel_name,channel_key,status,create_time,update_time,remark)
+        VALUES (
+        #{channelName,jdbcType=VARCHAR},#{channelKey,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
+        now(), now(),#{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <delete id="batchDelChannelSource" parameterType="java.lang.String">
+        UPDATE  auction_channel a SET a.status=1,a.update_time=now() WHERE Id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

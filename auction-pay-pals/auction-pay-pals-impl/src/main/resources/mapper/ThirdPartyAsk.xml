@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.pals.dao.ThirdPartyAskDao">
+	<resultMap id="BaseResultMap" type="com.trump.auction.pals.domain.ThirdPartyAsk">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="asset_order_id" property="assetOrderId" />
+
+		<result column="order_type" property="orderType" />
+		<result column="order_no" property="orderNo" />
+		<result column="act" property="act" />
+		<result column="req_params" property="reqParams" />
+		<result column="return_params" property="returnParams" />
+		<result column="notify_time" property="notifyTime" />
+		<result column="notify_params" property="notifyParams" />
+		<result column="add_time" property="addTime" />
+		<result column="add_ip" property="addIp" />
+		<result column="update_time" property="updateTime" />
+		<result column="status" property="status" />
+	</resultMap>
+	<insert id="insert" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk" useGeneratedKeys="true"
+			keyProperty="id">
+		insert into third_party_ask
+		(user_id,asset_order_id,order_type,order_no,act,req_params,add_ip,return_params,notify_params
+		<if test="status != null">
+			,status
+		</if>
+		)
+		values
+		(#{userId},#{assetOrderId},#{orderType},#{orderNo},#{act},#{reqParams},#{addIp},#{returnParams},#{notifyParams}
+		<if test="status != null">
+			,#{status}
+		</if>
+		)
+
+	</insert>
+	<update id="update" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk">
+		update third_party_ask
+		<set>
+			<if test="returnParams != null">
+				return_params = #{returnParams},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="notifyParams != null">
+				notify_params = #{notifyParams},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime},
+			</if>
+			<if test="reqParams != null">
+				req_params = #{reqParams},
+			</if>
+			
+		</set>
+		where id=#{id}
+	</update>
+	<update id="updateByOrderNo" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk">
+		update third_party_ask
+		<set>
+			<if test="returnParams != null">
+				return_params = #{returnParams},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="notifyParams != null">
+				notify_params = #{notifyParams},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime},
+			</if>
+		</set>
+		where order_no=#{orderNo}
+	</update>
+	<select id="findById" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk" resultMap="BaseResultMap">
+		select * from third_party_ask where id =#{id}
+	</select>
+	<select id="findByOrderNo" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk" resultMap="BaseResultMap">
+		select * from third_party_ask where order_no =#{orderNo}
+	</select>
+	<select id="findByAct" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk" resultMap="BaseResultMap">
+		select * from third_party_ask where act =#{act}
+	</select>
+
+
+
+
+	<insert id="insertByTableLastName" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into third_party_ask${tableLastName}
+		(user_id,asset_order_id,order_type,order_no,act,req_params,add_ip,return_params,notify_params
+		<if test="status != null">
+			,status
+		</if>
+		)
+		values
+		(#{userId},#{assetOrderId},#{orderType},#{orderNo},#{act},#{reqParams},#{addIp},#{returnParams},#{notifyParams}
+		<if test="status != null">
+			,#{status}
+		</if>
+		)
+	</insert>
+	<update id="updateByTableLastName" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk">
+		update third_party_ask${tableLastName}
+		<set>
+			<if test="returnParams != null">
+				return_params = #{returnParams},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="notifyParams != null">
+				notify_params = #{notifyParams},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime},
+			</if>
+		</set>
+		where id=#{id}
+		<if test="orderNo != null">
+			and order_no = #{orderNo}
+		</if>
+	</update>
+	<update id="updateByOrderNoByTableLastName" parameterType="com.trump.auction.pals.domain.ThirdPartyAsk">
+		update third_party_ask${tableLastName}
+		<set>
+			<if test="returnParams != null">
+				return_params = #{returnParams},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="notifyParams != null">
+				notify_params = #{notifyParams},
+			</if>
+			<if test="notifyTime != null">
+				notify_time = #{notifyTime},
+			</if>
+		</set>
+		where order_no=#{orderNo}
+	</update>
+	<select id="findByIdByTableLastName" resultMap="BaseResultMap">
+		select * from
+		third_party_ask${tableLastName} where id =#{id}
+	</select>
+	<select id="findByOrderNoByTableLastName" resultMap="BaseResultMap">
+		select *
+		from third_party_ask${tableLastName} where order_no =#{orderNo}
+	</select>
+
+</mapper>

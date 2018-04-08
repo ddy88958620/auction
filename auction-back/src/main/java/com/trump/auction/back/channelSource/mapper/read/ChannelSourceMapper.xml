@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.channelSource.dao.read.ChannelSourceDao" >
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.channelSource.model.ChannelSource" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="channel_name" property="channelName" jdbcType="VARCHAR" />
+        <result column="channel_key" property="channelKey" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, channel_name,channel_key,status,create_time,update_time,remark
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from auction_channel
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findChannelSourceList" resultMap="BaseResultMap" parameterType="map" >
+        select
+        <include refid="Base_Column_List"/>
+        FROM auction_channel c
+        <where>
+            <if test="id != null">
+                AND c.id = #{id}
+            </if>
+            <if test="channelName != null">
+                AND instr(c.channel_name, #{channelName} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="channelKey != null">
+                AND instr(c.channel_key, #{channelKey} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="status != null">
+                AND instr(c.status, #{status} collate  `utf8_unicode_ci`)>0
+            </if>
+            <if test="createTimeBegin != null">
+                AND <![CDATA[c.create_time >= CONCAT(#{createTimeBegin},' 00:00:00')]]>
+            </if>
+            <if test="createTimeEnd != null">
+                AND <![CDATA[c.create_time <= CONCAT(#{createTimeEnd},' 23:59:59')]]>
+            </if>
+        </where>
+        ORDER by create_time desc
+    </select>
+
+    <select id="findChannelSource" resultMap="BaseResultMap" parameterType="Integer" >
+        select
+        <include refid="Base_Column_List"/>
+        FROM auction_channel c
+        <where>
+        <if test="id != null">
+             c.id = #{id}
+        </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="findChannelSourceKey" resultMap="BaseResultMap" parameterType="String" >
+        select
+        <include refid="Base_Column_List"/>
+        FROM auction_channel c
+        <where>
+        <if test="channelKey != null">
+             c.channel_key = #{channelKey}
+        </if>
+        </where>
+        limit 1
+    </select>
+
+
+</mapper>

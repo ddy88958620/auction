@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.auctionProd.dao.read.AuctionBidDetailDao">
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.auctionProd.model.AuctionBidDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bid_id" jdbcType="VARCHAR" property="bidId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="bid_type" jdbcType="INTEGER" property="bidType" />
+    <result column="auction_prod_id" jdbcType="INTEGER" property="auctionProdId" />
+    <result column="auction_no" jdbcType="INTEGER" property="auctionNo" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="bid_price" jdbcType="DECIMAL" property="bidPrice" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="bid_sub_type" jdbcType="INTEGER" property="bidSubType" />
+    <result column="sub_user_id" jdbcType="VARCHAR" property="subUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bid_id, user_id, user_name, bid_type, auction_prod_id, auction_no, user_ip, create_time, 
+    update_time, bid_price, head_img, nick_name, address,bid_sub_type,sub_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction_bid_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction_bid_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.back.auctionProd.model.AuctionBidDetail">
+    insert into auction_bid_detail (id, bid_id, user_id, 
+      user_name, bid_type, auction_prod_id, 
+      auction_no, user_ip, create_time, 
+      update_time, bid_price, head_img, 
+      nick_name, address)
+    values (#{id,jdbcType=INTEGER}, #{bidId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{userName,jdbcType=VARCHAR}, #{bidType,jdbcType=INTEGER}, #{auctionProdId,jdbcType=INTEGER}, 
+      #{auctionNo,jdbcType=INTEGER}, #{userIp,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{bidPrice,jdbcType=DECIMAL}, #{headImg,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionBidDetail">
+    insert into auction_bid_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bidId != null">
+        bid_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="bidType != null">
+        bid_type,
+      </if>
+      <if test="auctionProdId != null">
+        auction_prod_id,
+      </if>
+      <if test="auctionNo != null">
+        auction_no,
+      </if>
+      <if test="userIp != null">
+        user_ip,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="bidPrice != null">
+        bid_price,
+      </if>
+      <if test="headImg != null">
+        head_img,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bidId != null">
+        #{bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="bidType != null">
+        #{bidType,jdbcType=INTEGER},
+      </if>
+      <if test="auctionProdId != null">
+        #{auctionProdId,jdbcType=INTEGER},
+      </if>
+      <if test="auctionNo != null">
+        #{auctionNo,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null">
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidPrice != null">
+        #{bidPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="headImg != null">
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.back.auctionProd.model.AuctionBidDetail">
+    update auction_bid_detail
+    <set>
+      <if test="bidId != null">
+        bid_id = #{bidId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="bidType != null">
+        bid_type = #{bidType,jdbcType=INTEGER},
+      </if>
+      <if test="auctionProdId != null">
+        auction_prod_id = #{auctionProdId,jdbcType=INTEGER},
+      </if>
+      <if test="auctionNo != null">
+        auction_no = #{auctionNo,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null">
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidPrice != null">
+        bid_price = #{bidPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.auctionProd.model.AuctionBidDetail">
+    update auction_bid_detail
+    set bid_id = #{bidId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      bid_type = #{bidType,jdbcType=INTEGER},
+      auction_prod_id = #{auctionProdId,jdbcType=INTEGER},
+      auction_no = #{auctionNo,jdbcType=INTEGER},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      bid_price = #{bidPrice,jdbcType=DECIMAL},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--列表-->
+  <select id="auctionBidDetailList" resultMap="BaseResultMap" parameterType="com.trump.auction.back.auctionProd.model.AuctionBidDetail">
+    select
+    <include refid="Base_Column_List"/>
+    from auction_bid_detail
+    <where>
+      user_id=#{userId}
+      and auction_prod_id=#{auctionProdId}
+      and  auction_no=#{auctionNo,jdbcType=INTEGER}
+      and  sub_user_id=#{subUserId,jdbcType=VARCHAR}
+      <if test="bidType != null">
+        AND bid_type = #{bidType,jdbcType=INTEGER}
+      </if>
+      <if test="bidSubType != null">
+        AND bid_sub_type = #{bidSubType,jdbcType=INTEGER}
+      </if>
+    </where>
+    ORDER  BY create_time DESC
+  </select>
+</mapper>

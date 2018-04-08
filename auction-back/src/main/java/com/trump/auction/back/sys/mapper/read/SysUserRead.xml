@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.read.SysUserReadDao">
+	<resultMap id="BaseResultMap" type="SysUser">
+		<id column="id" property="id" />
+		<result column="user_account" property="userAccount" />
+		<result column="user_password" property="userPassword" />
+		<result column="user_name" property="userName" />
+		<result column="user_sex" property="userSex" />
+		<result column="user_address" property="userAddress" />
+		<result column="user_telephone" property="userTelephone" />
+		<result column="user_mobile" property="userMobile" />
+		<result column="user_email" property="userEmail" />
+		<result column="user_qq" property="userQq" />
+		<result column="create_date" property="createDate" />
+		<result column="update_date" property="updateDate" />
+		<result column="add_ip" property="addIp" />
+		<result column="remark" property="remark" />
+		<result column="status" property="status" />
+		<result column="default_pwd" property="defaultPwd" />
+		<result column="parent_id" property="parentId" />
+	</resultMap>
+	<select id="findByParentId" resultType="ZTree">
+		select id,user_account as name from sys_user where parent_id=#{parentId} and status=1 and id not in (${adminIds})
+	</select>
+	<sql id="findAllSql">
+		from sys_user
+		where status=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="noAdmin!=null">
+			and id not in #{noAdmin}
+		</if>
+		<if test="userAccount != null and userAccount !=''">
+			and user_account = #{userAccount}
+		</if>
+		<if test="userAccountLike != null and userAccountLike !=''">
+			and user_account like CONCAT('%', #{userAccountLike}, '%')
+		</if>
+		<if test="userMobile != null and userMobile !=''">
+			and user_mobile = #{userMobile}
+		</if>
+		<if test="userMobileLike != null and userMobileLike !=''">
+			and user_mobile like CONCAT('%', #{userMobileLike}, '%')
+		</if>
+		<if test="userName != null and userName !=''">
+			and user_name like CONCAT('%', #{userName}, '%')
+		</if>
+		<if test="parentId != null">
+			and parent_id = #{parentId}
+		</if>
+		<if test="adminIds != null and adminIds != ''">
+			and id not in (${adminIds})
+		</if>
+	</sql>
+	<select id="findById" resultMap="BaseResultMap">
+		select * from sys_user where id=#{id} and status=1 
+	</select>
+	<select id="findLogin" resultType="Integer">
+		select id from sys_user where user_mobile = #{userMobile} and user_password=#{pwd} and status=1
+	</select>
+	<select id="findAll" resultMap="BaseResultMap" parameterType="HashMap">
+		select *
+		<include refid="findAllSql" />
+		order by id asc
+	</select>
+		<!-- 根据用户主键ID查询该用户及该用户的子用户（包含当前用户且向下无限递归） -->
+	<select id="findIdsByParentIds" resultType="String">
+		SELECT id FROM sys_user WHERE FIND_IN_SET(id, getChildUser(#{parentId})) 
+	</select>
+</mapper>

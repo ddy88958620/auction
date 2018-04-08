@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.trade.dao.AuctionBidSystemDao">
+   <!--<sql id="Column_BidD">
+     id,bid_id,user_id,user_name,bid_type,auction_prod_id,auction_no,user_ip,create_time,update_time,bid_price,head_img,nick_name,address,bid_sub_type
+   </sql>
+    <sql id="Column_Bid">
+        id, txn_seq_no, user_id, user_name, bid_count, auction_prod_id, auction_no, used_count,
+        create_time, update_time,status
+    </sql>
+    <sql id="Column_Auction">
+        id, auction_no, product_id, product_name, product_price, rule_id, page_view, collect_count,
+        valid_bid_count, free_bid_count, total_bid_count, robot_bid_count, win_user_desc,
+        person_count, start_time, end_time, rule_name, buy_flag, increase_price, count_down,
+        return_percent, start_price, status, robot_win_flag, create_time, final_price, preview_pic,
+        win_user_id, update_time, classify_id, auction_prod_id, floor_price, classify_name,
+        float_price,floor_bid_count
+    </sql>
+    <sql id="Column_detail" >
+     id,auction_prod_id ,auction_id ,
+     auction_status ,bid_count ,
+     user_id ,user_name ,
+     return_price ,head_img ,
+     nick_name ,user_type ,address,
+     p_coin ,z_coin,sub_user_id
+    </sql>
+   <select id="findAuctionDetail" resultMap="com.trump.auction.trade.domain.AuctionBidInfo">
+     select
+       <include refid="Column_detail" />
+     from auction_bid_info
+      where status=#{status} and  user_id=#{userId} and auction_no=#{auctionNo} order  by create_time desc limit 1
+   </select>
+    <select id="findLastBid" parameterType="java.lang.Integer" resultMap="com.trump.auction.trade.domain.AuctionBidInfo">
+        select
+        <include refid="Column_Bid" />
+        from auction_bid_info
+        where status=#{status} and  user_id=#{userId} and auction_no=#{auctionNo} order  by create_time desc limit 1
+    </select>
+    <select id="findLastBidD" parameterType="java.lang.Integer" resultType="com.trump.auction.trade.domain.AuctionBidetail">
+      select
+         <include refid="Column_BidD"></include>
+       from auction_bid_detail where  auction_no=#{auctionId}  order by create_time desc limit 1
+    </select>
+
+    <select id="findAuctionInfo" parameterType="java.lang.Integer" resultType="com.trump.auction.trade.domain.AuctionInfo">
+        select
+        <include refid="Column_Auction"></include>
+        from auction_info where  auction_no=#{auctionId}
+    </select>
+    <select id="findBidInfo" parameterType="java.lang.Integer" resultMap="com.trump.auction.trade.domain.AuctionBidInfo">
+        select
+        <include refid="Column_Bid" />
+        from auction_bid_info
+        where status=#{status} and  user_id=#{userId} and auction_no=#{auctionNo} order  by create_time desc limit 1
+    </select>
+    <insert id="txnSave" parameterType="com.trump.auction.trade.domain.AuctionTxnDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into auction_txn_detail (id, txn_seq_no, req_seq_no,
+        out_seq_no, txn_status, currency,
+        user_id, txn_amt, auction_prod_id,
+        auction_no, txn_finish_time, create_time,
+        bid_status, remarks,free_count,valid_count)
+        values (#{id,jdbcType=INTEGER}, #{txnSeqNo,jdbcType=VARCHAR}, #{reqSeqNo,jdbcType=VARCHAR},
+        #{outSeqNo,jdbcType=VARCHAR}, #{txnStatus,jdbcType=INTEGER}, #{currency,jdbcType=INTEGER},
+        #{userId,jdbcType=INTEGER}, #{txnAmt,jdbcType=DECIMAL}, #{auctionProdId,jdbcType=INTEGER},
+        #{auctionNo,jdbcType=VARCHAR}, #{txnFinishTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+        #{bidStatus,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR},#{freeCount,jdbcType=INTEGER},#{validCount,jdbcType=INTEGER})
+    </insert>
+    <insert id="AuctionDetailSave" parameterType="com.trump.auction.trade.domain.AuctionDetail">
+        insert into auction_detail (id,user_id,user_name,auction_prod_id,auction_id,create_time,bid_count,return_price,auction_status,nick_name,
+        head_img,user_type,address,p_coin,z_coin)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+        #{auctionProdId,jdbcType=INTEGER}, #{auctionId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        #{bidCount,jdbcType=INTEGER}, #{returnPrice,jdbcType=DECIMAL}, #{auctionStatus,jdbcType=INTEGER},
+        #{nickName,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{pCoin,jdbcType=INTEGER},
+        #{zCoin,jdbcType=INTEGER})
+    </insert>
+    <update id="updTxnStatus" parameterType="com.trump.auction.trade.domain.AuctionTxnDetail">
+        update auction_txn_detail
+        set
+        free_count=#{freeCount},
+        valid_count=#{validCount},
+        txn_status=#{txnStatus},
+        currency=#{currency}
+        where id = #{id}
+    </update>-->
+
+
+</mapper>

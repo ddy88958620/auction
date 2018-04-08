@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>我的开心币-使用规则</title>
+		<link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/common.css'" />
+		<script>
+			document.documentElement.style.fontSize=document.documentElement.clientWidth/3.75+'px'
+		</script>
+		<style>
+			body{background: #f6f6f6;}
+			.box{width: 100%;padding:0 .13rem;box-sizing: border-box;}
+			.top_title{width: 100%;height:.29rem;line-height: .29rem;font-size: .16rem;padding-top: .17rem;}
+			.content{line-height: .27rem;font-size: .13rem;color: #999;}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="top_title">开心币使用规则</div>
+			<div class="content">
+			开心币，为拍卖失败系统自动返还所消耗拍币的<span th:text="${coin}"></span>%。<br/>
+			 &nbsp;(1) &nbsp;开心币仅可用于差价购买，不支持任何商品拍卖。<br />
+			 &nbsp;(2) &nbsp;开心币不可叠加使用。<br />
+			 &nbsp;(3) &nbsp;单个具体商品的开心币有效期为30天（从获得开心币的时间算起，30天后失效），账户中的开心币有效期届满后将会过期，过期后不可使用不可恢复。
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/jquery-3.2.1.js'" ></script>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/common.js'" ></script>

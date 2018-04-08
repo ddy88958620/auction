@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.goods.dao.ProductPicDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.goods.domain.ProductPic" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pic_url" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sku_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="color_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="pic_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pic_url, sku_id, color_id, product_id, create_time, update_time, pic_type, user_id, 
+    user_ip
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_pic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_pic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.goods.domain.ProductPic" >
+    insert into product_pic (id, pic_url, sku_id, 
+      color_id, product_id, create_time, 
+      update_time, pic_type, user_id, 
+      user_ip)
+    values (#{id,jdbcType=INTEGER}, #{picUrl,jdbcType=VARCHAR}, #{skuId,jdbcType=INTEGER}, 
+      #{colorId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{picType,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.trump.auction.goods.domain.ProductPic" >
+    insert into product_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="colorId != null" >
+        color_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="picType != null" >
+        pic_type,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userIp != null" >
+        user_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="colorId != null" >
+        #{colorId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picType != null" >
+        #{picType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null" >
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.goods.domain.ProductPic" >
+    update product_pic
+    <set >
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="colorId != null" >
+        color_id = #{colorId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picType != null" >
+        pic_type = #{picType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null" >
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.goods.domain.ProductPic" >
+    update product_pic
+    set pic_url = #{picUrl,jdbcType=VARCHAR},
+      sku_id = #{skuId,jdbcType=INTEGER},
+      color_id = #{colorId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      pic_type = #{picType,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_ip = #{userIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="batchInsert" parameterType="list">
+    insert into product_pic
+    (pic_url, sku_id,color_id, product_id,
+    create_time,pic_type, user_id,user_ip)
+    values
+    <foreach collection="list" item="pic" separator=",">
+       (#{pic.picUrl}, #{pic.skuId},#{pic.colorId}, #{pic.productId},
+      #{pic.createTime},#{pic.picType}, #{pic.userId},#{pic.userIp})
+    </foreach>
+    ;
+  </insert>
+
+  <delete id="deleteByProductIdOrType" parameterType="map">
+    DELETE FROM product_pic
+    <where>
+      <if test="productId != null">
+        product_id = #{productId}
+      </if>
+      <if test="picType != null">
+        AND pic_type = #{picType}
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.push.dao.read.NotificationDeviceReadDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.push.model.NotificationDevice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="device_token_umeng" property="deviceTokenUmeng" jdbcType="VARCHAR" />
+    <result column="device_type" property="deviceType" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, device_token_umeng, device_type, user_id, create_time,update_time
+  </sql>
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from notification_device
+    ORDER BY create_time DESC
+  </select>
+  <select id="count" resultType="int">
+    select
+    count(1)
+    from notification_device
+  </select>
+  <select id="findById" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM notification_device WHERE id = #{id}
+  </select>
+</mapper>

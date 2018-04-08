@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 以下是Quartz定时调度配置 -->
+	<bean id="startQuartz" lazy-init='false' autowire="no"
+		  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="triggerAuctionJob1" />
+				<ref bean="triggerAuctionJob2" />
+				<ref bean="triggerAuctionJob3" />
+				<ref bean="resolveAccountRechargeOrderTask" />
+				<ref bean="rechargeReturnBuyCoinTask" />
+			</list>
+		</property>
+		<property name="autoStartup" value="true" />
+		<property name="startupDelay" value="30"/>
+	</bean>
+
+	<bean id="defAuctionJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="auctionProdJobComponent" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="auctionProductTask" />
+		<!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 触发器：定义出发器执行的脚本的时间  -->
+	<!--0-2点每10秒执行一次-->
+	<bean id="triggerAuctionJob1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="defAuctionJob" />
+		<property name="cronExpression">
+			<value>*/10 * 0-2 * * ?</value>
+		</property>
+	</bean>
+
+	<!--7-24点每10秒执行一次-->
+	<bean id="triggerAuctionJob2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="defAuctionJob" />
+		<property name="cronExpression">
+			<value>*/10 * 7-23 * * ?</value>
+			<!--<value>0 * 7-23 * * ?</value>-->
+		</property>
+	</bean>
+
+
+	<!--每30秒执行一次-->
+	<bean id="hotAndRecommendAuctionJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="hotAndReocmmendJobComponent" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="updateAuctionHot" />
+		<!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="triggerAuctionJob3" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="hotAndRecommendAuctionJob" />
+		<property name="cronExpression">
+			<value>*/30 * * * * ?</value>
+			<!--<value>0 * 7-23 * * ?</value>-->
+		</property>
+	</bean>
+
+	<!-- 微信支付宝充值拍币-定时任务 - 每隔一小时执行一次 -->
+	<bean id="resolveAccountRechargeOrderJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="accountRechargeTask" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="resolveAccountRechargeOrderTask" />
+		<!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+		<property name="concurrent" value="true" />
+	</bean>
+	<bean id="resolveAccountRechargeOrderTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="resolveAccountRechargeOrderJob"/>
+		<property name="cronExpression" value="0 0 */1 * * ?"/>
+	</bean>
+
+
+	<!-- 首充用户 -->
+	<bean id="rechargeReturnBuyCoinJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="accountRechargeTask" />
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod" value="returnBuyCoin" />
+		<!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
+		<property name="concurrent" value="true" />
+	</bean>
+	<bean id="rechargeReturnBuyCoinTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="rechargeReturnBuyCoinJob"/>
+		<property name="cronExpression" value="0 0/5 * * * ?"/>
+	</bean>
+
+</beans>

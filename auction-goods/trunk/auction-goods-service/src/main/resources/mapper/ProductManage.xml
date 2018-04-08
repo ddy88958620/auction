@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.goods.dao.ProductManageDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.goods.domain.ProductManage" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="classify_1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="classify_2" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="classify_3" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="brand_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sales_price" jdbcType="DECIMAL" javaType="java.lang.Long" />
+      <arg column="stages_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="on_shelf_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="under_shelf_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, product_name, status, classify_1, classify_2, classify_3, brand_name, 
+    sales_price, stages_id, create_time, update_time, user_id, user_ip, on_shelf_time, 
+    under_shelf_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product_manage
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.goods.domain.ProductManage" >
+    insert into product_manage (id, product_id, product_name, 
+      status, classify_1, classify_2, 
+      classify_3, brand_name, sales_price, 
+      stages_id, create_time, update_time, 
+      user_id, user_ip, on_shelf_time, 
+      under_shelf_time)
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{classify1,jdbcType=VARCHAR}, #{classify2,jdbcType=VARCHAR}, 
+      #{classify3,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{salesPrice,jdbcType=DECIMAL}, 
+      #{stagesId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=INTEGER}, #{userIp,jdbcType=VARCHAR}, #{onShelfTime,jdbcType=TIMESTAMP}, 
+      #{underShelfTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.goods.domain.ProductManage" >
+    insert into product_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="classify1 != null" >
+        classify_1,
+      </if>
+      <if test="classify2 != null" >
+        classify_2,
+      </if>
+      <if test="classify3 != null" >
+        classify_3,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="salesPrice != null" >
+        sales_price,
+      </if>
+      <if test="stagesId != null" >
+        stages_id,
+      </if>
+
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userIp != null" >
+        user_ip,
+      </if>
+      <if test="onShelfTime != null" >
+        on_shelf_time,
+      </if>
+      <if test="underShelfTime != null" >
+        under_shelf_time,
+      </if>
+      <if test="underShelfTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="classify1 != null" >
+        #{classify1,jdbcType=VARCHAR},
+      </if>
+      <if test="classify2 != null" >
+        #{classify2,jdbcType=VARCHAR},
+      </if>
+      <if test="classify3 != null" >
+        #{classify3,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesPrice != null" >
+        #{salesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stagesId != null" >
+        #{stagesId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="onShelfTime != null" >
+        #{onShelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="underShelfTime != null" >
+        #{underShelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.goods.domain.ProductManage" >
+    update product_manage
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="classify1 != null" >
+        classify_1 = #{classify1,jdbcType=VARCHAR},
+      </if>
+      <if test="classify2 != null" >
+        classify_2 = #{classify2,jdbcType=VARCHAR},
+      </if>
+      <if test="classify3 != null" >
+        classify_3 = #{classify3,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesPrice != null" >
+        sales_price = #{salesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stagesId != null" >
+        stages_id = #{stagesId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="onShelfTime != null" >
+        on_shelf_time = #{onShelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="underShelfTime != null" >
+        under_shelf_time = #{underShelfTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.goods.domain.ProductManage" >
+    update product_manage
+    set product_id = #{productId,jdbcType=INTEGER},
+      product_name = #{productName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      classify_1 = #{classify1,jdbcType=VARCHAR},
+      classify_2 = #{classify2,jdbcType=VARCHAR},
+      classify_3 = #{classify3,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      sales_price = #{salesPrice,jdbcType=DECIMAL},
+      stages_id = #{stagesId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      on_shelf_time = #{onShelfTime,jdbcType=TIMESTAMP},
+      under_shelf_time = #{underShelfTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateStatusBatch" parameterType="list">
+    <foreach collection="list" item="manage" separator=";">
+        update product_manage
+        set status=#{manage.status},under_shelf_time=#{manage.underShelfTime}
+        where id = #{manage.id}
+    </foreach>
+  </update>
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.labelManager.dao.read.LabelManagerReadDao">
+    
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.labelManager.model.LabelManager">
+        <id column="id" property="id"/>
+        <result column="label_name" property="labelName"/>
+        <result column="label_pic" property="labelPic"/>
+        <result column="label_status" property="labelStatus"/>
+        <result column="status" property="status"/>
+        <result column="label_sort" property="labelSort"/>
+        <result column="create_time" property="createTime"/>
+        <result column="auction_product_id" property="auctionProductId"/>
+    </resultMap>
+
+    <resultMap id="AuctionProductLabelMap" type="com.trump.auction.back.labelManager.model.LabelAuctionProduct">
+        <id column="id" property="auctionProductId"/>
+        <result column="product_name" property="auctionProductName"/>
+        <result column="product_amount" property="auctionProductPrice"/>
+        <result column="product_num" property="auctionProductStock"/>
+    </resultMap>
+
+
+    <sql id="columnList">
+          id,label_name,label_pic,label_status,label_sort,create_time,auction_product_id
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="columnList"></include>
+        FROM LABEL_MANAGER
+    </select>
+
+    <select id="selectLabelManagerInfo" resultMap="BaseResultMap">
+        SELECT
+              <include refid="columnList"></include>
+        FROM LABEL_MANAGER
+        <where>
+            <if test="id !=null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="labelName !=null and labelName != ''">
+                AND label_name = #{labelName}
+            </if>
+            <if test="labelStatus!=null and labelStatus !=''">
+                AND label_status = #{labelStatus}
+            </if>
+            <if test="labelSort!=null and labelSort !=''">
+                AND label_sort = #{labelSort}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                <![CDATA[	and DATE_FORMAT(create_Time,'%Y-%m-%d') =  #{createTime}  ]]>
+            </if>
+            <if test="null ==null">
+                AND status = 0
+            </if>
+        </where>
+    </select>
+
+    <select id="findByLabelManager"  resultMap="BaseResultMap">
+      SELECT
+              <include refid="columnList"></include>
+      FROM LABEL_MANAGER
+        <where>
+            <if test="id !=null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="labelName !=null and labelName != ''">
+                AND label_name = #{labelName}
+            </if>
+            <if test="labelStatus!=null and labelStatus !=''">
+                AND label_status = #{labelStatus}
+            </if>
+            <if test="status">
+                AND status = #{status}
+            </if>
+            <if test="labelSort!=null and labelSort !=''">
+                AND label_sort = #{labelSort}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                <![CDATA[	and DATE_FORMAT(create_Time,'%Y-%m-%d') =  #{createTime}  ]]>
+            </if>
+        </where>
+    </select>
+
+    <select id="haveLabelAuctionProduct" resultMap="AuctionProductLabelMap">
+        select auction_product_info.product_name,auction_product_info.id,product_info.product_amount,auction_product_info.product_num from auction_product_info inner join product_info on auction_product_info.product_id=product_info.id
+        <where>
+            <if test="paramsArray !=null and paramsArray!=''">
+            AND auction_product_info.id in
+            <foreach item="item" index="index" collection="paramsArray"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            </if>
+            <if test="auctionProductName !=null and auctionProductName!=''">
+            AND auction_product_info.product_name like CONCAT('%', #{auctionProductName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="auctinoProductInLabelManager" resultMap="BaseResultMap">
+        SELECT
+        <include refid="columnList"></include>
+        FROM LABEL_MANAGER
+        <where>
+             AND LABEL_MANAGER.auction_product_id  like CONCAT('%', #{params}, '%')
+            <!--AND LABEL_MANAGER.auction_product_id in-->
+            <!--<foreach item="item" index="index" collection="array"-->
+                     <!--open="(" separator="," close=")">-->
+                <!--#{item}-->
+            <!--</foreach>-->
+        </where>
+    </select>
+</mapper>

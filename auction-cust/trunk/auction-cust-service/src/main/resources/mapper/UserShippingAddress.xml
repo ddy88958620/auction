@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.cust.dao.UserShippingAddressDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.cust.domain.UserShippingAddress" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+    <result column="city_code" property="cityCode" jdbcType="INTEGER" />
+    <result column="district_code" property="districtCode" jdbcType="INTEGER" />
+    <result column="town_code" property="townCode" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="town_name" property="townName" jdbcType="VARCHAR" />
+    <result column="address_type" property="addressType" jdbcType="INTEGER" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, user_phone, province_code, city_code, district_code, town_code, 
+    address, province_name, city_name, district_name, town_name, address_type, post_code, 
+    create_time, update_time, status
+  </sql>
+
+  <!--根据用户ID查询用户收货地址列表-->
+  <select id="findUserAddressListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_shipping_address
+    where user_id = #{id,jdbcType=INTEGER} and status = 0
+    order by address_type asc,update_time desc
+  </select>
+
+  <!--根据用户收货地址ID查询用户收货地址信息-->
+  <select id="findUserAddressItemByAddressId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_shipping_address
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--新增用户收货地址-->
+  <insert id="insertUserAddressItem" useGeneratedKeys="true" keyProperty="id"
+          parameterType="com.trump.auction.cust.domain.UserShippingAddress" >
+    insert into user_shipping_address (user_id, user_name,
+      user_phone, province_code, city_code, 
+      district_code, town_code, address, 
+      province_name, city_name, district_name, 
+      town_name, address_type, post_code, 
+      create_time,update_time, status
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+      #{userPhone,jdbcType=VARCHAR}, #{provinceCode,jdbcType=INTEGER}, #{cityCode,jdbcType=INTEGER}, 
+      #{districtCode,jdbcType=INTEGER}, #{townCode,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR}, 
+      #{townName,jdbcType=VARCHAR}, #{addressType,jdbcType=INTEGER}, #{postCode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <!--更新用户收货地址-->
+  <update id="updateUserAddressItem" parameterType="com.trump.auction.cust.domain.UserShippingAddress" >
+    update user_shipping_address
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null" >
+        province_code = #{provinceCode,jdbcType=INTEGER},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=INTEGER},
+      </if>
+      <if test="districtCode != null" >
+        district_code = #{districtCode,jdbcType=INTEGER},
+      </if>
+      <if test="townCode != null" >
+        town_code = #{townCode,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="townName != null" >
+        town_name = #{townName,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null" >
+        address_type = #{addressType,jdbcType=INTEGER},
+      </if>
+      <if test="postCode != null" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--删除用户收货地址-->
+  <update id="deleteUserAddressItemByAddressId" parameterType="java.lang.Integer">
+    update user_shipping_address
+    set status = 2
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--设置全部为其他地址-->
+  <update id="setAllOtherUserAddressItem" parameterType="com.trump.auction.cust.domain.UserShippingAddress">
+    update user_shipping_address
+    set address_type = 1
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <!--设置某一条为默认地址-->
+  <update id="setDefaultUserAddressItem" parameterType="com.trump.auction.cust.domain.UserShippingAddress">
+    update user_shipping_address
+    set address_type = 0
+    where id = #{id,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <!--根据用户ID查询用户默认收货地址-->
+  <select id="findDefaultUserAddressItemByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_shipping_address
+    where user_id = #{id,jdbcType=INTEGER} and status = 0 and address_type = 0
+  </select>
+
+</mapper>

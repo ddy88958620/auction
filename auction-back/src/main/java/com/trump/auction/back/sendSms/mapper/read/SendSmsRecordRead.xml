@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.sendSms.dao.read.SendSmsRecordReadDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.sendSms.model.SendSmsRecord">
+        <id column="id" property="id"/>
+        <result column="phone" property="phone"/>
+        <result column="count" property="count"/>
+        <result column="code" property="code"/>
+        <result column="create_time" property="createTime"/>
+        <result column="publisher" property="publisher"/>
+        <result column="release_time" property="releaseTime"/>
+        <result column="sms_template_id" property="smsTemplateId"/>
+        <result column="template_name" property="templateName"/>
+        <result column="template_title" property="templateTitle"/>
+        <result column="send_type" property="sendType"/>
+    </resultMap>
+
+    <sql id="columnList">
+       s.id,s.phone,s.count,s.code,s.create_time,s.publisher,s.release_time,s.sms_template_id,t.template_name,t.template_title,t.send_type
+    </sql>
+
+    <select id="selectSendSmsRecordInfo" resultMap="BaseResultMap">
+        SELECT <include refid="columnList" ></include>
+        FROM send_sms s INNER JOIN send_sms_template t on s.sms_template_id=t.id
+        <where>
+            <if test="id!=null and id != ''">
+                AND s.id = #{id}
+            </if>
+            <if test="phone!=null and phone != ''">
+                AND s.phone = #{phone}
+            </if>
+            <if test="count!=null and count != ''">
+                AND s.count = #{count}
+            </if>
+            <if test="code!=null and sendType != ''">
+                AND s.code = #{code}
+            </if>
+            <if test="publisher!=null and publisher != ''">
+                AND s.publisher = #{publisher}
+            </if>
+            <if test="templateTitle!=null and templateTitle != ''">
+                AND t.template_title = #{templateTitle}
+            </if>
+            <if test="sendType!=null and sendType != ''">
+                AND t.send_type = #{sendType}
+            </if>
+            <if test="releaseTime != null and releaseTime != ''">
+                <![CDATA[	and DATE_FORMAT(release_time,'%Y-%m-%d') =  #{releaseTime}  ]]>
+            </if>
+        </where>
+        ORDER BY s.create_time DESC
+    </select>
+
+    <select id="findByParameter" resultMap="BaseResultMap">
+        SELECT <include refid="columnList" ></include>
+        FROM send_sms s INNER JOIN send_sms_template t on s.sms_template_id=t.id
+        <where>
+            <if test="id!=null and id != ''">
+                AND s.id = #{id}
+            </if>
+            <if test="phone!=null and phone != ''">
+                AND s.phone = #{phone}
+            </if>
+            <if test="count!=null and count != ''">
+                AND s.count = #{count}
+            </if>
+            <if test="code!=null and sendType != ''">
+                AND s.code = #{code}
+            </if>
+            <if test="publisher!=null and publisher != ''">
+                AND s.publisher = #{publisher}
+            </if>
+            <if test="templateTitle!=null and templateTitle != ''">
+                AND s.template_title = #{templateTitle}
+            </if>
+            <if test="sendType!=null and sendType != ''">
+                AND s.send_type = #{sendType}
+            </if>
+        </where>
+        ORDER BY s.create_time DESC
+    </select>
+
+</mapper>

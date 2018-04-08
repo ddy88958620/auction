@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trump.auction.back.sys.dao.read.UserRoleReadDao">
+	<resultMap id="BaseResultMap" type="UserRole">
+		<id column="id" property="id" />
+		<result column="role_id" property="roleId" />
+		<result column="user_id" property="userId" />
+	</resultMap>
+	<select id="findRoleIdByUserId" resultType="String">
+		select role_id from sys_user_role
+		<where>
+			user_id=#{userId}
+			<if test="array != null and array.length >0">
+				and role_id in  
+				<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+</mapper>

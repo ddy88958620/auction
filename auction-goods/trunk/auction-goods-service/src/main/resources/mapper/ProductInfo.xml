@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.goods.dao.ProductInfoDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.goods.domain.ProductInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_title" property="productTitle" jdbcType="VARCHAR" />
+    <result column="classify_1" property="classify1" jdbcType="INTEGER" />
+    <result column="classify_2" property="classify2" jdbcType="INTEGER" />
+    <result column="classify_3" property="classify3" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="product_amount" property="productAmount" jdbcType="DECIMAL" />
+    <result column="sales_amount" property="salesAmount" jdbcType="DECIMAL" />
+    <result column="product_status" property="productStatus" jdbcType="INTEGER" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="stages_id" property="stagesId" jdbcType="INTEGER" />
+    <result column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="freight" property="freight" jdbcType="DECIMAL" />
+    <result column="sku_info" property="skuInfo" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="sku_title" property="skuTitle" jdbcType="VARCHAR" />
+    <result column="color_title" property="colorTitle" jdbcType="VARCHAR" />
+    <result column="proportion" property="proportion" jdbcType="DECIMAL" />
+    <result column="collect_count" property="collectCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, merchant_id, order_id, product_name, create_time, update_time, product_id, product_title,
+    classify_1, classify_2, classify_3, brand_id, product_amount, sales_amount, product_status,
+    flag, user_id, user_ip, stages_id, sku_id, freight, sku_info, remarks, pic_url, sku_title,
+    color_title, proportion,collect_count
+  </sql>
+
+  <select id="getProductByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product_info
+    where id = #{productId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trump.auction.goods.domain.ProductInfo" >
+    insert into product_info (id, merchant_id, order_id,
+    product_name, create_time, update_time,
+    product_id, product_title, classify_1,
+    classify_2, classify_3, brand_id,
+    product_amount, sales_amount, product_status,
+    flag, user_id, user_ip,
+    stages_id, sku_id, freight,
+    sku_info, remarks, pic_url,
+    sku_title, color_title, proportion
+    )
+    values (#{id,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR},
+    #{productName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+    #{productId,jdbcType=INTEGER}, #{productTitle,jdbcType=VARCHAR}, #{classify1,jdbcType=INTEGER},
+    #{classify2,jdbcType=INTEGER}, #{classify3,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER},
+    #{productAmount,jdbcType=DECIMAL}, #{salesAmount,jdbcType=DECIMAL}, #{productStatus,jdbcType=INTEGER},
+    #{flag,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userIp,jdbcType=VARCHAR},
+    #{stagesId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{freight,jdbcType=DECIMAL},
+    #{skuInfo,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR},
+    #{skuTitle,jdbcType=VARCHAR}, #{colorTitle,jdbcType=VARCHAR}, #{proportion,jdbcType=DECIMAL}
+    )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.trump.auction.goods.domain.ProductInfo" >
+    insert into product_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productTitle != null" >
+        product_title,
+      </if>
+      <if test="classify1 != null" >
+        classify_1,
+      </if>
+      <if test="classify2 != null" >
+        classify_2,
+      </if>
+      <if test="classify3 != null" >
+        classify_3,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="productAmount != null" >
+        product_amount,
+      </if>
+      <if test="salesAmount != null" >
+        sales_amount,
+      </if>
+      <if test="productStatus != null" >
+        product_status,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userIp != null" >
+        user_ip,
+      </if>
+      <if test="stagesId != null" >
+        stages_id,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="skuInfo != null" >
+        sku_info,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="skuTitle != null" >
+        sku_title,
+      </if>
+      <if test="colorTitle != null" >
+        color_title,
+      </if>
+      <if test="proportion != null" >
+        proportion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productTitle != null" >
+        #{productTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="classify1 != null" >
+        #{classify1,jdbcType=INTEGER},
+      </if>
+      <if test="classify2 != null" >
+        #{classify2,jdbcType=INTEGER},
+      </if>
+      <if test="classify3 != null" >
+        #{classify3,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="productAmount != null" >
+        #{productAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="salesAmount != null" >
+        #{salesAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="productStatus != null" >
+        #{productStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="stagesId != null" >
+        #{stagesId,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="skuInfo != null" >
+        #{skuInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="skuTitle != null" >
+        #{skuTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="colorTitle != null" >
+        #{colorTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="proportion != null" >
+        #{proportion,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.goods.domain.ProductInfo" >
+    update product_info
+    <set >
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productTitle != null" >
+        product_title = #{productTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="classify1 != null" >
+        classify_1 = #{classify1,jdbcType=INTEGER},
+      </if>
+      <if test="classify2 != null" >
+        classify_2 = #{classify2,jdbcType=INTEGER},
+      </if>
+      <if test="classify3 != null" >
+        classify_3 = #{classify3,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="productAmount != null" >
+        product_amount = #{productAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="salesAmount != null" >
+        sales_amount = #{salesAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="productStatus != null" >
+        product_status = #{productStatus,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userIp != null" >
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="stagesId != null" >
+        stages_id = #{stagesId,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="skuInfo != null" >
+        sku_info = #{skuInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="skuTitle != null" >
+        sku_title = #{skuTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="colorTitle != null" >
+        color_title = #{colorTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="proportion != null" >
+        proportion = #{proportion,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.goods.domain.ProductInfo" >
+    update product_info
+    set merchant_id = #{merchantId,jdbcType=INTEGER},
+    order_id = #{orderId,jdbcType=VARCHAR},
+    product_name = #{productName,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    product_id = #{productId,jdbcType=INTEGER},
+    product_title = #{productTitle,jdbcType=VARCHAR},
+    classify_1 = #{classify1,jdbcType=INTEGER},
+    classify_2 = #{classify2,jdbcType=INTEGER},
+    classify_3 = #{classify3,jdbcType=INTEGER},
+    brand_id = #{brandId,jdbcType=INTEGER},
+    product_amount = #{productAmount,jdbcType=DECIMAL},
+    sales_amount = #{salesAmount,jdbcType=DECIMAL},
+    product_status = #{productStatus,jdbcType=INTEGER},
+    flag = #{flag,jdbcType=INTEGER},
+    user_id = #{userId,jdbcType=INTEGER},
+    user_ip = #{userIp,jdbcType=VARCHAR},
+    stages_id = #{stagesId,jdbcType=INTEGER},
+    sku_id = #{skuId,jdbcType=INTEGER},
+    freight = #{freight,jdbcType=DECIMAL},
+    sku_info = #{skuInfo,jdbcType=VARCHAR},
+    remarks = #{remarks,jdbcType=VARCHAR},
+    pic_url = #{picUrl,jdbcType=VARCHAR},
+    sku_title = #{skuTitle,jdbcType=VARCHAR},
+    color_title = #{colorTitle,jdbcType=VARCHAR},
+    proportion = #{proportion,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateStatus" parameterType="com.trump.auction.goods.domain.ProductInfo" >
+    update product_info
+    set product_status = #{productStatus,jdbcType=INTEGER}
+    where id =  #{productId,jdbcType=INTEGER}
+  </update>
+
+  <!--批量上架-->
+  <insert id="saveProducts" parameterType="java.util.ArrayList" >
+    insert into product_info (id, merchant_id, order_id,
+    product_name, create_time, update_time,
+    product_id, product_title, classify_1,
+    classify_2, classify_3, brand_id,
+    product_amount, sales_amount, product_status,
+    flag, user_id, user_ip,
+    stages_id, sku_id, freight,
+    sku_info, remarks, pic_url,
+    sku_title, color_title, proportion
+    )
+    values
+    <foreach item="product" collection="products"  separator="," >
+      (#{product.id,jdbcType=INTEGER}, #{product.merchantId,jdbcType=INTEGER}, #{product.orderId,jdbcType=VARCHAR},
+      #{product.productName,jdbcType=VARCHAR}, #{product.createTime,jdbcType=TIMESTAMP}, #{product.updateTime,jdbcType=TIMESTAMP},
+      #{product.productId,jdbcType=INTEGER}, #{product.productTitle,jdbcType=VARCHAR}, #{product.classify1,jdbcType=INTEGER},
+      #{product.classify2,jdbcType=INTEGER}, #{product.classify3,jdbcType=INTEGER}, #{product.brandId,jdbcType=INTEGER},
+      #{product.productAmount,jdbcType=DECIMAL}, #{product.salesAmount,jdbcType=DECIMAL}, #{product.productStatus,jdbcType=INTEGER},
+      #{product.flag,jdbcType=INTEGER}, #{product.userId,jdbcType=INTEGER}, #{product.userIp,jdbcType=VARCHAR},
+      #{product.stagesId,jdbcType=INTEGER}, #{product.skuId,jdbcType=INTEGER}, #{product.freight,jdbcType=DECIMAL},
+      #{product.skuInfo,jdbcType=VARCHAR}, #{product.remarks,jdbcType=VARCHAR}, #{product.picUrl,jdbcType=VARCHAR},
+      #{product.skuTitle,jdbcType=VARCHAR}, #{product.colorTitle,jdbcType=VARCHAR}, #{product.proportion,jdbcType=DECIMAL}
+      )
+    </foreach>
+  </insert>
+
+  <update id="batchDel" parameterType="list" >
+    <foreach item="product" collection="list"  separator=";" >
+      update product_info
+      set product_status = #{product.productStatus},
+      user_id = #{product.userId},user_ip=#{product.userIp},
+      update_time = #{product.updateTime}
+      where id =  #{product.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <update id="updateCollectCount">
+    update product_info
+    set collect_count =  #{collectCount,jdbcType=INTEGER}
+    where id =  #{productId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

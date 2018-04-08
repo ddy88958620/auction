@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.activity.dao.read.ActivityShareReadDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.activity.model.ActivityShare" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="activity_id" property="activityId" jdbcType="VARCHAR" />
+    <result column="share_entrance" property="shareEntrance" jdbcType="INTEGER" />
+    <result column="activity_name" property="activityName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="activity_url" property="activityUrl" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="sharer_points" property="sharerPoints" jdbcType="VARCHAR" />
+    <result column="sharer_coin" property="sharerCoin" jdbcType="VARCHAR" />
+    <result column="register_points" property="registerPoints" jdbcType="VARCHAR" />
+    <result column="register_coin" property="registerCoin" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,activity_id, share_entrance, activity_name, start_time, end_time, activity_url, pic_url, title,
+    sub_title, sharer_points, sharer_coin, register_points, register_coin, create_time, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from activity_share
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.trump.auction.back.activity.model.ActivityShare" >
+    insert into activity_share (id, share_entrance, activity_name, 
+      start_time, end_time, activity_url, 
+      pic_url, title, sub_title, 
+      sharer_points, sharer_coin, register_points, 
+      register_coin, create_time, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{shareEntrance,jdbcType=INTEGER}, #{activityName,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{activityUrl,jdbcType=VARCHAR}, 
+      #{picUrl,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, 
+      #{sharerPoints,jdbcType=VARCHAR}, #{sharerCoin,jdbcType=VARCHAR}, #{registerPoints,jdbcType=VARCHAR}, 
+      #{registerCoin,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="saveActivity" parameterType="com.trump.auction.back.activity.model.ActivityShare" >
+    insert into activity_share
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="shareEntrance != null" >
+        share_entrance,
+      </if>
+      <if test="activityName != null" >
+        activity_name,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="activityUrl != null" >
+        activity_url,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="subTitle != null" >
+        sub_title,
+      </if>
+      <if test="sharerPoints != null" >
+        sharer_points,
+      </if>
+      <if test="sharerCoin != null" >
+        sharer_coin,
+      </if>
+      <if test="registerPoints != null" >
+        register_points,
+      </if>
+      <if test="registerCoin != null" >
+        register_coin,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=VARCHAR},
+      </if>
+      <if test="shareEntrance != null" >
+        #{shareEntrance,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null" >
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityUrl != null" >
+        #{activityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sharerPoints != null" >
+        #{sharerPoints,jdbcType=VARCHAR},
+      </if>
+      <if test="sharerCoin != null" >
+        #{sharerCoin,jdbcType=VARCHAR},
+      </if>
+      <if test="registerPoints != null" >
+        #{registerPoints,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCoin != null" >
+        #{registerCoin,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trump.auction.back.activity.model.ActivityShare" >
+    update activity_share
+    <set >
+      <if test="shareEntrance != null" >
+        share_entrance = #{shareEntrance,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null" >
+        activity_name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityUrl != null" >
+        activity_url = #{activityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        sub_title = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sharerPoints != null" >
+        sharer_points = #{sharerPoints,jdbcType=VARCHAR},
+      </if>
+      <if test="sharerCoin != null" >
+        sharer_coin = #{sharerCoin,jdbcType=VARCHAR},
+      </if>
+      <if test="registerPoints != null" >
+        register_points = #{registerPoints,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCoin != null" >
+        register_coin = #{registerCoin,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.activity.model.ActivityShare" >
+    update activity_share
+    set share_entrance = #{shareEntrance,jdbcType=INTEGER},
+      activity_name = #{activityName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      activity_url = #{activityUrl,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      sharer_points = #{sharerPoints,jdbcType=VARCHAR},
+      sharer_coin = #{sharerCoin,jdbcType=VARCHAR},
+      register_points = #{registerPoints,jdbcType=VARCHAR},
+      register_coin = #{registerCoin,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getActivityList" resultMap="BaseResultMap"
+          parameterType="java.util.Map">
+
+    select * FROM  activity_share
+    where 1=1
+    <if test="id != null" >
+     and id = #{id,jdbcType=INTEGER}
+    </if>
+
+    <if test="activityName != null" >
+      and  activity_name = #{activityName,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null" >
+      and  start_time = #{startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endTime != null" >
+      and end_time = #{endTime,jdbcType=TIMESTAMP}
+    </if>
+
+  </select>
+</mapper>

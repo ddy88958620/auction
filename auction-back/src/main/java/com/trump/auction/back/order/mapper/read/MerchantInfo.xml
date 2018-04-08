@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.order.dao.read.MerchantInfoDao" >
+  <!--根据条件查询商家列表-->
+  <select id="getListMerchantInfo" parameterType="java.util.HashMap" resultType="com.trump.auction.back.order.model.MerchantInfo">
+    select id,
+    merchant_name as merchantName,
+    merchant_type as merchantType,
+    phone,
+    create_time as createTime,
+    update_time as updateTime,
+    user_ip as userIp,
+    user_id as userId,
+    status
+    from merchant_info
+    <where>
+      <if test="id != null and id !=''" >
+        id = #{id}
+      </if>
+      <if test="merchantName != null and merchantName !=''" >
+      and  merchant_name = #{merchantName}
+      </if>
+      <if test="phone != null and phone !=''" >
+      and  phone = #{phone}
+      </if>
+      <if test="status != null and status !=''" >
+      and  status = #{status}
+      </if>
+      <if test="merchantType != null and merchantType !=''" >
+      and  merchant_type = #{merchantType}
+      </if>
+    </where>
+  </select>
+
+  <select id="getMerchantInfo" parameterType="java.lang.Integer" resultType="com.trump.auction.back.order.model.MerchantInfo">
+    select id,
+    merchant_name as merchantName,
+    merchant_type as merchantType,
+    phone,
+    create_time as createTime,
+    update_time as updateTime,
+    user_ip as userIp,
+    user_id as userId,
+    status
+    from merchant_info
+    <where>
+      <if test="id != null and id !=''" >
+        id = #{id}
+      </if>
+    </where>
+  </select>
+
+
+</mapper>

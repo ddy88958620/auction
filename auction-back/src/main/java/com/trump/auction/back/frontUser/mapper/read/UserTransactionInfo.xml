@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.frontUser.dao.read.UserTransactionInfoDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.frontUser.model.UserTransactionInfo">
+        <id column="id" property="id"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="account_type" property="accountType"/>
+        <result column="product_name" property="productName"/>
+        <result column="transaction_coin" property="transactionCoin"/>
+        <result column="transaction_type" property="transactionType"/>
+        <result column="transaction_tag" property="transactionTag"/>
+        <result column="balance_type" property="balanceType"/>
+        <result column="coin" property="coin"/>
+        <result column="freeze_coin" property="freezeCoin"/>
+        <result column="product_thumbnail" property="productThumbnail"/>
+        <result column="product_image" property="productImage"/>
+        <result column="order_id" property="orderId"/>
+        <result column="order_serial" property="orderSerial"/>
+        <result column="remark" property="remark"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectUserTransactionInfo" resultMap="BaseResultMap">
+        SELECT id,user_id,user_phone,order_no,account_type,transaction_coin,transaction_type,balance_type,create_time
+        FROM account_info_record
+        <where>
+            <if test="id!=null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="userId!=null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            <if test="userPhone!=null and userPhone != ''">
+                AND user_phone = #{userPhone}
+            </if>
+            <if test="accountType!=null and accountType != ''">
+                AND account_type = #{accountType}
+            </if>
+            <if test="transactionType!=null and transactionType != ''">
+                AND transaction_type = #{transactionType}
+            </if>
+            <if test="addTimeBegin != null and addTimeBegin != ''">
+                <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') >=  #{addTimeBegin}  ]]>
+            </if>
+            <if test="addTimeEnd != null and addTimeEnd != ''">
+                <![CDATA[	and DATE_FORMAT(create_time,'%Y-%m-%d') <=  #{addTimeEnd}  ]]>
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getInfoRecord" resultMap="BaseResultMap">
+        SELECT user_id,order_no,account_type,transaction_coin,transaction_type,balance_type,coin,create_time
+        FROM account_info_record
+        <where>
+            <if test="userId!=null and userId != ''">
+                AND user_id = #{userId}
+            </if>
+            AND transaction_type IN (2,3)
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 查询充值次数 -->
+    <select id="countAccountRecharge" resultType="int">
+        SELECT COUNT(1)
+        FROM account_info_record
+        WHERE user_id = #{userId} AND transaction_type IN (2,3) AND balance_type=1
+    </select>
+</mapper>

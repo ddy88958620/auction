@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.channel.dao.write.PromotionChannelDao" >
+ <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from promotion_channel
+    where channel_id
+      <foreach collection="channelIds" item="item" separator="," open="in (" close=")">
+          #{item}
+      </foreach>
+  </delete>-->
+
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    update  promotion_channel
+    set status =1
+    where channel_id
+      <foreach collection="channelIds" item="item" separator="," open="in (" close=")">
+          #{item}
+      </foreach>
+  </update>
+
+  <insert id="insert"   parameterType="com.trump.auction.back.channel.model.PromotionChannel" >
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+    insert into promotion_channel (channel_name, channel_id, province_code,
+      city_code, town_code, province_name, 
+      city_name, town_name, cooperation_mode, settlement_price,
+      person_in_charge, pick_up,
+      contact_phone, contact_email, extension_url, 
+      extension_qrc, create_time,update_time, user_id, user_ip,channel_source,description)
+    values (#{channelName,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, #{provinceCode,jdbcType=INTEGER},
+      #{cityCode,jdbcType=INTEGER}, #{townCode,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{townName,jdbcType=VARCHAR}, #{cooperationMode,jdbcType=VARCHAR}, #{settlementPrice,jdbcType=INTEGER},
+      #{personInCharge,jdbcType=VARCHAR}, #{pickUp,jdbcType=VARCHAR},
+      #{contactPhone,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, #{extensionUrl,jdbcType=VARCHAR}, 
+      #{extensionQrc,jdbcType=VARCHAR}, now(),now(), #{userId,jdbcType=INTEGER}, #{userIp,jdbcType=VARCHAR},#{channelSource,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.back.channel.model.PromotionChannel" >
+    update promotion_channel
+    set channel_name = #{channelName,jdbcType=VARCHAR},
+      province_code = #{provinceCode,jdbcType=INTEGER},
+      city_code = #{cityCode,jdbcType=INTEGER},
+      town_code = #{townCode,jdbcType=INTEGER},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      town_name = #{townName,jdbcType=VARCHAR},
+      cooperation_mode = #{cooperationMode,jdbcType=VARCHAR},
+      person_in_charge = #{personInCharge,jdbcType=VARCHAR},
+      pick_up = #{pickUp,jdbcType=VARCHAR},
+      contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      contact_email = #{contactEmail,jdbcType=VARCHAR},
+      extension_url = #{extensionUrl,jdbcType=VARCHAR},
+      extension_qrc = #{extensionQrc,jdbcType=VARCHAR},
+      update_time = now(),
+      user_id = #{userId,jdbcType=INTEGER},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      channel_source=#{channelSource,jdbcType=VARCHAR},
+      description=#{description,jdbcType=VARCHAR}
+    where channel_id = #{channelId,jdbcType=VARCHAR}
+  </update>
+</mapper>

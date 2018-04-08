@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.RobotInfoDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.RobotInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="s_date" property="sDate" jdbcType="TIMESTAMP" />
+    <result column="e_date" property="eDate" jdbcType="TIMESTAMP" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="findRobotInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      select id,`name`,address,status,s_date,e_date,numbers,head_img from robot_info limit #{start},#{end}
+  </select>
+
+  <update id="updateByPrimaryKey" parameterType="com.trump.auction.trade.domain.RobotInfo" >
+    update robot_info
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      s_date = #{sDate,jdbcType=TIMESTAMP},
+      e_date = #{eDate,jdbcType=TIMESTAMP},
+      numbers = #{numbers,jdbcType=INTEGER},
+      head_img = #{headImg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertRobot" parameterType="com.trump.auction.trade.domain.RobotInfo">
+    insert into robot_info (
+    id,name,address,status,s_date,e_date,numbers,head_img
+    )
+    values (
+    #{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
+    #{sDate,jdbcType=TIMESTAMP},#{eDate,jdbcType=TIMESTAMP}, #{numbers,jdbcType=INTEGER},#{headImg,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="saveUpdateRobot" parameterType="com.trump.auction.trade.domain.RobotInfo">
+    update robot_info set
+    name=#{name,jdbcType=VARCHAR},
+    address=#{address,jdbcType=VARCHAR},
+    status=#{status,jdbcType=INTEGER},
+    numbers = #{numbers,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--删除-->
+  <update id="deleteRobot">
+    update robot_info set status=1 where id
+    <foreach collection="array" index="index" item="item" open="in (" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+</mapper>

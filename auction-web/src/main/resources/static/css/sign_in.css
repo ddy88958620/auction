@@ -1,0 +1,141 @@
+body {
+  background: #f6f6f6; }
+
+.box {
+  width: 100%; }
+  .box .head {
+    width: 100%;
+    height: 1.75rem;
+    background-image: url(../img/sign_head_bg.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: relative; }
+    .box .head .content_box {
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      top: .52rem;
+      left: 0;
+      color: #fa800a; }
+      .box .head .content_box p {
+        font-size: .17rem; }
+      .box .head .content_box .line {
+        width: .75rem;
+        height: 1px;
+        background: #fa800a;
+        margin: 0.05rem auto; }
+      .box .head .content_box .score {
+        font-size: .11rem; }
+      .box .head .content_box .bottom_text {
+        margin-top: .44rem;
+        color: #fff;
+        font-size: .13rem; }
+  .box .sign_box {
+    width: 100%;
+    background: #fff;
+    font-size: .13rem; }
+    .box .sign_box .top {
+      width: 100%;
+      height: .49rem;
+      line-height: .49rem;
+      padding-left: .13rem;
+      box-sizing: border-box;
+      border-bottom: 1px solid #eee; }
+      .box .sign_box .top .sign_rule {
+        float: right;
+        color: #999; }
+      .box .sign_box .top img {
+        width: .075rem;
+        margin-right: .11rem; }
+    .box .sign_box .bottom {
+      width: 100%;
+      height: 1.9rem;
+      background: #fff;
+      color: #999;
+      border-bottom: 1px solid #eee; }
+      .box .sign_box .bottom .items_box {
+        width: 25%;
+        height: .93rem;
+        float: left;
+        text-align: center; }
+        .box .sign_box .bottom .items_box img {
+          width: .5rem;
+          margin-top: .13rem;
+          margin-bottom: .06rem; }
+  .box .recommend_box {
+    width: 100%;
+    background: #fff;
+    color: #999;
+    margin-top: .1rem;
+     }
+    .box .recommend_box .top {
+      width: 100%;
+      height: .44rem;
+      line-height: .44rem;
+      text-align: center;
+      font-size: .15rem;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee; }
+    .box .recommend_box .bottom {
+      width: 100%;
+      overflow: hidden; }
+      .box .recommend_box .bottom .item_box {
+        width: 49.5%;
+        float: left;
+        height: 2.29rem;
+        text-align: center;
+        position: relative;
+        border-bottom: 1px solid #eee; }
+        .box .recommend_box .bottom .item_box .shoucang {
+          width: .15rem;
+          position: absolute;
+          top: .08rem;
+          right: .05rem; }
+        .box .recommend_box .bottom .item_box .product_img {
+          width: 1.27rem;
+          height: 1.27rem;
+          margin-top: .2rem; }
+        .box .recommend_box .bottom .item_box p {
+          width: 100%;
+          padding: 0 .1rem;
+          box-sizing: border-box;
+          text-align: left;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #333;
+          margin-top: .17rem;
+          font-size: .13rem; }
+        .box .recommend_box .bottom .item_box .price {
+          width: 100%;
+          padding: 0 .1rem;
+          box-sizing: border-box;
+          text-align: left;
+          font-size: .11rem;
+          margin-top: .04rem; }
+          .box .recommend_box .bottom .item_box .price span {
+            color: #fa800a; }
+    .box .recommend_box .bottom .item_box:nth-child(odd) {
+      border-right: 1px solid #eee; }
+  .box .score_alert {
+    width: 2.18rem;
+    height: .98rem;
+    background: #fff;
+    position: fixed;
+    z-index: 12;
+    border-radius: .04rem;
+    text-align: center; }
+    .box .score_alert p {
+      margin-top: .22rem;
+      margin-bottom: .15rem; }
+      .box .score_alert p span {
+        color: #fa800a; }
+    .box .score_alert .content {
+      font-size: .12rem;
+      color: #999; }
+
+/*# sourceMappingURL=sign_in.css.map */
+.recommend_box .item_box .chengjiao{width: 100%;height: 1.75rem;position: absolute;top: 0;left: 0;}
+.box .recommend_box .bottom .item_box p{margin-top: .3rem;}
+.box .recommend_box .bottom .item_box .shoucang{z-index: 12;}
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.product.dao.read.ProductPicDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.back.product.model.ProductPic" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="color_id" property="colorId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="pic_type" property="picType" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pic_url, sku_id, color_id, product_id, create_time, update_time, pic_type, user_id, 
+    user_ip
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_pic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByProductIdOrType" parameterType="map" resultMap="BaseResultMap">
+     select
+     id, pic_url,pic_type
+     from product_pic
+    <where>
+      <if test="productId != null">
+        product_id = #{productId}
+      </if>
+      <if test="picType != null">
+        AND pic_type = #{picType}
+      </if>
+    </where>
+  </select>
+</mapper>

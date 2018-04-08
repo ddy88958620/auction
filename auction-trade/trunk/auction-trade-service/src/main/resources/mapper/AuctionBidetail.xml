@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.trade.dao.AuctionBidetailDao" >
+  <resultMap id="BaseResultMap" type="com.trump.auction.trade.domain.AuctionBidetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bid_id" property="bidId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="bid_type" property="bidType" jdbcType="INTEGER" />
+    <result column="auction_prod_id" property="auctionProdId" jdbcType="INTEGER" />
+    <result column="auction_no" property="auctionNo" jdbcType="INTEGER" />
+    <result column="user_ip" property="userIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="bid_price" property="bidPrice" jdbcType="DECIMAL" />
+    <result column="bid_sub_type" property="bidSubType" jdbcType="INTEGER" />
+    <result column="sub_user_id" property="subUserId" jdbcType="INTEGER" />
+  </resultMap>
+   <insert id="saveAuctionBidetail" parameterType="com.trump.auction.trade.domain.AuctionBidetail" useGeneratedKeys="true" keyProperty="id">
+   <![CDATA[  INSERT  INTO  auction_bid_detail_${tableSuffix} (id,bid_id,user_id,user_name,bid_type,auction_prod_id,auction_no,user_ip,create_time,update_time,bid_price,head_img,nick_name,address,bid_sub_type,sub_user_id)
+     values(#{id,jdbcType=INTEGER},#{bidId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},#{bidType,jdbcType=INTEGER},#{auctionProdId,jdbcType=INTEGER}
+             ,#{auctionNo,jdbcType=INTEGER},#{userIp,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{bidPrice,jdbcType=DECIMAL},#{headImg,jdbcType=VARCHAR}
+             ,#{nickName,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{bidSubType,jdbcType=INTEGER},#{subUserId,jdbcType=VARCHAR}
+      )
+      ]]>
+   </insert>
+
+</mapper>

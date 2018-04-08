@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trump.auction.back.frontUser.dao.read.UserLoginRecordDao">
+    <resultMap id="BaseResultMap" type="com.trump.auction.back.frontUser.model.UserLoginRecord">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id"  jdbcType="BIGINT" property="userId"/>
+        <result column="login_time" jdbcType="TIMESTAMP" property="loginTime"/>
+        <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="login_devices" jdbcType="VARCHAR" property="loginDevices"/>
+        <result column="login_type" jdbcType="VARCHAR" property="loginType"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+    </resultMap>
+
+    <sql id="columnList">
+        id,user_id,login_time,login_ip,address,login_devices,login_type,add_time
+    </sql>
+
+
+    <select id="selectRecordByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_login_record
+        where user_id = #{userId} ORDER  BY  login_time DESC
+    </select>
+
+    <select id="getLoginRecordAll" resultMap="BaseResultMap">
+        select
+        <include refid="columnList"></include>
+        from user_login_record ORDER  BY  login_time DESC
+    </select>
+
+    <select id="countRecordByUserId" resultType="Integer">
+        select
+        COUNT(1)
+        from user_login_record
+        where user_id = #{userId}
+    </select>
+
+</mapper>

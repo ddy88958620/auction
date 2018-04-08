@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>签到</title>
+		<link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/common.css'" />
+		<link rel="stylesheet" data-th-href="${staticResourcesDomain} +'css/sign_in.css?v=2'" />
+		<script>
+			document.documentElement.style.fontSize=document.documentElement.clientWidth/3.75+'px'
+		</script>
+	</head>
+	<body>
+		<div class="box">
+			<div class="head">
+				<div class="content_box">
+					<p>已签到</p>
+					<div class="line"></div>
+					<div class="score">积分<span>+<label th:text="${todayPoints}"></label></span></div>
+					<div class="bottom_text">连续签到<label th:text="${signCycle}"></label>天，可额外获得<label th:text="${extraPoints}"></label>积分</div>
+				</div>
+			</div>
+			<div class="sign_box">
+				<div class="top">
+					当前积分：<span style="color: #fa800a;"><label th:text="${points/100}"></label></span>
+					<a href="/sign-rule"><div class="sign_rule">签到规则 <img data-th-src="${staticResourcesDomain} +'img/right_icon.png'" /></div></a>
+				</div>
+				<div class="bottom">
+					<div class="items_box">
+						<img data-th-src="${staticResourcesDomain} +'img/sign_initial.png'"  id="box1"/>
+						<p id="p1">第1天</p>
+					</div>
+					<div class="items_box" >
+						<img data-th-src="${staticResourcesDomain} +'img/sign_initial.png'" id="box2"/>
+						<p id="p2">第2天</p>
+					</div>
+					<div class="items_box" >
+						<img data-th-src="${staticResourcesDomain} +'img/sign_initial.png'" id="box3"/>
+						<p id="p3">第3天</p>
+					</div>
+					<div class="items_box">
+						<img data-th-src="${staticResourcesDomain} +'img/sign_initial.png'"  id="box4"/>
+						<p id="p4">第4天</p>
+					</div>
+					<div class="items_box">
+						<img data-th-src="${staticResourcesDomain} +'img/sign_initial.png'"  id="box5"/>
+						<p id="p5">第5天</p>
+					</div>
+					<div class="items_box" >
+						<img data-th-src="${staticResourcesDomain} +'img/sign_initial.png'" id="box6"/>
+						<p id="p6">第6天</p>
+					</div>
+					<div class="items_box">
+						<img data-th-src="${staticResourcesDomain} +'img/35_initial_06.png'" id="box7" />
+						<p id="p7">额外<label th:text="${extraPoints}"></label>积分</p>
+					</div>
+				</div>
+			</div>
+			<div class="recommend_box">
+				<div class="top">
+					拍卖推荐
+				</div>
+				<div class="bottom">
+					<div class="item_box" th:each="recommend : ${recommend}" th:onclick="'javascript:auctionInfo('+${recommend.auctionProdId}+','+${recommend.auctionId}+')'">
+						<img class="chengjiao" th:if="${recommend.status} == 2" data-th-src="${staticResourcesDomain} +'img/icon1.png'" />
+						<input type="hidden" id="productId" th:data="${recommend.auctionProdId}"/>
+                        <div th:if="${recommend.flag} == false">
+						    <img class='shoucang' data-th-src="${staticResourcesDomain} +'img/shoucang_initial.png'"/>
+                        </div>
+                        <div  th:if="${recommend.flag} == true">
+                            <img class='shoucang' data-th-src="${staticResourcesDomain} +'img/shoucang_active.png'"/>
+                        </div>
+						<input type="hidden" id="periodsId" th:data="${recommend.auctionId}"/>
+						<img class="product_img" data-th-src="${aliyunOssDomain}+${recommend.previewPic}"  />
+						<p><label th:text="${recommend.productName}"></label></p>
+						<div class="price">当前价: <span><label th:text="${recommend.bidPrice}"></label>元</span></div>
+					</div>
+				
+				</div>
+			</div>
+			<!--积分弹框-->
+			<div class="mask"></div>
+			<div class="score_alert">
+				<p>积分<span>+<label th:text="${todayPoints}"></label></span></p>
+				<div class="content">明天签到可领取<span th:text="${basePoints}"></span>个积分哦~</div>
+			</div>
+		</div>
+	</body>
+	<div class="warning_alert" style="display: none">还款成功</div>
+	<div style="width:100%;height: .28rem;"></div>
+</html>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/jquery-3.2.1.js'" ></script>
+<script type="text/javascript" data-th-src="${staticResourcesDomain} +'js/common.js?v=1'" ></script>
+<script th:inline="javascript">
+    var signFlag =[[${signFlag}]];
+    var token =[[${token}]];
+    var staticResourcesDomain =[[${staticResourcesDomain}]];
+
+	$(function(){
+
+		if(signFlag==false){
+            alert_havemask($('.score_alert'));
+            alertFade_havemask($('.score_alert'));
+            var seriesSignDays =[[${seriesSignDays}]];
+            var seriesSignDays1 =parseInt(seriesSignDays+1);
+            if(seriesSignDays==0){
+                $("#box1").attr("src",staticResourcesDomain+"img/sign_active.png");
+                $("#p1").html('第1天已签');
+            }else{
+                for(var i=1;i<=parseInt(seriesSignDays);i++){
+                    $("#box"+i).attr("src",staticResourcesDomain+"img/sign_active.png");
+                    $("#p"+i).html('第'+i+'天已签');
+                }
+                if(seriesSignDays1==7){
+                    $("#p"+seriesSignDays1).html("额外30积分");
+                }
+            }
+		}else{
+		    $(".mask").hide();
+		    $(".score_alert").hide();
+            var seriesSignDays =[[${seriesSignDays}]];
+            if(seriesSignDays==0){
+                $("#box1").attr("src",staticResourcesDomain+"img/sign_active.png");
+                $("#p1").html('第1天已签');
+            }else{
+                for(var i=1;i<=parseInt(seriesSignDays);i++){
+                    $("#box"+i).attr("src",staticResourcesDomain+"img/sign_active.png");
+                    $("#p"+i).html('第'+i+'天已签');
+                    if(i==7){
+                        $("#box7").attr("src",staticResourcesDomain+"img/35_active_06.png");
+					}
+                }
+                if(seriesSignDays==7){
+                    $("#p"+seriesSignDays).html("额外30积分");
+                }
+            }
+		}
+	})
+
+    $(document).ready(function(){
+        $('.recommend_box .shoucang').click(function(e){
+            e.stopPropagation();
+            var _this = $(this);
+            if(_this.attr('src')==staticResourcesDomain+'img/shoucang_initial.png'){
+                //收藏
+                var productId = _this.parent().prev().attr('data');
+                var auctionNo = _this.parent().next().attr('data');
+                $.ajax({
+                    type: "post",
+                    url:"collect/update",
+                    dataType: "json",
+                    data: {auctionProdId:productId,auctionId:auctionNo,type:1,token:token},
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("userToken", token);
+                    },
+                    success: function(data){
+                        if(data.code == "0"){
+                            _this.attr('src',staticResourcesDomain+'img/shoucang_active.png');
+                        }else{
+                            showMsgNoMask(data.msg);
+                        }
+                    },
+                    error: function(data){
+                        showMsgNoMask("error");
+                    } ,
+                });
+
+            }else{
+                //取消收藏
+                var productId = _this.parent().prev().attr('data');
+                var auctionNo = _this.parent().next().attr('data');
+                $.ajax({
+                    type: "post",
+                    url:"collect/update",
+                    dataType: "json",
+                    data: {auctionProdId:productId,auctionId:auctionNo,type:2,token:token},
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("userToken", token);
+                    },
+                    success: function(data){
+                        if(data.code == "0"){
+                            _this.attr('src',staticResourcesDomain+'img/shoucang_initial.png');
+                        }else{
+                            showMsgNoMask(data.msg);
+                        }
+                    },
+                    error: function(data){
+                        showMsgNoMask("error");
+                    } ,
+                });
+            }
+        })
+    });
+
+	function auctionInfo(auctionProdId,auctionId){
+        var u = navigator.userAgent, app = navigator.appVersion;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+        var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if(isIOS){//ios客户端
+            var jsonObj={"type":"1","auctionId":auctionId,"auctionProdId":auctionProdId};
+            window.webkit.messageHandlers.Native.postMessage(jsonObj);
+        }else if(isAndroid){//Android客户端
+            native.jumpNative("{'type':'1','auctionId':'"+auctionId+"','auctionProdId':'"+auctionProdId+"'}");
+        }
+	}
+</script>

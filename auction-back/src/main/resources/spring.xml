@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+
+	<import resource="spring-env.xml" />
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.trump.auction.back">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<bean id="beanMapper" class="com.cf.common.util.mapping.DefaultBeanMapper" />
+
+	<!-- redisCluster  -->
+	<bean name="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+		<property name="maxWaitMillis" value="${spring.redis.pool.max-wait}" />
+		<property name="maxTotal" value="${spring.redis.pool.max-active}" />
+		<property name="minIdle" value="${spring.redis.pool.min-idle}" />
+		<property name="maxIdle" value="${spring.redis.pool.max-idle}" />
+	</bean>
+
+	<bean id="ossConfig" class="com.cf.common.aliyun.oss.OSSConfig">
+		<constructor-arg index="0" value="${aliyun.oss.endpoint}"/>
+		<constructor-arg index="1" value="${aliyun.oss.access-key-id}"/>
+		<constructor-arg index="2" value="${aliyun.oss.access-key-secret}"/>
+		<property name="defaultBucketName" value="${aliyun.oss.default-bucket-name}"/>
+	</bean>
+
+	<bean id="ossService" class="com.cf.common.aliyun.oss.OSSService">
+		<constructor-arg ref="ossConfig"/>
+	</bean>
+
+	<bean id="jedisCluster" class="com.trump.auction.back.sys.service.JedisClusterFactory">
+		<!--<property name="addressConfig">
+			<value>classpath:connect-redis.properties</value>
+		</property>-->
+		<property name="nodes" value="${spring.redis.cluster.nodes}"/>
+		<property name="addressKeyPrefix" value="address" />
+		<property name="timeout" value="${spring.redis.timeout}" />
+		<property name="readTimeout" value="${spring.redis.so-timeout}" />
+		<property name="maxRedirections" value="${spring.redis.cluster.max-redirects}" />
+		<property name="genericObjectPoolConfig" ref="genericObjectPoolConfig" />
+		<!-- 	<property name="tryNum" value="${spring.redis.cluster.max-redirects}" /> -->
+		<property name="password" value="${redis.cluster.password}" />
+	</bean>
+
+	<import resource="spring/spring-*.xml" />
+
+	<!-- 开启定时任务 -->
+	<task:annotation-driven />
+	<!-- 开启注解 -->
+	<context:annotation-config />
+	<!-- 指定相关的包路径 -->
+	<context:component-scan base-package="com.trump.auction.back.task.*"/>
+</beans> 
